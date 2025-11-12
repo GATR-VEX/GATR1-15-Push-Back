@@ -1,0 +1,10 @@
+#pragma once
+
+// Copy this file to robot_select.hpp (kept out of version control)
+// and choose the robot you want to compile for locally.
+
+// #define ROBOT_BLUE
+// #define ROBOT_ORANGE
+
+#error "Select exactly one robot by uncommenting the corresponding define."
+
