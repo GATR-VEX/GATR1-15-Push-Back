@@ -16,3 +16,4 @@ temp.errors
 *.ini
 .d/
 include/robot_select.hpp
+include/config/robot_select.hpp

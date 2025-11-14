@@ -1,18 +1,15 @@
-#include "core/autons.hpp"
+#include "core/auton/selector.hpp"
 #include "core/subsystems/drive.hpp"
-#include "core/subsystems/ejector.hpp"
 #include "core/subsystems/intake.hpp"
-#include "core/subsystems/wings.hpp"
+#include "core/subsystems/pistons.hpp"
 #include "core/util.hpp"
 #include "main.h"
 #include "pros/rtos.hpp"
 
 void initialize() {
-    core::util::start_telemetry_task();
     subsystems::drive::initialize();
     subsystems::intake::initialize();
-    subsystems::wings::initialize();
-    subsystems::ejector::initialize();
+    autons::initialize();
 }
 
 /**
@@ -45,7 +42,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-    autons::run_autonomous();
+    autons::auton_selector.selected_auton_call();
 }
 
 /**
@@ -64,6 +61,9 @@ void autonomous() {
 void opcontrol() {
     while (true) {
         subsystems::drive::update_arcade();
-        pros::delay(10);
+        subsystems::pistons::wings::update();
+        subsystems::pistons::matchloader::update();
+        subsystems::pistons::indexer::update();
+        pros::delay(core::util::DELAY_TIME);
     }
 }

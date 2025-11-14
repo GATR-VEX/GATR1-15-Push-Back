@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdint>
+#include "config/orange/ports.hpp"
 
 #include "lemlib/api.hpp"
 #include "pros/controller.hpp"
@@ -11,24 +11,11 @@ inline constexpr const char* NAME = "orange";
 
 inline pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
-namespace ports {
-// TODO: Update the motor ports for the orange robot.
-inline constexpr std::int8_t DRIVE_RIGHT_FRONT = 11;
-inline constexpr std::int8_t DRIVE_RIGHT_REAR = 13;
-inline constexpr std::int8_t DRIVE_RIGHT_MIDDLE = -12;
-inline constexpr std::int8_t DRIVE_RIGHT_AUX = 14;
-
-inline constexpr std::int8_t DRIVE_LEFT_FRONT = -17;
-inline constexpr std::int8_t DRIVE_LEFT_MIDDLE = 18;
-inline constexpr std::int8_t DRIVE_LEFT_REAR = -19;
-inline constexpr std::int8_t DRIVE_LEFT_AUX = -20;
-}  // namespace ports
-
 namespace sensors {
 // TODO: Update sensor ports for the orange robot.
-inline constexpr std::int8_t IMU = 1;
-inline constexpr std::int8_t VERTICAL_ROTATION = -10;
-inline constexpr std::int8_t HORIZONTAL_ROTATION = -9;
+inline constexpr std::int8_t IMU = ports::IMU;
+inline constexpr std::int8_t VERTICAL_ROTATION = ports::VERTICAL_ROTATION;
+inline constexpr std::int8_t HORIZONTAL_ROTATION = ports::HORIZONTAL_ROTATION;
 }  // namespace sensors
 
 namespace drive {

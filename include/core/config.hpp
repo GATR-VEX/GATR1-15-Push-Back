@@ -1,13 +1,13 @@
 #pragma once
 
-#if __has_include("robot_select.hpp")
+#if __has_include("config/robot_select.hpp")
 #include "robot_select.hpp"
 #endif
 
 #if defined(ROBOT_BLUE)
-#include "blue_config.hpp"
+#include "config/blue/config.hpp"
 #elif defined(ROBOT_ORANGE)
-#include "orange_config.hpp"
+#include "config/orange/config.hpp"
 #else
 #error "No robot defined! Define ROBOT_BLUE or ROBOT_ORANGE via build flag or robot_select.hpp."
 #endif
