@@ -1,47 +1,54 @@
 #pragma once
 
 namespace subsystems::intake {
+
 /// TODO: Tune these values
 // Intake motor speeds
 inline constexpr int INTAKE_SPEED = 127;
 inline constexpr int INTAKE_SPEED_SLOW = 100;
 inline constexpr int OUTTAKE_SPEED = -127;
 
-// Color detection hue ranges (tune these based on sensor calibration)
-inline constexpr double COLOR_BLUE_HUE_MIN = 0.0;
-inline constexpr double COLOR_BLUE_HUE_MAX = 0.0;
-inline constexpr double COLOR_RED_HUE_MIN = 0.0;
-inline constexpr double COLOR_RED_HUE_MAX = 0.0;
-inline constexpr double COLOR_RED_HUE_WRAP_MIN = 0.0;
-
 // Intake running detection
-inline constexpr double INTAKE_VELOCITY_THRESHOLD = 0.0; 
+inline constexpr double INTAKE_VELOCITY_THRESHOLD = 0.0;
 
-// Color sort timing
-inline constexpr int COLOR_SORT_REVERSE_DELAY_MS = 0; 
-inline constexpr int COLOR_SORT_RESUME_DELAY_MS = 0;
+enum class IntakeState {
+    STOP,
+    SCORE_LONG,
+    SCORE_MIDDLE,
+    COLLECT,
+    REVERSE,
+    EJECT
+};
 
 void initialize();
 
-// Set power for bottom/middle stage intake (2 motors)
-void set_stage_power(int power);
+// Set the target intake state (can be set from driver control or autonomous)
+void set_target_state(IntakeState state);
 
-// Set power for indexer motor (between middle and long goal)
+// Get the current target intake state
+IntakeState get_target_state();
+
+// Set power for bottom intake motors (2 motors - initial intake stage)
+void set_bottom_power(int power);
+
+// Set power for indexer motor (middle stage - moves balls between bottom and top)
 void set_indexer_power(int power);
 
-// Set power for long goal rollers (2 motors)
-void set_rollers_power(int power);
+// Set power for top intake motor (final stage - for long goal scoring)
+void set_top_power(int power);
 
 // Check if intake motors are currently running (velocity > threshold)
 bool is_running();
 
-// Check if detected hue represents a blue ring
-bool is_color_blue(double hue);
+// Apply intake state to motors
+void apply_state(IntakeState state);
 
-// Check if detected hue represents a red ring
-bool is_color_red(double hue);
-
-// Check if wrong color (opposite of alliance) is detected
-bool is_wrong_color_detected();
+// Convenience functions for autonomous and driver control
+// These provide a cleaner API than set_target_state(IntakeState::...)
+void stop();         // Stop all intake motors
+void collect();      // Start collecting balls
+void score_long();   // Score into long goal
+void score_middle(); // Score into middle goal
+void reverse();      // Reverse all motors (outtake)
 
 }  // namespace subsystems::intake
