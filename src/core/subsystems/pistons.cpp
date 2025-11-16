@@ -15,13 +15,14 @@ void close() {
     globals::piston_indexer.retract();
 }
 
-void update() {
-    // TODO: Behavior desired by drivers
-    if (robot::controller.get_digital(robot::Controls::wings)) {
-        open();
-    } else {
-        close();
-    }
+// maybe no manual control here (see intake)
+// void update() {
+//     // TODO: Behavior desired by drivers (e.g. holding/oneclick/other)
+//     if (robot::controller.get_digital(robot::Controls::indexer)) {
+//         open();
+//     } else {
+//         close();
+//     }
 }
 
 }  // namespace indexer
