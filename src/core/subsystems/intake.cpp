@@ -19,6 +19,19 @@ static IntakeState target_state = IntakeState::STOP;
 
 void intake_controller_task() {
     while (true) {
+
+        // tmp testing code (incomplete) - delete this later
+        if (robot::controller.get_digital(robot::Controls::intake)) {
+            apply_state(IntakeState::COLLECT);
+        } else {
+            apply_state(IntakeState::STOP);
+        }
+
+        if (robot::controller.get_digital(robot::Controls::intake) && robot::controller.get_digital(robot::Controls::score_middle_goal)) {
+            apply_state(IntakeState::SCORE_MIDDLE);
+        } 
+
+
         // DRIVER CONTROL LOGIC (Setting ENUM)
         // Steps to implement:
         // 1. Check if we're in competition mode 
@@ -67,7 +80,7 @@ void intake_controller_task() {
         // The apply_state() function handles converting the enum to motor powers
         // You don't need to modify this - just call it with final_state
         
-        apply_state(final_state);
+        //apply_state(final_state);
 
         // Small delay to prevent the task from consuming too much CPU
         pros::delay(core::util::DELAY_TIME);
@@ -133,15 +146,17 @@ void apply_state(IntakeState state) {
             // Score ball into the long goal
             // All motors run forward to push ball through the system and into long goal
             
-            // Intake should probobally just dictate some global state for the indexer piston since it 
-            // will be determistically determined by scoring or not
+            // Indexer piston controlled in pistons.cpp
 
             break;
 
         case IntakeState::SCORE_MIDDLE:
             // Score ball into the middle goal
-            // Bottom stage and indexer run forward, but top intake should NOT run
+            // Indexer should run in reverse. Top stage should maybe run in reverse too?
             // (top intake is only for long goal)
+            set_bottom_power(INTAKE_SPEED);
+            set_indexer_power(-INTAKE_SPEED);
+            set_top_power(0);
             break;
 
         case IntakeState::COLLECT:
@@ -172,14 +187,14 @@ void apply_state(IntakeState state) {
 }
 
 // Convenience functions for autonomous
-void stop() { set_target_state(IntakeState::STOP); }
+void stop() { target_state = IntakeState::STOP; }
 
-void collect() { set_target_state(IntakeState::COLLECT); }
+void collect() { target_state = IntakeState::COLLECT; }
 
-void score_long() { set_target_state(IntakeState::SCORE_LONG); }
+void score_long() { target_state = IntakeState::SCORE_LONG; }
 
-void score_middle() { set_target_state(IntakeState::SCORE_MIDDLE); }
+void score_middle() { target_state = IntakeState::SCORE_MIDDLE; }
 
-void reverse() { set_target_state(IntakeState::REVERSE); }
+void reverse() { target_state = IntakeState::REVERSE; }
 
 }  // namespace subsystems::intake

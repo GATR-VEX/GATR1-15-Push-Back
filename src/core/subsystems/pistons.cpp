@@ -16,13 +16,13 @@ void close() {
 }
 
 // maybe no manual control here (see intake)
-// void update() {
-//     // TODO: Behavior desired by drivers (e.g. holding/oneclick/other)
-//     if (robot::controller.get_digital(robot::Controls::indexer)) {
-//         open();
-//     } else {
-//         close();
-//     }
+void update() {
+    if (robot::controller.get_digital(robot::Controls::intake) && 
+    robot::controller.get_digital(robot::Controls::score_long_goal)) {
+        open();
+    } else {
+        close();
+    }
 }
 
 }  // namespace indexer

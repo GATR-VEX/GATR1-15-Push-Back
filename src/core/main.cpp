@@ -61,9 +61,9 @@ void autonomous() {
 void opcontrol() {
     while (true) {
         subsystems::drive::update_arcade();
-        subsystems::pistons::wings::update();
-        subsystems::pistons::matchloader::update();
-        subsystems::pistons::indexer::update();
+        //subsystems::pistons::wings::update();
+        //subsystems::pistons::matchloader::update();
+        //subsystems::pistons::indexer::update();
         pros::delay(core::util::DELAY_TIME);
     }
 }
