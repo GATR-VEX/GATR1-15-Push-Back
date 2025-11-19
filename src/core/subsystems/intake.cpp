@@ -51,6 +51,20 @@ void intake_controller_task() {
         //         stop state is set
         //     }
         // }
+
+        if (robot::controller.get_digitial(robot::Controls::intake)){
+            apply_state(IntakeState::COLLECT);
+        } else{
+            apply_state(IntakeState::STOP);
+        }
+
+        if (robot::controller.get_digital(robot::Controls::intake) && robot::controller.getditial(robot::Controls::score_middle_goal){
+            apply_state(IntakeState::SCORE_MIDDLE);
+        })
+        
+        if (robot::controller.get_digital(robot::Controls::intake) && robot::controller.getditial(robot::Controls::score_long_goal){
+            apply_state(IntakeState::SCORE_LONG);
+        })
         
 
         // COLOR SORT LOGIC
@@ -145,6 +159,9 @@ void apply_state(IntakeState state) {
         case IntakeState::SCORE_LONG:
             // Score ball into the long goal
             // All motors run forward to push ball through the system and into long goal
+            set_bottom_power(INTAKE_SPEED);
+            set_indexer_power(INTAKE_SPEED);
+            set_top_power(INTAKE_SPEED);
             
             // Indexer piston controlled in pistons.cpp
 
