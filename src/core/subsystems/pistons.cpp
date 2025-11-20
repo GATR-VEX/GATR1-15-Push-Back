@@ -3,7 +3,7 @@
 #include "core/config.hpp"
 #include "core/globals.hpp"
 
-namespace subsystems::pistons {
+namespace subsystems {
 
 namespace indexer {
 
@@ -15,7 +15,6 @@ void close() {
     globals::piston_indexer.retract();
 }
 
-// maybe no manual control here (see intake)
 void update() {
     if (robot::controller.get_digital(robot::Controls::score_long_goal)) {
         open();
@@ -37,7 +36,6 @@ void down() {
 }
 
 void update() {
-    // TODO: Behavior desired by drivers
     if (robot::controller.get_digital(robot::Controls::ejector)) {
         up();
     } else {
@@ -58,7 +56,6 @@ void retract() {
 }
 
 void update() {
-    // TODO: Behavior desired by drivers
     if (robot::controller.get_digital(robot::Controls::wings)) {
         extend();
     } else {
@@ -68,5 +65,5 @@ void update() {
 
 }  // namespace wings
 
-}  // namespace subsystems::pistons
+}  // namespace subsystems
 

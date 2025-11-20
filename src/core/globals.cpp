@@ -77,8 +77,12 @@ lemlib::ControllerSettings angular_controller(
     static_cast<float>(angular.large_error_timeout_ms),
     static_cast<float>(angular.max_acceleration));
 
-lemlib::ExpoDriveCurve throttle_curve(3, 10, 1.019);
-lemlib::ExpoDriveCurve steer_curve(3, 10, 1.019);
+lemlib::ExpoDriveCurve throttle_curve(robot::drive::THROTTLE_DEADBAND,
+                                      robot::drive::THROTTLE_MIN_OUTPUT,
+                                      robot::drive::THROTTLE_CURVE);
+lemlib::ExpoDriveCurve steer_curve(robot::drive::STEER_DEADBAND,
+                                    robot::drive::STEER_MIN_OUTPUT,
+                                    robot::drive::STEER_CURVE);
 
 lemlib::Chassis drive_chassis(drivetrain,
                               lateral_controller,

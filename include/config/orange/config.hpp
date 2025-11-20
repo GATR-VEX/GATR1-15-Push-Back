@@ -23,6 +23,14 @@ inline constexpr float TRACK_WIDTH = 10.75F;
 inline constexpr float WHEEL_MODEL = lemlib::Omniwheel::NEW_325;
 inline constexpr float WHEEL_RPM = 450.0F;
 inline constexpr float HORIZONTAL_DRIFT = 3.0F;
+
+// Drive curve parameters (deadband, minOutput, curve)
+inline constexpr float THROTTLE_DEADBAND = 3.0F;
+inline constexpr float THROTTLE_MIN_OUTPUT = 10.0F;
+inline constexpr float THROTTLE_CURVE = 1.019F;
+inline constexpr float STEER_DEADBAND = 3.0F;
+inline constexpr float STEER_MIN_OUTPUT = 10.0F;
+inline constexpr float STEER_CURVE = 1.019F;
 }  // namespace drive
 
 namespace odom {

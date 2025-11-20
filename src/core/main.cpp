@@ -7,8 +7,13 @@
 #include "pros/rtos.hpp"
 
 void initialize() {
+    // Initialize drive subsystem (chassis, motors, sensors)
     subsystems::drive::initialize();
+
+    // Initialize intake subsystem (starts intake controller task)
     subsystems::intake::initialize();
+
+    // Initialize autonomous selector and register autons
     autons::initialize();
 }
 
@@ -42,6 +47,10 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
+    // Ensure global intake state is stopped before auton starts
+    subsystems::intake::stop();
+    
+    // Run the selected autonomous routine
     autons::auton_selector.selected_auton_call();
 }
 
@@ -60,10 +69,19 @@ void autonomous() {
  */
 void opcontrol() {
     while (true) {
+        // Update arcade drive based on controller input
         subsystems::drive::update_arcade();
-        //subsystems::pistons::wings::update();
-        //subsystems::pistons::matchloader::update();
-        //subsystems::pistons::indexer::update();
+
+        // Update wings piston state based on controller input
+        subsystems::wings::update();
+
+        // Update matchloader piston state based on controller input
+        subsystems::matchloader::update();
+
+        // Update indexer piston state based on controller input
+        subsystems::indexer::update();
+        
+        // Small delay to prevent task from consuming too much CPU
         pros::delay(core::util::DELAY_TIME);
     }
 }

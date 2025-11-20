@@ -14,41 +14,26 @@ namespace subsystems::intake {
 
 std::unique_ptr<pros::Task> intake_task;
 
-// Target state that can be set from driver control or autonomous code
+// Target state that can be set globally
 static IntakeState target_state = IntakeState::STOP;
-
- IntakeState get_driver_state() {
-    if (robot::controller.get_digitial(robot::Controls::intake)){
-        return IntakeState::COLLECT;
-    } 
-    else if (robot::controller.getditial(robot::Controls::score_long_goal)){
-        return IntakeState::SCORE_LONG;
-    }
-    else if (robot::controller.getditial(robot::Controls::score_middle_goal)){
-        return IntakeState::SCORE_MIDDLE;
-    }
-    else if (robot::controller.getditial(robot::Controls::reverse)){
-        return IntakeState::REVERSE;
-    }
-    else{
-        return IntakeState::STOP;
-    }
-}
 
 void intake_controller_task() {
     while (true) {
+
+        // collect autonomous requested states
         IntakeState final_state = target_state;
 
-        if(!pros::competition::is_autonomous() && !pros::competition::is_disabled()){
+        // Get driver input if in driver control mode
+        if (!pros::competition::is_autonomous() && !pros::competition::is_disabled()) {
             final_state = get_driver_state();
         }
-        
-        // COLOR SORT LOGIC
-        // // Example code:
+
+        // Color sort logic (overrides driver input)
         // if (color_sort::is_wrong_color_detected() && intake::is_running()){
         //     final_state = IntakeState::EJECT;
-        // }  
+        // }
 
+        // send state to motors
         apply_state(final_state);
 
         // Small delay to prevent the task from consuming too much CPU
@@ -68,11 +53,10 @@ void set_indexer_power(int power) {
     globals::intake_indexer_motor.move(power);
 }
 
-
 bool is_running() {
     // Check if intake motors are actually moving
-    // This is useful mostly for color sort logic
-    // - you need to know if the intake IS LITERALLY moving and SHOULD be moving to eject a ball
+    // This is useful for color sort logic - you need to know if the intake
+    // is literally moving and should be moving to eject a wrong-color ball
     //
     // Steps to implement:
     // 1. Get the actual velocity of the bottom intake motors:
@@ -81,11 +65,25 @@ bool is_running() {
     //    - If velocity is greater than INTAKE_VELOCITY_THRESHOLD, motors are running
     // 3. Return true if motors are running, false otherwise
 
-
-    return false;
+    return false;  // TODO: Implement velocity check
 }
 
-void apply_state(IntakeState state) {    
+IntakeState get_driver_state() {
+    // Priority order: score buttons > intake > reverse > stop
+    if (robot::controller.get_digital(robot::Controls::score_long_goal)) {
+        return IntakeState::SCORE_LONG;
+    } else if (robot::controller.get_digital(robot::Controls::score_middle_goal)) {
+        return IntakeState::SCORE_MIDDLE;
+    } else if (robot::controller.get_digital(robot::Controls::intake)) {
+        return IntakeState::COLLECT;
+    } else if (robot::controller.get_digital(robot::Controls::reverse)) {
+        return IntakeState::REVERSE;
+    } else {
+        return IntakeState::STOP;
+    }
+}
+
+void apply_state(IntakeState state) {
     switch (state) {
         case IntakeState::STOP:
             set_bottom_power(0);
@@ -108,14 +106,17 @@ void apply_state(IntakeState state) {
             break;
 
         case IntakeState::REVERSE:
+            set_bottom_power(-INTAKE_SPEED);
+            set_indexer_power(-INTAKE_SPEED);
             break;
 
         case IntakeState::EJECT:
             set_bottom_power(OUTTAKE_SPEED);
             set_indexer_power(-OUTTAKE_SPEED);
-            //robot::subsystems::pistons::color_sort.extend();
-            // pros::delay(core::color_sort::DELAY_TIME);
-            //robot::subsystems::pistons::color_sort.retract();
+            // TODO: Add color sort piston control
+            // robot::subsystems::pistons::color_sort.extend();
+            // pros::delay(color_sort::COLOR_SORT_REVERSE_DELAY_MS);
+            // robot::subsystems::pistons::color_sort.retract();
             break;
     }
 }

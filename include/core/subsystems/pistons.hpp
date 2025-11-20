@@ -1,6 +1,6 @@
 #pragma once
 
-namespace subsystems::pistons {
+namespace subsystems {
 
 namespace indexer {
 // Open indexer (extend piston)
@@ -35,5 +35,5 @@ void retract();
 void update();
 }  // namespace wings
 
-}  // namespace subsystems::pistons
+}  // namespace subsystems
 

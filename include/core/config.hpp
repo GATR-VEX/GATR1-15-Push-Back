@@ -6,8 +6,12 @@
 
 #if defined(ROBOT_BLUE)
 #include "config/blue/config.hpp"
+#include "config/blue/ports.hpp"
+#include "config/blue/autons.hpp"
 #elif defined(ROBOT_ORANGE)
-#include "config/orange/config.hpp"
+#include "config/blue/config.hpp"
+#include "config/blue/ports.hpp"
+#include "config/blue/autons.hpp"
 #else
 #error "No robot defined! Define ROBOT_BLUE or ROBOT_ORANGE via build flag or robot_select.hpp."
 #endif

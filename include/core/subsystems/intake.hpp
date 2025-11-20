@@ -37,6 +37,9 @@ void set_indexer_power(int power);
 // Check if intake motors are currently running (velocity > threshold)
 bool is_running();
 
+// Get driver input state
+IntakeState get_driver_state();
+
 // Apply intake state to motors
 void apply_state(IntakeState state);
 
