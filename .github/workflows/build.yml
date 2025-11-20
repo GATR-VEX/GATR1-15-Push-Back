@@ -32,7 +32,7 @@ jobs:
         uses: LemLib/pros-build@v3.0.0
 
       - name: Build ${{ matrix.robot }} robot
-        run: pros make
+        run: make
 
       - name: Upload Artifact (${{ matrix.robot }})
         uses: actions/upload-artifact@v4
