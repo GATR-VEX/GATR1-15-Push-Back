@@ -1,7 +1,7 @@
 #pragma once
 
 #if __has_include("config/robot_select.hpp")
-#include "robot_select.hpp"
+#include "config/robot_select.hpp"
 #endif
 
 #if defined(ROBOT_BLUE)

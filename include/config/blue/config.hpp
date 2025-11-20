@@ -3,7 +3,6 @@
 #include "config/blue/ports.hpp"
 
 #include "lemlib/api.hpp"
-#include "pros/controller.hpp"
 #include "pros/motors.hpp"
 
 namespace robot {
@@ -18,16 +17,16 @@ inline constexpr std::int8_t HORIZONTAL_ROTATION = ports::HORIZONTAL_ROTATION;
 }  // namespace sensors
 
 namespace drive {
-inline constexpr pros::motor_gearset_e_t GEARSET = pros::MotorGearset::blue;
+inline constexpr pros::v5::MotorGears GEARSET = pros::MotorGearset::blue;
 inline constexpr float TRACK_WIDTH = 10.75F;
-inline constexpr lemlib::Omniwheel::wheelDiameter WHEEL_MODEL = lemlib::Omniwheel::NEW_325;
+inline constexpr float WHEEL_MODEL = lemlib::Omniwheel::NEW_325;
 inline constexpr float WHEEL_RPM = 450.0F;
 inline constexpr float HORIZONTAL_DRIFT = 3.0F;
 }  // namespace drive
 
 namespace odom {
-inline constexpr lemlib::Omniwheel::wheelDiameter HORIZONTAL_WHEEL = lemlib::Omniwheel::NEW_275;
-inline constexpr lemlib::Omniwheel::wheelDiameter VERTICAL_WHEEL = lemlib::Omniwheel::NEW_275;
+inline constexpr float HORIZONTAL_WHEEL = lemlib::Omniwheel::NEW_275;
+inline constexpr float VERTICAL_WHEEL = lemlib::Omniwheel::NEW_275;
 inline constexpr float HORIZONTAL_OFFSET = 0.5F;
 inline constexpr float VERTICAL_OFFSET = -3.5F;
 }  // namespace odom
