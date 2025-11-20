@@ -22,15 +22,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run LemLib/pros-build for ${{ matrix.robot }}
-        id: build
+      - name: Setup PROS
         uses: LemLib/pros-build@v3.0.0
+
+      - name: Build ${{ matrix.robot }} robot
+        run: pros make
         env:
           EXTRA_CXXFLAGS: -D${{ matrix.define }}
 
       - name: Upload Artifact (${{ matrix.robot }})
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.build.outputs.name }}-${{ matrix.robot }}
-          path: ${{ github.workspace }}/template/*
+          name: build-${{ matrix.robot }}
+          path: |
+            bin/*.bin
+            bin/*.elf
+          if-no-files-found: error
 

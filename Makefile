@@ -16,8 +16,9 @@ WARNFLAGS+=
 EXTRA_CFLAGS=
 # Robot selection: Must be explicitly defined via build flag or robot_select.hpp (gitignored)
 # Build will fail if ROBOT_BLUE or ROBOT_ORANGE is not defined
-# Define via: make EXTRA_CXXFLAGS="-DROBOT_BLUE" or make EXTRA_CXXFLAGS="-DROBOT_ORANGE"
-# Or set environment variable: export EXTRA_CXXFLAGS="-DROBOT_BLUE"
+git# Define via: make CPPFLAGS+="-DROBOT_BLUE" or make CPPFLAGS+="-DROBOT_ORANGE"
+# Or set environment variable: export CPPFLAGS="-DROBOT_BLUE"
+# Note: CPPFLAGS is used for preprocessor defines and applies to both C and C++ files
 EXTRA_CXXFLAGS=
 
 # Set to 1 to enable hot/cold linking
@@ -49,3 +50,8 @@ TEMPLATE_FILES=$(INCDIR)/$(LIBNAME)/*.h $(INCDIR)/$(LIBNAME)/*.hpp
 ################################################################################
 ########## Nothing below this line should be edited by typical users ###########
 -include ./common.mk
+
+# Append robot selection to CPPFLAGS after common.mk is loaded
+# This allows users to override via: make CPPFLAGS+="-DROBOT_BLUE"
+# Or set environment variable: export CPPFLAGS="-DROBOT_BLUE $(CPPFLAGS)"
+# Note: If robot_select.hpp exists locally, it will also work as a fallback
