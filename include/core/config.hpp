@@ -1,5 +1,6 @@
 #pragma once
 
+// Include robot_select.hpp if it exists to define ROBOT_BLUE or ROBOT_ORANGE
 #if __has_include("config/robot_select.hpp")
 #include "config/robot_select.hpp"
 #endif
@@ -9,9 +10,9 @@
 #include "config/blue/ports.hpp"
 #include "config/blue/autons.hpp"
 #elif defined(ROBOT_ORANGE)
-#include "config/blue/config.hpp"
-#include "config/blue/ports.hpp"
-#include "config/blue/autons.hpp"
+#include "config/orange/config.hpp"
+#include "config/orange/ports.hpp"
+#include "config/orange/autons.hpp"
 #else
 #error "No robot defined! Define ROBOT_BLUE or ROBOT_ORANGE via build flag or robot_select.hpp."
 #endif
