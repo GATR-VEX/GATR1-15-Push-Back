@@ -49,13 +49,13 @@ inline constexpr Gains ANGULAR{3.0, 0.0, 30.0, 3.0, 1.0, 100, 3.0, 100, 0.0};
 }  // namespace pid
 
 struct Controls {
-    static constexpr pros::controller_digital_e_t intake = pros::E_CONTROLLER_DIGITAL_R1;
-    static constexpr pros::controller_digital_e_t reverse = pros::E_CONTROLLER_DIGITAL_R2;
-    static constexpr pros::controller_digital_e_t score_long_goal = pros::E_CONTROLLER_DIGITAL_L1;
-    static constexpr pros::controller_digital_e_t score_middle_goal = pros::E_CONTROLLER_DIGITAL_L2;
+    static constexpr pros::controller_digital_e_t intake = pros::E_CONTROLLER_DIGITAL_L1;
+    static constexpr pros::controller_digital_e_t reverse = pros::E_CONTROLLER_DIGITAL_L2;
+    static constexpr pros::controller_digital_e_t score_long_goal = pros::E_CONTROLLER_DIGITAL_R1;
+    static constexpr pros::controller_digital_e_t score_middle_goal = pros::E_CONTROLLER_DIGITAL_R2;
 
-    static constexpr pros::controller_digital_e_t wings = pros::E_CONTROLLER_DIGITAL_L1;
-    static constexpr pros::controller_digital_e_t ejector = pros::E_CONTROLLER_DIGITAL_L2;
+    static constexpr pros::controller_digital_e_t wings = pros::E_CONTROLLER_DIGITAL_DOWN;
+    static constexpr pros::controller_digital_e_t ejector = pros::E_CONTROLLER_DIGITAL_B;
 
     static constexpr pros::controller_analog_e_t driveX = pros::E_CONTROLLER_ANALOG_LEFT_X;
     static constexpr pros::controller_analog_e_t driveY = pros::E_CONTROLLER_ANALOG_LEFT_Y;
