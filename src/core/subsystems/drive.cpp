@@ -1,10 +1,11 @@
 #include "core/subsystems/drive.hpp"
 #include "core/globals.hpp"
+#include "core/config.hpp"
 
 #include <memory>
 
 #include "lemlib/logger/telemetrySink.hpp"
-#include "pros/lcd.hpp"
+#include "pros/llemu.hpp"
 #include "pros/rtos.hpp"
 
 namespace subsystems::drive {
