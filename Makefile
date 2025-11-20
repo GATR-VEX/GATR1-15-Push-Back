@@ -14,6 +14,10 @@ INCDIR=$(ROOT)/include
 
 WARNFLAGS+=
 EXTRA_CFLAGS=
+# Robot selection: Must be explicitly defined via build flag or robot_select.hpp (gitignored)
+# Build will fail if ROBOT_BLUE or ROBOT_ORANGE is not defined
+# Define via: make EXTRA_CXXFLAGS="-DROBOT_BLUE" or make EXTRA_CXXFLAGS="-DROBOT_ORANGE"
+# Or set environment variable: export EXTRA_CXXFLAGS="-DROBOT_BLUE"
 EXTRA_CXXFLAGS=
 
 # Set to 1 to enable hot/cold linking

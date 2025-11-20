@@ -1,5 +1,6 @@
 #pragma once
 
+// Include robot_select.hpp if it exists to define ROBOT_BLUE or ROBOT_ORANGE
 #if __has_include("config/robot_select.hpp")
 #include "config/robot_select.hpp"
 #endif
