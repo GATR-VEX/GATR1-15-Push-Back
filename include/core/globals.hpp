@@ -37,7 +37,6 @@ extern lemlib::ExpoDriveCurve steer_curve;
 // Intake
 extern pros::MotorGroup intake_stage_motors;
 extern pros::Motor intake_indexer_motor;
-extern pros::Motor intake_rollers_motor;
 
 // Pneumatics
 extern pros::adi::Pneumatics piston_matchloader;

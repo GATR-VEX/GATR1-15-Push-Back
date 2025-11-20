@@ -34,9 +34,6 @@ void set_bottom_power(int power);
 // Set power for indexer motor (middle stage - moves balls between bottom and top)
 void set_indexer_power(int power);
 
-// Set power for top intake motor (final stage - for long goal scoring)
-void set_top_power(int power);
-
 // Check if intake motors are currently running (velocity > threshold)
 bool is_running();
 

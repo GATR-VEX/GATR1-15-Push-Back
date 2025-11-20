@@ -50,7 +50,7 @@ inline constexpr Gains ANGULAR{3.0, 0.0, 30.0, 3.0, 1.0, 100, 3.0, 100, 0.0};
 
 struct Controls {
     static constexpr pros::controller_digital_e_t intake = pros::E_CONTROLLER_DIGITAL_R1;
-    static constexpr pros::controller_digital_e_t outtake = pros::E_CONTROLLER_DIGITAL_R2;
+    static constexpr pros::controller_digital_e_t reverse = pros::E_CONTROLLER_DIGITAL_R2;
     static constexpr pros::controller_digital_e_t score_long_goal = pros::E_CONTROLLER_DIGITAL_L1;
     static constexpr pros::controller_digital_e_t score_middle_goal = pros::E_CONTROLLER_DIGITAL_L2;
 

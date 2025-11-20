@@ -17,8 +17,7 @@ void close() {
 
 // maybe no manual control here (see intake)
 void update() {
-    if (robot::controller.get_digital(robot::Controls::intake) && 
-    robot::controller.get_digital(robot::Controls::score_long_goal)) {
+    if (robot::controller.get_digital(robot::Controls::score_long_goal)) {
         open();
     } else {
         close();
