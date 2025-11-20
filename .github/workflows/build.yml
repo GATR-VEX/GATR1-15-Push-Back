@@ -22,13 +22,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Create robot_select.hpp for ${{ matrix.robot }}
+        run: |
+          mkdir -p include/config
+          echo "#define ${{ matrix.define }}" > include/config/robot_select.hpp
+          cat include/config/robot_select.hpp
+
       - name: Setup PROS
         uses: LemLib/pros-build@v3.0.0
 
       - name: Build ${{ matrix.robot }} robot
         run: pros make
-        env:
-          EXTRA_CXXFLAGS: -D${{ matrix.define }}
 
       - name: Upload Artifact (${{ matrix.robot }})
         uses: actions/upload-artifact@v4
