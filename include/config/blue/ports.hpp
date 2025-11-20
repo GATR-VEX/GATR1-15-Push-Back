@@ -19,7 +19,6 @@ inline constexpr std::int8_t DRIVE_LEFT_AUX = -20;
 inline constexpr std::int8_t INTAKE_STAGE_1 = 0;  // TODO: Set port for first stage intake motor
 inline constexpr std::int8_t INTAKE_STAGE_2 = 0;  // TODO: Set port for second stage intake motor
 inline constexpr std::int8_t INTAKE_INDEXER = 0;  // TODO: Set port for indexer motor
-inline constexpr std::int8_t INTAKE_ROLLERS = 0;  // TODO: Set port for rollers motor
 
 // Pneumatics
 inline constexpr std::int8_t PISTON_MATCHLOADER = 0;  // TODO: Set ADI port for matchloader piston

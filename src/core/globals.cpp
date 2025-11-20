@@ -91,7 +91,6 @@ lemlib::Chassis drive_chassis(drivetrain,
 pros::MotorGroup intake_stage_motors({robot::ports::INTAKE_STAGE_1,
                                      robot::ports::INTAKE_STAGE_2});
 pros::Motor intake_indexer_motor(robot::ports::INTAKE_INDEXER);
-pros::Motor intake_rollers_motor(robot::ports::INTAKE_ROLLERS);
 
 // Optical sensor
 pros::Optical optical_color_sort(robot::ports::OPTICAL_COLOR_SORT);
