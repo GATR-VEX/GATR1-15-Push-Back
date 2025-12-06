@@ -3,7 +3,7 @@
 
 #ifdef ROBOT_BLUE
 
-namespace autons::blue {
+namespace page_selector::blue {
 
 void auton1() {
     auto& chassis = subsystems::drive::chassis();

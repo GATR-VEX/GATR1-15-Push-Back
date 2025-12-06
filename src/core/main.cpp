@@ -14,7 +14,7 @@ void initialize() {
     subsystems::intake::initialize();
 
     // Initialize autonomous selector and register autons
-    autons::initialize();
+    page_selector::initialize();
 }
 
 /**
@@ -51,7 +51,7 @@ void autonomous() {
     subsystems::intake::stop();
     
     // Run the selected autonomous routine
-    autons::auton_selector.selected_auton_call();
+    page_selector::page_selector.selected_auton_call();
 }
 
 /**
