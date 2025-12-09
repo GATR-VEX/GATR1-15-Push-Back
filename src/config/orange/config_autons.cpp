@@ -1,4 +1,4 @@
-#include "core/auton/selector.hpp"
+#include "core/selector.hpp"
 #include "config/orange/autons.hpp"
 
 #include <vector>
@@ -7,14 +7,14 @@
 
 #ifdef ROBOT_ORANGE
 
-namespace autons {
+namespace page_selector {
 
 void add_autons() {
     std::vector<Auton> autons = {
         Auton("Orange Auton 1", orange::auton1),
         // Add more autons here
     };
-    auton_selector.autons_add(autons);
+    selector.autons_add(autons);
 }
 
 }  // namespace autons

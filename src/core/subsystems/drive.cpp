@@ -28,7 +28,6 @@ void initialize() {
     globals::left_motors.set_gearing(robot::drive::GEARSET);
     globals::drive_chassis.calibrate();
 
-    telemetry_task = std::make_unique<pros::Task>(run_telemetry);
 }
 
 void update_arcade() {

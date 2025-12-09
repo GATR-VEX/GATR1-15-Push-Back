@@ -3,7 +3,7 @@
 
 #ifdef ROBOT_ORANGE
 
-namespace autons::orange {
+namespace page_selector::orange {
 
 void auton1() {
     auto& chassis = subsystems::drive::chassis();
@@ -13,6 +13,6 @@ void auton1() {
 
 // Add more auton routines here
 
-}  // namespace autons::orange
+}  // namespace page_selector::orange
 
 #endif

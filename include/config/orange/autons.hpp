@@ -1,9 +1,9 @@
 #pragma once
 
-namespace autons::orange {
+namespace page_selector::orange {
 
 void auton1();
 // Add more auton routine declarations here
 
-}  // namespace autons::orange
+}  // namespace page_selector::orange
 
