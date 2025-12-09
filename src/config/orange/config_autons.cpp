@@ -14,7 +14,7 @@ void add_autons() {
         Auton("Orange Auton 1", orange::auton1),
         // Add more autons here
     };
-    selector.autons_add(autons);
+    selector_.autons_add(autons);
 }
 
 }  // namespace autons
