@@ -10,7 +10,6 @@ void auton1() {
     // TODO: Replace with orange robot autonomous routine.
     chassis.moveToPose(15, 35, 90, 4000, {.horizontalDrift = 2, .lead = .3, .earlyExitRange = 4});
 }
-
 // Add more auton routines here
 
 }  // namespace page_selector::orange
