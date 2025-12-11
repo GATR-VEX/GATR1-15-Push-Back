@@ -57,11 +57,6 @@ void print_task(void* param) {
    // Get the util page index from parameter (already validated before task creation)
     int util_page_index = reinterpret_cast<intptr_t>(param);
     
-    // Fail fast if somehow invalid (shouldn't happen, but safety check)
-    if (util_page_index < 0 || util_page_index >= static_cast<int>(page_selector::selector.UtilPages.size())) {
-        return;  // Exit immediately, don't loop
-    }
-    
     // Just run - no conditional checks in the loop
     while (page_selector::selector.get_util_page_index() == util_page_index) {
         page_selector::selector.UtilPages[util_page_index].print_data();
