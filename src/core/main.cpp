@@ -8,18 +8,14 @@
 
 void initialize() {
 
-    pros::lcd::initialize();
+    // Initialize selector and register autons and util pages
+    page_selector::initialize();
 
     // Initialize drive subsystem (chassis, motors, sensors)
     subsystems::drive::initialize();
 
     // Initialize intake subsystem (starts intake controller task)
     subsystems::intake::initialize();
-
-
-    // Initialize selector and register autons and util pages
-    page_selector::initialize();
-
 }
 
 /**
@@ -54,10 +50,9 @@ void competition_initialize() {}
 void autonomous() {
     // Ensure global intake state is stopped before auton starts
     subsystems::intake::stop();
-
     
     // Run the selected autonomous routine
-    page_selector::selector_.selected_auton_call();
+    page_selector::selector.selected_auton_call();
 
 }
 
@@ -75,8 +70,10 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+    pros::Controller master(pros::E_CONTROLLER_MASTER);
+
     while (true) {
-        // Update arcade drive based on controller input
+        //Update arcade drive based on controller input
         subsystems::drive::update_arcade();
 
         // Update wings piston state based on controller input

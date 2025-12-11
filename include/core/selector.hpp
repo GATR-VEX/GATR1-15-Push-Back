@@ -3,23 +3,24 @@
 #include <functional>
 #include <string>
 #include <vector>
+#include "pros/rtos.hpp"
 
 namespace page_selector {
 
 struct Auton {
-    std::string Name;
+    std::string name;
     std::function<void()> auton_call;
 
     Auton(const std::string& name, std::function<void()> routine)
-        : Name(name), auton_call(routine) {}
+        : name(name), auton_call(routine) {}
 };
 
 struct UtilPage {
-    std::string Name;
+    std::string name;
     std::function<void()> print_data;
 
     UtilPage(const std::string& name, std::function<void()> data_function)
-        : Name(name), print_data(data_function) {}
+        : name(name), print_data(data_function) {}
 };
 
 
@@ -30,6 +31,7 @@ public:
 
     int page_current = 0;
     int page_count = 0;
+    pros::Task* util_page_task;
     
     PageSelector(
         std::vector<Auton> autons = {},
@@ -40,6 +42,7 @@ public:
     {
         page_count = Autons.size() + UtilPages.size();
         page_current = 0;
+        util_page_task = nullptr;
     }
 
     // Member functions
@@ -48,6 +51,14 @@ public:
 
     void autons_add(std::vector<Auton> autons);
     void utils_add(std::vector<UtilPage> utils);
+
+    int get_util_page_index() {
+        return page_current - static_cast<int>(Autons.size());
+    }
+
+    void cleanup_util_page_task();
+
+
 };
 
 
@@ -56,7 +67,7 @@ void print_telemetry_data();
 
 
 // Global selector instance
-extern PageSelector selector_;
+extern PageSelector selector;
 
 void print_task(void* param);
 

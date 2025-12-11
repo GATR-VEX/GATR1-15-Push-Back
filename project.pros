@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "GATR1-Selector Test",
+    "project_name": "GATR1-PushBack",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -635,7 +635,7 @@
       }
     },
     "upload_options": {
-      "slot": 3
+      "slot": 1
     },
     "use_early_access": false
   }

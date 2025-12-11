@@ -17,7 +17,7 @@ void add_autons() {
     selector_.autons_add(autons);
 }
 
-}  // namespace autons
+}  // namespace page_selector
 
 #endif
 
