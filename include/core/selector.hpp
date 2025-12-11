@@ -58,13 +58,11 @@ public:
 
     void cleanup_util_page_task();
 
-
 };
 
 
 // Definitions of utility functions
 void print_telemetry_data();
-
 
 // Global selector instance
 extern PageSelector selector;

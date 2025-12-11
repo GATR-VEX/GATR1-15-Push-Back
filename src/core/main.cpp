@@ -70,8 +70,6 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-    pros::Controller master(pros::E_CONTROLLER_MASTER);
-
     while (true) {
         //Update arcade drive based on controller input
         subsystems::drive::update_arcade();
