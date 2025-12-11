@@ -33,8 +33,8 @@ inline constexpr float STEER_CURVE = 1.019F;
 }  // namespace drive
 
 namespace odom {
-inline constexpr float HORIZONTAL_WHEEL = lemlib::Omniwheel::NEW_275;
-inline constexpr float VERTICAL_WHEEL = lemlib::Omniwheel::NEW_275;
+inline constexpr float HORIZONTAL_WHEEL = 1.75F;
+inline constexpr float VERTICAL_WHEEL = 1.75F;
 inline constexpr float HORIZONTAL_OFFSET = 0.5F;
 inline constexpr float VERTICAL_OFFSET = -3.5F;
 }  // namespace odom

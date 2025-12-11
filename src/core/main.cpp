@@ -1,4 +1,4 @@
-#include "core/auton/selector.hpp"
+#include "core/selector.hpp"
 #include "core/subsystems/drive.hpp"
 #include "core/subsystems/intake.hpp"
 #include "core/subsystems/pistons.hpp"
@@ -7,14 +7,15 @@
 #include "pros/rtos.hpp"
 
 void initialize() {
+
+    // Initialize selector and register autons and util pages
+    page_selector::initialize();
+
     // Initialize drive subsystem (chassis, motors, sensors)
     subsystems::drive::initialize();
 
     // Initialize intake subsystem (starts intake controller task)
     subsystems::intake::initialize();
-
-    // Initialize autonomous selector and register autons
-    autons::initialize();
 }
 
 /**
@@ -51,7 +52,8 @@ void autonomous() {
     subsystems::intake::stop();
     
     // Run the selected autonomous routine
-    autons::auton_selector.selected_auton_call();
+    page_selector::selector.selected_auton_call();
+
 }
 
 /**
@@ -69,7 +71,7 @@ void autonomous() {
  */
 void opcontrol() {
     while (true) {
-        // Update arcade drive based on controller input
+        //Update arcade drive based on controller input
         subsystems::drive::update_arcade();
 
         // Update wings piston state based on controller input

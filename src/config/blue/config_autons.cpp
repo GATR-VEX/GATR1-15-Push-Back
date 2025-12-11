@@ -1,4 +1,4 @@
-#include "core/auton/selector.hpp"
+#include "core/selector.hpp"
 #include "config/blue/autons.hpp"
 
 #include <vector>
@@ -7,17 +7,17 @@
 
 #ifdef ROBOT_BLUE
 
-namespace autons {
+namespace page_selector {
 
 void add_autons() {
     std::vector<Auton> autons = {
         Auton("Blue Auton 1", blue::auton1),
         // Add more autons here
     };
-    auton_selector.autons_add(autons);
+    selector.autons_add(autons);
 }
 
-}  // namespace autons
+}  // namespace pager_selector
 
 #endif
 
