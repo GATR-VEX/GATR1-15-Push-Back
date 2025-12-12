@@ -18,7 +18,7 @@ inline constexpr std::int8_t HORIZONTAL_ROTATION = ports::HORIZONTAL_ROTATION;
 
 namespace drive {
 inline constexpr pros::v5::MotorGears GEARSET = pros::MotorGearset::blue;
-inline constexpr float TRACK_WIDTH = 10.75F;
+inline constexpr float TRACK_WIDTH = 10.5F;
 inline constexpr float WHEEL_MODEL = lemlib::Omniwheel::NEW_325;
 inline constexpr float WHEEL_RPM = 450.0F;
 inline constexpr float HORIZONTAL_DRIFT = 3.0F;
@@ -33,10 +33,10 @@ inline constexpr float STEER_CURVE = 1.019F;
 }  // namespace drive
 
 namespace odom {
-inline constexpr float HORIZONTAL_WHEEL = 1.75F;
-inline constexpr float VERTICAL_WHEEL = 1.75F;
-inline constexpr float HORIZONTAL_OFFSET = 0.5F;
-inline constexpr float VERTICAL_OFFSET = -3.5F;
+inline constexpr float HORIZONTAL_WHEEL = 1.85F;
+inline constexpr float VERTICAL_WHEEL = 1.85F;
+inline constexpr float HORIZONTAL_OFFSET = 0.0F;
+inline constexpr float VERTICAL_OFFSET = 0.0F;
 }  // namespace odom
 
 namespace pid {
@@ -52,8 +52,8 @@ struct Gains {
     double max_acceleration;
 };
 
-inline constexpr Gains LATERAL{8.0, 20.0, 28.0, 3.0, 1.0, 100, 3.0, 500, 0.0};
-inline constexpr Gains ANGULAR{3.0, 0.0, 30.0, 3.0, 1.0, 100, 3.0, 100, 0.0};
+inline constexpr Gains LATERAL{18.0, 0, 80.0, 3, 1, 100, 3, 500, 20};
+inline constexpr Gains ANGULAR{4.8, 0.0, 38.0, 3, 1, 100, 2, 400, 0};
 }  // namespace pid
 
 struct Controls {
