@@ -27,8 +27,8 @@ inline constexpr std::int8_t PISTON_WINGS = 0;        // TODO: Set ADI port for 
 
 // Sensors
 inline constexpr std::int8_t IMU = 1;
-inline constexpr std::int8_t VERTICAL_ROTATION = -15;
-inline constexpr std::int8_t HORIZONTAL_ROTATION = 16;
+inline constexpr std::int8_t VERTICAL_ROTATION = 0;
+inline constexpr std::int8_t HORIZONTAL_ROTATION = 0;
 inline constexpr std::int8_t OPTICAL_COLOR_SORT = 0;  // TODO: Set port for color sort optical sensor
 }  // namespace ports
 }  // namespace robot
