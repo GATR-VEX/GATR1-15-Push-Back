@@ -23,7 +23,9 @@ inline constexpr std::int8_t INTAKE_INDEXER         = 0;
 
 // Pneumatics
 inline constexpr std::int8_t PISTON_MATCHLOADER     = 0;
+inline constexpr std::int8_t PISTON_INDEXER         = 0;
 inline constexpr std::int8_t PISTON_WING            = 0;
+inline constexpr std::int8_t PISTON_HOOD            = 0;
 
 // Sensors
 inline constexpr std::int8_t IMU                    = 0;

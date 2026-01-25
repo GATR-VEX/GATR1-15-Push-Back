@@ -41,6 +41,8 @@ extern pros::Motor intake_indexer;
 
 // Pneumatics
 extern pros::adi::Pneumatics piston_matchloader;
+extern pros::adi::Pneumatics piston_indexer;
 extern pros::adi::Pneumatics piston_wing;
+extern pros::adi::Pneumatics piston_hood;
 
 }  // namespace globals

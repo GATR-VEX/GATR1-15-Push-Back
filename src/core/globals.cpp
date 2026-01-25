@@ -102,6 +102,8 @@ pros::Optical optical_color_sort(robot::ports::OPTICAL_COLOR_SORT);
 
 // Pneumatics
 pros::adi::Pneumatics piston_matchloader(robot::ports::PISTON_MATCHLOADER, false);
+pros::adi::Pneumatics piston_indexer(robot::ports::PISTON_INDEXER, false);
 pros::adi::Pneumatics piston_wing(robot::ports::PISTON_WING, false);
+pros::adi::Pneumatics piston_hood(robot::ports::PISTON_HOOD, false);
 
 }  // namespace globals
