@@ -1,33 +1,41 @@
 #include "core/subsystems/color_sort.hpp"
 #include "core/globals.hpp"
-#include "core/config.hpp"
+#include "core/util.hpp"
 
-#include <cmath>
-#include <cstring>
+#include "pros/rtos.hpp"
 
 namespace subsystems::color_sort {
 
-double get_current_hue() {
+double get_hue() {
     return globals::optical_color_sort.get_hue();
 }
 
-bool is_color_blue(double hue) {
-    // Check if hue is in blue range (COLOR_BLUE_HUE_MIN to COLOR_BLUE_HUE_MAX)
-    return hue >= COLOR_BLUE_HUE_MIN && hue <= COLOR_BLUE_HUE_MAX;
+bool is_color(Color color) {
+    double hue = get_hue();
+
+    switch (color) {
+        case Color::BLUE:
+            return hue >= BLUE_HUE_MIN && hue <= BLUE_HUE_MAX;
+
+        case Color::RED:
+            // Red wraps around 360, so check both ranges
+            return (hue >= RED_HUE_WRAP) || (hue <= RED_HUE_MAX);
+    }
+
+    return false;
 }
 
-bool is_color_red(double hue) {
-    // Check if hue is in red range (COLOR_RED_HUE_MIN to COLOR_RED_HUE_MAX, or wraps around)
-    // Red can wrap around 360/0, so check both ranges
-    bool in_normal_range = hue >= COLOR_RED_HUE_MIN && hue <= COLOR_RED_HUE_MAX;
-    bool in_wrap_range = hue >= COLOR_RED_HUE_WRAP_MIN || hue <= COLOR_RED_HUE_MAX;
-    return in_normal_range || in_wrap_range;
-}
+bool wait_for_color(Color color, std::uint32_t timeout_ms) {
+    std::uint32_t start_time = pros::millis();
 
-bool is_wrong_color_detected() {
-    // Read optical sensor hue value
-    double hue = get_current_hue();
+    while (pros::millis() - start_time < timeout_ms) {
+        if (is_color(color)) {
+            return true;
+        }
+        pros::delay(core::util::DELAY_TIME);
+    }
+
+    return false;  // Timeout
 }
 
 }  // namespace subsystems::color_sort
-

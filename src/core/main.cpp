@@ -11,6 +11,9 @@ void initialize() {
     // Wait for ADI ports to be initialized
     pros::delay(500);
 
+    // Initialize piston subsystem
+    subsystems::initialize_pistons();
+
     // Initialize selector and register autons and util pages
     page_selector::initialize();
 
@@ -20,8 +23,6 @@ void initialize() {
     // Initialize intake subsystem (starts intake controller task)
     subsystems::intake::initialize();
 
-    // Initialize piston subsystem
-    subsystems::initialize_pistons();
 }
 
 /**
@@ -76,6 +77,13 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+
+    // Ensure hood is open
+    subsystems::hood->extend();
+
+    // Ensure matchloader is closed
+    subsystems::matchloader->retract();
+
     while (true) {
         // Update arcade drive based on controller input
         subsystems::drive::update_arcade();

@@ -6,7 +6,6 @@ namespace subsystems::intake {
 // Intake motor speeds
 inline constexpr int INTAKE_SPEED = 127;
 inline constexpr int INTAKE_SPEED_SLOW = 100;
-inline constexpr int OUTTAKE_SPEED = -127;
 
 // Intake running detection
 inline constexpr double INTAKE_VELOCITY_THRESHOLD = 0.0;
@@ -16,8 +15,7 @@ enum class IntakeState {
     SCORE_LONG,
     SCORE_MIDDLE,
     COLLECT,
-    REVERSE,
-    EJECT
+    REVERSE
 };
 
 void initialize();

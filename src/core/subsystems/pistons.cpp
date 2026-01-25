@@ -8,36 +8,21 @@ namespace subsystems {
 Piston::Piston(pros::adi::Pneumatics& piston,
                std::optional<pros::controller_digital_e_t> button,
                PistonMode mode,
-               bool default_extended,
                bool reversed)
-    : m_piston(piston), m_button(button), m_mode(mode), 
-      m_extended(default_extended), m_default_extended(default_extended),
-      m_reversed(reversed) {}
+    : m_piston(piston), m_button(button), m_mode(mode), m_reversed(reversed) {}
 
 void Piston::extend() {
-    if (m_reversed) {
-        m_piston.retract();
-    } else {
-        m_piston.extend();
-    }
+    m_reversed ? m_piston.retract() : m_piston.extend();
     m_extended = true;
 }
 
 void Piston::retract() {
-    if (m_reversed) {
-        m_piston.extend();
-    } else {
-        m_piston.retract();
-    }
+    m_reversed ? m_piston.extend() : m_piston.retract();
     m_extended = false;
 }
 
 void Piston::toggle() {
-    if (m_extended) {
-        retract();
-    } else {
-        extend();
-    }
+    m_extended ? retract() : extend();
 }
 
 void Piston::update() {
@@ -63,14 +48,6 @@ void Piston::update() {
     }
 }
 
-void Piston::set_default_state() {
-    if (m_default_extended) {
-        extend();
-    } else {
-        retract();
-    }
-}
-
 bool Piston::is_extended() const {
     return m_extended;
 }
@@ -86,12 +63,6 @@ void initialize_pistons() {
     matchloader = new Piston(globals::piston_matchloader, robot::Controls::matchloader, PistonMode::HOLD);
     wing        = new Piston(globals::piston_wing, robot::Controls::wing, PistonMode::HOLD);
     hood        = new Piston(globals::piston_hood, robot::Controls::hood, PistonMode::TOGGLE);
-
-    // Set all pistons to their default states
-    indexer->set_default_state();
-    matchloader->set_default_state();
-    wing->set_default_state();
-    hood->set_default_state();
 }
 
 }  // namespace subsystems

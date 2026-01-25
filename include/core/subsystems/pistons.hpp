@@ -19,22 +19,19 @@ public:
     Piston(pros::adi::Pneumatics& piston, 
            std::optional<pros::controller_digital_e_t> button = std::nullopt,
            PistonMode mode = PistonMode::HOLD,
-           bool default_extended = false,
            bool reversed = false);
 
     void extend();
     void retract();
     void toggle();
     void update();  // Check controller and update state (no-op if no button assigned)
-    void set_default_state();  // Apply the default state to the piston
     bool is_extended() const;
 
 private:
     pros::adi::Pneumatics& m_piston;
     std::optional<pros::controller_digital_e_t> m_button;
     PistonMode m_mode;
-    bool m_extended;
-    bool m_default_extended;
+    bool m_extended = false;
     bool m_reversed;
 };
 
