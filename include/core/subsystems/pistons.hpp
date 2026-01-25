@@ -2,17 +2,6 @@
 
 namespace subsystems {
 
-namespace indexer {
-// Open indexer (extend piston)
-void open();
-
-// Close indexer (retract piston)
-void close();
-
-// Update indexer based on controller input (call from opcontrol)
-void update();
-}  // namespace indexer
-
 namespace matchloader {
 // Move matchloader up (extend piston)
 void up();
@@ -24,16 +13,15 @@ void down();
 void update();
 }  // namespace matchloader
 
-namespace wings {
-// Deploy wings (extend piston)
+namespace wing {
+// Deploy wing (extend piston)
 void extend();
 
-// Retract wings (retract piston)
+// Retract wing (retract piston)
 void retract();
 
-// Update wings based on controller input (call from opcontrol)
+// Update wing based on controller input (call from opcontrol)
 void update();
-}  // namespace wings
+}  // namespace wing
 
 }  // namespace subsystems
-

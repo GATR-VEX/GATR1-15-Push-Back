@@ -31,7 +31,10 @@ IntakeState get_target_state();
 // Set power for bottom intake motors (2 motors - initial intake stage)
 void set_bottom_power(int power);
 
-// Set power for indexer motor (middle stage - moves balls between bottom and top)
+// Set power for top stage motor
+void set_top_power(int power);
+
+// Set power for indexer motor (final stage - scores into goals)
 void set_indexer_power(int power);
 
 // Check if intake motors are currently running (velocity > threshold)

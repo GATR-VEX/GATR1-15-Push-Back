@@ -5,26 +5,6 @@
 
 namespace subsystems {
 
-namespace indexer {
-
-void open() {
-    globals::piston_indexer.extend();
-}
-
-void close() {
-    globals::piston_indexer.retract();
-}
-
-void update() {
-    if (robot::controller.get_digital(robot::Controls::score_long_goal)) {
-        open();
-    } else {
-        close();
-    }
-}
-
-}  // namespace indexer
-
 namespace matchloader {
 
 void up() {
@@ -45,25 +25,24 @@ void update() {
 
 }  // namespace matchloader
 
-namespace wings {
+namespace wing {
 
 void extend() {
-    globals::piston_wings.extend();
+    globals::piston_wing.extend();
 }
 
 void retract() {
-    globals::piston_wings.retract();
+    globals::piston_wing.retract();
 }
 
 void update() {
-    if (robot::controller.get_digital(robot::Controls::wings)) {
+    if (robot::controller.get_digital(robot::Controls::wing)) {
         extend();
     } else {
         retract();
     }
 }
 
-}  // namespace wings
+}  // namespace wing
 
 }  // namespace subsystems
-

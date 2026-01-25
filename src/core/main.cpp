@@ -74,14 +74,11 @@ void opcontrol() {
         //Update arcade drive based on controller input
         subsystems::drive::update_arcade();
 
-        // Update wings piston state based on controller input
-        subsystems::wings::update();
+        // Update wing piston state based on controller input
+        subsystems::wing::update();
 
         // Update matchloader piston state based on controller input
         subsystems::matchloader::update();
-
-        // Update indexer piston state based on controller input
-        subsystems::indexer::update();
         
         // Small delay to prevent task from consuming too much CPU
         pros::delay(core::util::DELAY_TIME);

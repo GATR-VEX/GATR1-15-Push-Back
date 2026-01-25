@@ -46,11 +46,15 @@ void initialize() {
 }
 
 void set_bottom_power(int power) {
-    globals::intake_stage_motors.move(power);
+    globals::intake_bottom_stage.move(power);
+}
+
+void set_top_power(int power) {
+    globals::intake_top_stage.move(power);
 }
 
 void set_indexer_power(int power) {
-    globals::intake_indexer_motor.move(power);
+    globals::intake_indexer.move(power);
 }
 
 bool is_running() {
@@ -60,7 +64,7 @@ bool is_running() {
     //
     // Steps to implement:
     // 1. Get the actual velocity of the bottom intake motors:
-    //    - Use: globals::intake_stage_motors.get_actual_velocity()
+    //    - Use: globals::intake_bottom_stage.get_actual_velocity()
     // 2. Compare to the threshold:
     //    - If velocity is greater than INTAKE_VELOCITY_THRESHOLD, motors are running
     // 3. Return true if motors are running, false otherwise
@@ -87,31 +91,37 @@ void apply_state(IntakeState state) {
     switch (state) {
         case IntakeState::STOP:
             set_bottom_power(0);
+            set_top_power(0);
             set_indexer_power(0);
             break;
 
         case IntakeState::SCORE_LONG:
             set_bottom_power(INTAKE_SPEED);
+            set_top_power(INTAKE_SPEED);
             set_indexer_power(INTAKE_SPEED);
             break;
 
         case IntakeState::SCORE_MIDDLE:
             set_bottom_power(INTAKE_SPEED);
+            set_top_power(INTAKE_SPEED);
             set_indexer_power(-INTAKE_SPEED);
             break;
 
         case IntakeState::COLLECT:
             set_bottom_power(INTAKE_SPEED);
+            set_top_power(INTAKE_SPEED);
             set_indexer_power(INTAKE_SPEED);
             break;
 
         case IntakeState::REVERSE:
             set_bottom_power(-INTAKE_SPEED);
+            set_top_power(-INTAKE_SPEED);
             set_indexer_power(-INTAKE_SPEED);
             break;
 
         case IntakeState::EJECT:
             set_bottom_power(OUTTAKE_SPEED);
+            set_top_power(OUTTAKE_SPEED);
             set_indexer_power(-OUTTAKE_SPEED);
             // TODO: Add color sort piston control
             // robot::subsystems::pistons::color_sort.extend();
