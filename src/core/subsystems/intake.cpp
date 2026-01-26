@@ -4,6 +4,7 @@
 #include "core/globals.hpp"
 #include "core/util.hpp"
 
+#include <cmath>
 #include <memory>
 
 #include "pros/motors.hpp"
@@ -53,7 +54,7 @@ void set_indexer_power(int power) {
 }
 
 bool is_running() {
-    return globals::intake_bottom_stage.get_actual_velocity() > INTAKE_VELOCITY_THRESHOLD;
+    return std::abs(globals::intake_bottom_stage.get_actual_velocity()) > INTAKE_VELOCITY_THRESHOLD;
 }
 
 IntakeState get_driver_state() {
