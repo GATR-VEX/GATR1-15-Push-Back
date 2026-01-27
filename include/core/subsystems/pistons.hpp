@@ -1,39 +1,47 @@
 #pragma once
 
+#include "pros/adi.hpp"
+#include "pros/misc.hpp"
+
+#include <optional>
+
 namespace subsystems {
 
-namespace indexer {
-// Open indexer (extend piston)
-void open();
+enum class PistonMode {
+    HOLD,   // Extend while button held, retract when released
+    TOGGLE  // Toggle state on button press
+};
 
-// Close indexer (retract piston)
-void close();
+class Piston {
+public:
+    // Button is optional - if not provided, piston is controlled programmatically only
+    // reversed: if true, hardware extend/retract is swapped to match semantic meaning
+    Piston(pros::adi::Pneumatics& piston, 
+           std::optional<pros::controller_digital_e_t> button = std::nullopt,
+           PistonMode mode = PistonMode::HOLD,
+           bool reversed = false);
 
-// Update indexer based on controller input (call from opcontrol)
-void update();
-}  // namespace indexer
+    void extend();
+    void retract();
+    void toggle();
+    void update();  // Check controller and update state (no-op if no button assigned)
+    bool is_extended() const;
 
-namespace matchloader {
-// Move matchloader up (extend piston)
-void up();
+private:
+    pros::adi::Pneumatics& m_piston;
+    std::optional<pros::controller_digital_e_t> m_button;
+    PistonMode m_mode;
+    bool m_extended = false;
+    bool m_reversed;
+};
 
-// Move matchloader down (retract piston)
-void down();
+// Initialize all pistons (call from main initialize())
+void initialize_pistons();
 
-// Update matchloader based on controller input (call from opcontrol)
-void update();
-}  // namespace matchloader
-
-namespace wings {
-// Deploy wings (extend piston)
-void extend();
-
-// Retract wings (retract piston)
-void retract();
-
-// Update wings based on controller input (call from opcontrol)
-void update();
-}  // namespace wings
+// Global piston instances (initialized after initialize_pistons() is called)
+extern Piston* indexer;
+extern Piston* matchloader;
+extern Piston* wing;
+extern Piston* hood;
 
 }  // namespace subsystems
-

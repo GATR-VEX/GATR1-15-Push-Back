@@ -5,65 +5,64 @@
 
 namespace subsystems {
 
-namespace indexer {
+Piston::Piston(pros::adi::Pneumatics& piston,
+               std::optional<pros::controller_digital_e_t> button,
+               PistonMode mode,
+               bool reversed)
+    : m_piston(piston), m_button(button), m_mode(mode), m_reversed(reversed) {}
 
-void open() {
-    globals::piston_indexer.extend();
+void Piston::extend() {
+    m_reversed ? m_piston.retract() : m_piston.extend();
+    m_extended = true;
 }
 
-void close() {
-    globals::piston_indexer.retract();
+void Piston::retract() {
+    m_reversed ? m_piston.extend() : m_piston.retract();
+    m_extended = false;
 }
 
-void update() {
-    if (robot::controller.get_digital(robot::Controls::score_long_goal)) {
-        open();
-    } else {
-        close();
+void Piston::toggle() {
+    m_extended ? retract() : extend();
+}
+
+void Piston::update() {
+    // No-op if no button assigned
+    if (!m_button.has_value()) {
+        return;
+    }
+
+    switch (m_mode) {
+        case PistonMode::HOLD:
+            if (robot::controller.get_digital(m_button.value())) {
+                extend();
+            } else {
+                retract();
+            }
+            break;
+
+        case PistonMode::TOGGLE:
+            if (robot::controller.get_digital_new_press(m_button.value())) {
+                toggle();
+            }
+            break;
     }
 }
 
-}  // namespace indexer
-
-namespace matchloader {
-
-void up() {
-    globals::piston_matchloader.extend();
+bool Piston::is_extended() const {
+    return m_extended;
 }
 
-void down() {
-    globals::piston_matchloader.retract();
+// Global piston pointers (nullptr until initialize_pistons() is called)
+Piston* indexer     = nullptr;
+Piston* matchloader = nullptr;
+Piston* wing        = nullptr;
+Piston* hood        = nullptr;
+
+void initialize_pistons() {
+    indexer     = new Piston(globals::piston_indexer); // No button - yielding control to intake subsystem
+    matchloader = new Piston(globals::piston_matchloader, robot::Controls::matchloader, PistonMode::HOLD);
+    wing        = new Piston(globals::piston_wing, robot::Controls::wing, PistonMode::HOLD);
+    hood        = new Piston(globals::piston_hood, robot::Controls::hood, PistonMode::TOGGLE);
 }
-
-void update() {
-    if (robot::controller.get_digital(robot::Controls::ejector)) {
-        up();
-    } else {
-        down();
-    }
-}
-
-}  // namespace matchloader
-
-namespace wings {
-
-void extend() {
-    globals::piston_wings.extend();
-}
-
-void retract() {
-    globals::piston_wings.retract();
-}
-
-void update() {
-    if (robot::controller.get_digital(robot::Controls::wings)) {
-        extend();
-    } else {
-        retract();
-    }
-}
-
-}  // namespace wings
 
 }  // namespace subsystems
-

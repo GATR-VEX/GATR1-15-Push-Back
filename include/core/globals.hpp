@@ -34,14 +34,15 @@ extern lemlib::ControllerSettings angular_controller;
 extern lemlib::ExpoDriveCurve throttle_curve;
 extern lemlib::ExpoDriveCurve steer_curve;
 
-// Intake
-extern pros::MotorGroup intake_stage_motors;
-extern pros::Motor intake_indexer_motor;
+// Intake (4 motors)
+extern pros::MotorGroup intake_bottom_stage;
+extern pros::Motor intake_top_stage;
+extern pros::Motor intake_indexer;
 
 // Pneumatics
 extern pros::adi::Pneumatics piston_matchloader;
 extern pros::adi::Pneumatics piston_indexer;
-extern pros::adi::Pneumatics piston_wings;
+extern pros::adi::Pneumatics piston_wing;
+extern pros::adi::Pneumatics piston_hood;
 
 }  // namespace globals
-

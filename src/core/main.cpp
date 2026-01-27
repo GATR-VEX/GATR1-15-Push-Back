@@ -8,6 +8,12 @@
 
 void initialize() {
 
+    // Wait for ADI ports to be initialized
+    pros::delay(500);
+
+    // Initialize piston subsystem
+    subsystems::initialize_pistons();
+
     // Initialize selector and register autons and util pages
     page_selector::initialize();
 
@@ -16,6 +22,7 @@ void initialize() {
 
     // Initialize intake subsystem (starts intake controller task)
     subsystems::intake::initialize();
+
 }
 
 /**
@@ -70,18 +77,21 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+
+    // Ensure hood is open
+    subsystems::hood->extend();
+
+    // Ensure matchloader is closed
+    subsystems::matchloader->retract();
+
     while (true) {
-        //Update arcade drive based on controller input
+        // Update arcade drive based on controller input
         subsystems::drive::update_arcade();
 
-        // Update wings piston state based on controller input
-        subsystems::wings::update();
-
-        // Update matchloader piston state based on controller input
-        subsystems::matchloader::update();
-
-        // Update indexer piston state based on controller input
-        subsystems::indexer::update();
+        // Update piston states based on controller input
+        subsystems::matchloader->update();
+        subsystems::wing->update();
+        subsystems::hood->update();
         
         // Small delay to prevent task from consuming too much CPU
         pros::delay(core::util::DELAY_TIME);

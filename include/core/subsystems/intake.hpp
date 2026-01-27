@@ -6,7 +6,6 @@ namespace subsystems::intake {
 // Intake motor speeds
 inline constexpr int INTAKE_SPEED = 127;
 inline constexpr int INTAKE_SPEED_SLOW = 100;
-inline constexpr int OUTTAKE_SPEED = -127;
 
 // Intake running detection
 inline constexpr double INTAKE_VELOCITY_THRESHOLD = 0.0;
@@ -16,8 +15,7 @@ enum class IntakeState {
     SCORE_LONG,
     SCORE_MIDDLE,
     COLLECT,
-    REVERSE,
-    EJECT
+    REVERSE
 };
 
 void initialize();
@@ -31,7 +29,10 @@ IntakeState get_target_state();
 // Set power for bottom intake motors (2 motors - initial intake stage)
 void set_bottom_power(int power);
 
-// Set power for indexer motor (middle stage - moves balls between bottom and top)
+// Set power for top stage motor
+void set_top_power(int power);
+
+// Set power for indexer motor (final stage - scores into goals)
 void set_indexer_power(int power);
 
 // Check if intake motors are currently running (velocity > threshold)

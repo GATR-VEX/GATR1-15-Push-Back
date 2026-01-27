@@ -91,10 +91,11 @@ lemlib::Chassis drive_chassis(drivetrain,
                               &throttle_curve,
                               &steer_curve);
 
-// Intake motors
-pros::MotorGroup intake_stage_motors({robot::ports::INTAKE_STAGE_1,
-                                     robot::ports::INTAKE_STAGE_2});
-pros::Motor intake_indexer_motor(robot::ports::INTAKE_INDEXER);
+// Intake motors (4 total)
+pros::MotorGroup intake_bottom_stage({robot::ports::INTAKE_BOTTOM_STAGE_1,
+                                      robot::ports::INTAKE_BOTTOM_STAGE_2});
+pros::Motor intake_top_stage(robot::ports::INTAKE_TOP_STAGE);
+pros::Motor intake_indexer(robot::ports::INTAKE_INDEXER);
 
 // Optical sensor
 pros::Optical optical_color_sort(robot::ports::OPTICAL_COLOR_SORT);
@@ -102,7 +103,7 @@ pros::Optical optical_color_sort(robot::ports::OPTICAL_COLOR_SORT);
 // Pneumatics
 pros::adi::Pneumatics piston_matchloader(robot::ports::PISTON_MATCHLOADER, false);
 pros::adi::Pneumatics piston_indexer(robot::ports::PISTON_INDEXER, false);
-pros::adi::Pneumatics piston_wings(robot::ports::PISTON_WINGS, false);
+pros::adi::Pneumatics piston_wing(robot::ports::PISTON_WING, false);
+pros::adi::Pneumatics piston_hood(robot::ports::PISTON_HOOD, false);
 
 }  // namespace globals
-
