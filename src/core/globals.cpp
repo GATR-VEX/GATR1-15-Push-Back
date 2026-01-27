@@ -91,6 +91,14 @@ lemlib::Chassis drive_chassis(drivetrain,
                               &throttle_curve,
                               &steer_curve);
 
+// ez Template Constructor
+ez::Drive chassis(
+    left_motors, 
+    right_motors,
+    robot::sensors::IMU,
+    robot::drive::WHEEL_MODEL,
+    robot::drive::WHEEL_RPM);
+
 // Intake motors (4 total)
 pros::MotorGroup intake_bottom_stage({robot::ports::INTAKE_BOTTOM_STAGE_1,
                                       robot::ports::INTAKE_BOTTOM_STAGE_2});

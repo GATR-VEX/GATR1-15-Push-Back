@@ -32,6 +32,10 @@ inline constexpr float STEER_MIN_OUTPUT       = 10.0F;
 inline constexpr float STEER_CURVE            = 1.019F;
 }  // namespace drive
 
+inline constexpr int DRIVE_SPEED              = 110;
+inline constexpr int TURN_SPEED               = 90;
+inline constexpr int SWING_SPEED              = 110;
+
 namespace odom {
 inline constexpr float HORIZONTAL_WHEEL       = lemlib::Omniwheel::NEW_275;
 inline constexpr float VERTICAL_WHEEL         = lemlib::Omniwheel::NEW_275;

@@ -11,17 +11,13 @@ void initialize() {
     // Wait for ADI ports to be initialized
     pros::delay(500);
 
-    // Initialize piston subsystem
+    // Initialize Subsystems
     subsystems::initialize_pistons();
-
-    // Initialize selector and register autons and util pages
+    subsystems::drive::initialize();
+    subsystems::intake::initialize();
     page_selector::initialize();
 
-    // Initialize drive subsystem (chassis, motors, sensors)
-    subsystems::drive::initialize();
-
-    // Initialize intake subsystem (starts intake controller task)
-    subsystems::intake::initialize();
+    default_constants();
 
 }
 

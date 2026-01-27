@@ -1,5 +1,7 @@
 #pragma once
 
+void default_constants();
+
 namespace page_selector::blue {
 
 void auton1();

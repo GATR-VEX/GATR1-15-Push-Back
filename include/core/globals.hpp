@@ -3,11 +3,15 @@
 #include "lemlib/api.hpp"
 #include "lemlib/chassis/chassis.hpp"
 #include "lemlib/chassis/trackingWheel.hpp"
+
 #include "pros/adi.hpp"
 #include "pros/imu.hpp"
 #include "pros/motors.hpp"
 #include "pros/optical.hpp"
 #include "pros/rotation.hpp"
+
+#include "EZ-Template/api.hpp"
+#include "api.h"
 
 namespace globals {
 
@@ -16,6 +20,7 @@ extern pros::MotorGroup right_motors;
 extern pros::MotorGroup left_motors;
 extern lemlib::Drivetrain drivetrain;
 extern lemlib::Chassis drive_chassis;
+extern ez::Drive chassis;
 
 // Sensors
 extern pros::Imu imu;
