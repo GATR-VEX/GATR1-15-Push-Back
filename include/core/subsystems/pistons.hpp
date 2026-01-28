@@ -7,6 +7,8 @@
 
 namespace subsystems {
 
+namespace pistons {
+
 enum class PistonMode {
     HOLD,   // Extend while button held, retract when released
     TOGGLE  // Toggle state on button press
@@ -36,12 +38,14 @@ private:
 };
 
 // Initialize all pistons (call from main initialize())
-void initialize_pistons();
+void initialize();
 
-// Global piston instances (initialized after initialize_pistons() is called)
-extern Piston* indexer;
-extern Piston* matchloader;
-extern Piston* wing;
-extern Piston* hood;
+}  // namespace pistons
+
+// Global piston instances (initialized after subsystems::pistons::initialize() is called)
+extern pistons::Piston* indexer;
+extern pistons::Piston* matchloader;
+extern pistons::Piston* wing;
+extern pistons::Piston* hood;
 
 }  // namespace subsystems

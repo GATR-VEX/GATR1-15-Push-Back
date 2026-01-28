@@ -14,7 +14,7 @@ void initialize() {
     pros::delay(500);
 
     // Initialize Subsystems
-    subsystems::initialize_pistons();
+    subsystems::pistons::initialize();
     subsystems::drive::initialize();
     subsystems::intake::initialize();
 
