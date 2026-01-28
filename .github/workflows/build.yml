@@ -28,11 +28,11 @@ jobs:
           echo "#define ${{ matrix.define }}" > include/config/robot_select.hpp
           cat include/config/robot_select.hpp
 
-      - name: Setup PROS
-        uses: purduesigbots/pros-build@v3.0.0
-
-      - name: Build ${{ matrix.robot }} robot
-        run: make
+      - name: Setup PROS and Build ${{ matrix.robot }} robot
+        uses: LemLib/pros-build@v4.0.0
+        with:
+          multithreading: true
+          write_job_summary: false
 
       - name: Upload Artifact (${{ matrix.robot }})
         uses: actions/upload-artifact@v4
