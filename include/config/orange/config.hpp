@@ -2,8 +2,11 @@
 
 #include "config/orange/ports.hpp"
 
-#include "lemlib/api.hpp"
 #include "pros/motors.hpp"
+
+inline constexpr int DRIVE_SPEED = 110;
+inline constexpr int TURN_SPEED  = 90;
+inline constexpr int SWING_SPEED = 110;
 
 namespace robot {
 inline constexpr const char* NAME = "orange";
@@ -19,7 +22,7 @@ inline constexpr std::int8_t HORIZONTAL_ROTATION = ports::HORIZONTAL_ROTATION;
 namespace drive {
 inline constexpr pros::v5::MotorGears GEARSET = pros::MotorGearset::blue;
 inline constexpr float TRACK_WIDTH            = 10.75F;
-inline constexpr float WHEEL_MODEL            = lemlib::Omniwheel::NEW_325;
+inline constexpr float WHEEL_MODEL            = 3.25F;
 inline constexpr float WHEEL_RPM              = 450.0F;
 inline constexpr float HORIZONTAL_DRIFT       = 3.0F;
 
@@ -32,13 +35,9 @@ inline constexpr float STEER_MIN_OUTPUT       = 10.0F;
 inline constexpr float STEER_CURVE            = 1.019F;
 }  // namespace drive
 
-inline constexpr int DRIVE_SPEED              = 110;
-inline constexpr int TURN_SPEED               = 90;
-inline constexpr int SWING_SPEED              = 110;
-
 namespace odom {
-inline constexpr float HORIZONTAL_WHEEL       = lemlib::Omniwheel::NEW_275;
-inline constexpr float VERTICAL_WHEEL         = lemlib::Omniwheel::NEW_275;
+inline constexpr float HORIZONTAL_WHEEL       = 2.75F;
+inline constexpr float VERTICAL_WHEEL         = 2.75F;
 inline constexpr float HORIZONTAL_OFFSET      = 0.5F;
 inline constexpr float VERTICAL_OFFSET        = -3.5F;
 }  // namespace odom
@@ -69,10 +68,6 @@ struct Controls {
     static constexpr pros::controller_digital_e_t wing              = pros::E_CONTROLLER_DIGITAL_DOWN;
     static constexpr pros::controller_digital_e_t hood              = pros::E_CONTROLLER_DIGITAL_UP;
     static constexpr pros::controller_digital_e_t matchloader       = pros::E_CONTROLLER_DIGITAL_B;
-
-    static constexpr pros::controller_analog_e_t driveX             = pros::E_CONTROLLER_ANALOG_LEFT_X;
-    static constexpr pros::controller_analog_e_t driveY             = pros::E_CONTROLLER_ANALOG_LEFT_Y;
-    static constexpr pros::controller_analog_e_t turnX              = pros::E_CONTROLLER_ANALOG_RIGHT_X;
 };
 
 }  // namespace robot

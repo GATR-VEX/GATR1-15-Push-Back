@@ -16,16 +16,15 @@ WARNFLAGS+=
 EXTRA_CFLAGS=
 # Robot selection: Must be explicitly defined via build flag or robot_select.hpp
 # Build will fail if ROBOT_BLUE or ROBOT_ORANGE is not defined
-# Define via: make EXTRA_CXXFLAGS="-DROBOT_BLUE" or make EXTRA_CXXFLAGS="-DROBOT_ORANGE"
-# Or set environment variable: export EXTRA_CXXFLAGS="-DROBOT_BLUE"
-EXTRA_CXXFLAGS=
+# Define via: make EXTRA_CXXFLAGS="-DROBOT_BLUE -Wno-deprecated-enum-enum-conversion" or make EXTRA_CXXFLAGS="-DROBOT_ORANGE -Wno-deprecated-enum-enum-conversion"
+# Or set environment variable: export EXTRA_CXXFLAGS="-DROBOT_BLUE -Wno-deprecated-enum-enum-conversion"
+EXTRA_CXXFLAGS=-Wno-deprecated-enum-enum-conversion
 
 # Set to 1 to enable hot/cold linking
 USE_PACKAGE:=1
 
 # Add libraries you do not wish to include in the cold image here
 # EXCLUDE_COLD_LIBRARIES:= $(FWDIR)/your_library.a
-EXCLUDE_COLD_LIBRARIES:= 
 
 # Set this to 1 to add additional rules to compile your project as a PROS library template
 IS_LIBRARY:=0

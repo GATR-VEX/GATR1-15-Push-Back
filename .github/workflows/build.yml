@@ -29,7 +29,7 @@ jobs:
           cat include/config/robot_select.hpp
 
       - name: Setup PROS
-        uses: LemLib/pros-build@v3.0.0
+        uses: purduesigbots/pros-build@v3.0.0
 
       - name: Build ${{ matrix.robot }} robot
         run: make

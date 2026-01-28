@@ -1,5 +1,4 @@
 #include "main.h"
-#include "core/selector.hpp"
 #include "config/blue/autons.hpp"
 
 #include <vector>
@@ -44,16 +43,16 @@ void default_constants() {
   chassis.pid_angle_behavior_set(ez::shortest);  // Changes the default behavior for turning, this defaults it to the shortest path there
 }
 
-namespace page_selector {
-
 void add_autons() {
-    std::vector<Auton> autons = {
-        Auton("Blue Auton 1", blue::auton1),
-        // Add more autons here
-    };
-    selector.autons_add(autons);
-}
+    // Use limit switch to select autons
+    ez::as::limit_switch_lcd_initialize(&globals::selectButton);
 
-}  // namespace pager_selector
+    // Autonomous Selector using LLEMU
+    ez::as::auton_selector.autons_add({
+        {"Blue Auton 1", blue::auton1},
+        // Add more autons here
+        // {"Blue Auton 2", blue::auton2},
+    });
+}
 
 #endif

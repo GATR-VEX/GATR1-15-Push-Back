@@ -32,5 +32,8 @@ inline constexpr std::int8_t IMU                    = 0;
 inline constexpr std::int8_t VERTICAL_ROTATION      = 0;
 inline constexpr std::int8_t HORIZONTAL_ROTATION    = 0;
 inline constexpr std::int8_t OPTICAL_COLOR_SORT     = 0;
+
+// Auton selector
+inline constexpr std::int8_t LIMIT_SWITCH_SELECT    = 'E';
 }  // namespace ports
 }  // namespace robot

@@ -1,11 +1,12 @@
 #pragma once
 
 void default_constants();
+void add_autons();
 
-namespace page_selector::orange {
+namespace orange {
 
 void auton1();
 // Add more auton routine declarations here
 
-}  // namespace page_selector::orange
+}  // namespace orange
 
