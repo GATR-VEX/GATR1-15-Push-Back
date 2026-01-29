@@ -33,6 +33,12 @@ inline constexpr float THROTTLE_CURVE         = 1.019F;
 inline constexpr float STEER_DEADBAND         = 3.0F;
 inline constexpr float STEER_MIN_OUTPUT       = 10.0F;
 inline constexpr float STEER_CURVE            = 1.019F;
+
+// Opcontrol constants
+inline constexpr bool CURVE_BUTTONS_TOGGLE    = false;     // Enables modifying the controller curve with buttons on the joysticks
+inline constexpr double DRIVE_ACTIVEBRAKE     = 0.0;       // Sets the active brake kP. We recommend ~2.  0 will disable.
+inline constexpr double CURVE_DEFAULT_LEFT    = 0.25;      // Default curve for left stick (or single stick). If using tank, only this is used.
+inline constexpr double CURVE_DEFAULT_RIGHT   = 2.25;      // Default curve for right stick (arcade only)
 }  // namespace drive
 
 namespace odom {
