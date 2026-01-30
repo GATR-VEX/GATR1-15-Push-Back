@@ -1,9 +1,12 @@
 #pragma once
 
-namespace page_selector::blue {
+void default_constants();
+void add_autons();
+
+namespace blue {
 
 void auton1();
 // Add more auton routine declarations here
 
-}  // namespace page_selector::blue
+}  // namespace blue
 

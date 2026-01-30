@@ -40,6 +40,7 @@
  * You should add more #includes here
  */
 //#include "okapi/api.hpp"
+#include "EZ-Template/api.hpp"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
@@ -52,6 +53,7 @@
 // using namespace pros;
 // using namespace pros::literals;
 // using namespace okapi;
+using namespace okapi::literals;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

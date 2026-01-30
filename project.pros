@@ -4,49 +4,6 @@
     "project_name": "GATR1-PushBack",
     "target": "v5",
     "templates": {
-      "LemLib": {
-        "location": "C:\\Users\\Logan\\AppData\\Roaming\\PROS\\templates\\LemLib@0.5.6",
-        "metadata": {
-          "origin": "LemLib"
-        },
-        "name": "LemLib",
-        "py/object": "pros.conductor.templates.local_template.LocalTemplate",
-        "supported_kernels": "^4.2.1",
-        "system_files": [
-          "firmware/LemLib.a",
-          "include/lemlib/asset.hpp",
-          "include/fmt/core.h",
-          "include/lemlib/driveCurve.hpp",
-          "include/lemlib/README.md",
-          "include/lemlib/chassis/chassis.hpp",
-          "include/lemlib/util.hpp",
-          "include/lemlib/logger/logger.hpp",
-          "include/lemlib/VERSION",
-          "include/lemlib/logger/telemetrySink.hpp",
-          "include/lemlib/logger/baseSink.hpp",
-          "include/lemlib/timer.hpp",
-          "include/lemlib/chassis/trackingWheel.hpp",
-          "include/lemlib/chassis/odom.hpp",
-          "include/lemlib/LICENSE",
-          "include/lemlib/logger/infoSink.hpp",
-          "include/lemlib/pid.hpp",
-          "include/fmt/format-inl.h",
-          "include/fmt/args.h",
-          "include/lemlib/logger/buffer.hpp",
-          "include/fmt/LICENSE",
-          "include/lemlib/api.hpp",
-          "static/example.txt",
-          "include/lemlib/logger/stdout.hpp",
-          "include/lemlib/exitcondition.hpp",
-          "firmware/hot-cold-asset.mk",
-          "include/fmt/format.h",
-          "include/lemlib/logger/message.hpp",
-          "include/lemlib/pose.hpp"
-        ],
-        "target": "v5",
-        "user_files": [],
-        "version": "0.5.6"
-      },
       "kernel": {
         "location": "C:\\Users\\Logan\\AppData\\Roaming\\PROS\\templates\\kernel@4.2.1",
         "metadata": {
@@ -635,7 +592,8 @@
       }
     },
     "upload_options": {
-      "slot": 1
+      "slot": 1,
+      "description": "Go Gators"
     },
     "use_early_access": false
   }

@@ -1,14 +1,17 @@
 #pragma once
 
-#include "lemlib/chassis/chassis.hpp"
+#include "EZ-Template/api.hpp"
+#include "core/globals.hpp"
 
 namespace subsystems::drive {
 
 void initialize();
 
-void update_arcade();
+// Run tank control
+void chassis_controller();
 
-lemlib::Chassis& chassis();
+// Run arcade control (standard or flipped, split or single stick)
+void chassis_controller(ez::e_type stick_type, bool flipped = false);
 
 }  // namespace subsystems::drive
 

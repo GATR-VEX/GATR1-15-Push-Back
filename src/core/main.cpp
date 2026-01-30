@@ -1,8 +1,10 @@
-#include "core/selector.hpp"
 #include "core/subsystems/drive.hpp"
 #include "core/subsystems/intake.hpp"
 #include "core/subsystems/pistons.hpp"
+#include "core/globals.hpp"
 #include "core/util.hpp"
+#include "core/config.hpp"
+
 #include "main.h"
 #include "pros/rtos.hpp"
 
@@ -11,18 +13,17 @@ void initialize() {
     // Wait for ADI ports to be initialized
     pros::delay(500);
 
-    // Initialize piston subsystem
-    subsystems::initialize_pistons();
-
-    // Initialize selector and register autons and util pages
-    page_selector::initialize();
-
-    // Initialize drive subsystem (chassis, motors, sensors)
+    // Initialize Subsystems
+    subsystems::pistons::initialize();
     subsystems::drive::initialize();
-
-    // Initialize intake subsystem (starts intake controller task)
     subsystems::intake::initialize();
 
+    // Initialize EZ-Template auton selector
+    add_autons();
+    ez::as::initialize();
+    
+    // Rumble controller to indicate IMU calibration status
+    robot::controller.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 }
 
 /**
@@ -55,12 +56,18 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
+    // Reset PID targets and sensors
+    chassis.pid_targets_reset();
+    chassis.drive_imu_reset();
+    chassis.drive_sensor_reset();                  
+    chassis.odom_xyt_set(0_in, 0_in, 0_deg); 
+    chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
+    
     // Ensure global intake state is stopped before auton starts
     subsystems::intake::stop();
     
     // Run the selected autonomous routine
-    page_selector::selector.selected_auton_call();
-
+    ez::as::auton_selector.selected_auton_call();
 }
 
 /**
@@ -77,6 +84,8 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+    // Set drive brake mode to coast for opcontrol
+    chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
 
     // Ensure hood is open
     subsystems::hood->extend();
@@ -85,8 +94,8 @@ void opcontrol() {
     subsystems::matchloader->retract();
 
     while (true) {
-        // Update arcade drive based on controller input
-        subsystems::drive::update_arcade();
+        // Run the drive mode
+        subsystems::drive::chassis_controller(ez::SPLIT);
 
         // Update piston states based on controller input
         subsystems::matchloader->update();

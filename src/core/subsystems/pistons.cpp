@@ -5,6 +5,8 @@
 
 namespace subsystems {
 
+namespace pistons {
+
 Piston::Piston(pros::adi::Pneumatics& piston,
                std::optional<pros::controller_digital_e_t> button,
                PistonMode mode,
@@ -52,17 +54,19 @@ bool Piston::is_extended() const {
     return m_extended;
 }
 
-// Global piston pointers (nullptr until initialize_pistons() is called)
-Piston* indexer     = nullptr;
-Piston* matchloader = nullptr;
-Piston* wing        = nullptr;
-Piston* hood        = nullptr;
-
-void initialize_pistons() {
+void initialize() {
     indexer     = new Piston(globals::piston_indexer); // No button - yielding control to intake subsystem
     matchloader = new Piston(globals::piston_matchloader, robot::Controls::matchloader, PistonMode::HOLD);
     wing        = new Piston(globals::piston_wing, robot::Controls::wing, PistonMode::HOLD);
     hood        = new Piston(globals::piston_hood, robot::Controls::hood, PistonMode::TOGGLE);
 }
+
+}  // namespace pistons
+
+// Global piston pointers (nullptr until subsystems::pistons::initialize() is called)
+pistons::Piston* indexer     = nullptr;
+pistons::Piston* matchloader = nullptr;
+pistons::Piston* wing        = nullptr;
+pistons::Piston* hood        = nullptr;
 
 }  // namespace subsystems
