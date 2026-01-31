@@ -58,7 +58,7 @@ void initialize() {
     indexer     = new Piston(globals::piston_indexer); // No button - yielding control to intake subsystem
     matchloader = new Piston(globals::piston_matchloader, robot::Controls::matchloader, PistonMode::HOLD);
     wing        = new Piston(globals::piston_wing, robot::Controls::wing, PistonMode::HOLD);
-    hood        = new Piston(globals::piston_hood, robot::Controls::hood, PistonMode::TOGGLE);
+    hood        = new Piston(globals::piston_hood, robot::Controls::hood, PistonMode::TOGGLE, true);
 }
 
 }  // namespace pistons

@@ -6,7 +6,7 @@ void add_autons();
 namespace blue {
 
 void auton1();
-// Add more auton routine declarations here
+void auton2();
 
 }  // namespace blue
 

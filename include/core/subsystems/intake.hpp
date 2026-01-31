@@ -5,7 +5,7 @@ namespace subsystems::intake {
 /// TODO: Tune these values
 // Intake motor speeds
 inline constexpr int INTAKE_SPEED = 127;
-inline constexpr int INTAKE_SPEED_SLOW = 100;
+inline constexpr int INTAKE_SPEED_SLOW = INTAKE_SPEED / 2;
 
 // Intake running detection
 inline constexpr double INTAKE_VELOCITY_THRESHOLD = 0.0;
@@ -13,6 +13,7 @@ inline constexpr double INTAKE_VELOCITY_THRESHOLD = 0.0;
 enum class IntakeState {
     STOP,
     SCORE_LONG,
+    SCORE_SLOW,
     SCORE_MIDDLE,
     COLLECT,
     REVERSE
@@ -49,6 +50,7 @@ void apply_state(IntakeState state);
 void stop();         // Stop all intake motors
 void collect();      // Start collecting balls
 void score_long();   // Score into long goal
+void score_slow();   // Score at half speed (INTAKE_SPEED / 2)
 void score_middle(); // Score into middle goal
 void reverse();      // Reverse all motors (outtake)
 

@@ -88,6 +88,13 @@ void apply_state(IntakeState state) {
             indexer->retract();
             break;
 
+        case IntakeState::SCORE_SLOW:
+            set_bottom_power(INTAKE_SPEED_SLOW);
+            set_top_power(INTAKE_SPEED_SLOW);
+            set_indexer_power(INTAKE_SPEED_SLOW);
+            indexer->retract();
+            break;
+
         case IntakeState::SCORE_MIDDLE:
             set_bottom_power(INTAKE_SPEED);
             set_top_power(INTAKE_SPEED);
@@ -117,6 +124,8 @@ void stop() { target_state = IntakeState::STOP; }
 void collect() { target_state = IntakeState::COLLECT; }
 
 void score_long() { target_state = IntakeState::SCORE_LONG; }
+
+void score_slow() { target_state = IntakeState::SCORE_SLOW; }
 
 void score_middle() { target_state = IntakeState::SCORE_MIDDLE; }
 
