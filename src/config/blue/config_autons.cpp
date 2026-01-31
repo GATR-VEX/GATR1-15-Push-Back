@@ -49,7 +49,7 @@ void add_autons() {
 
     // Autonomous Selector using LLEMU
     ez::as::auton_selector.autons_add({
-        {"Blue Auton 1", blue::auton1},
+        {"Auburn Car Auto", blue::auton1},
         // Add more autons here
         // {"Blue Auton 2", blue::auton2},
     });
