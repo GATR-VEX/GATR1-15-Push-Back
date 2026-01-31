@@ -18,7 +18,7 @@ inline constexpr std::int8_t DRIVE_LEFT_AUX         = -11;
 // Intake motors (4 total)
 inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_1  = -10;
 inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_2  = 1;
-inline constexpr std::int8_t INTAKE_TOP_STAGE       = 9;
+inline constexpr std::int8_t INTAKE_TOP_STAGE       = `9;
 inline constexpr std::int8_t INTAKE_INDEXER         = 2;
 
 // Pneumatics
