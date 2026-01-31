@@ -13,11 +13,11 @@ enum class Color {
 inline constexpr std::uint32_t DEFAULT_TIMEOUT_MS = 5000;
 
 // Hue ranges for color detection (tune these based on sensor calibration)
-inline constexpr double BLUE_HUE_MIN = 200.0;
-inline constexpr double BLUE_HUE_MAX = 240.0;
+inline constexpr double BLUE_HUE_MIN = 150.0;
+inline constexpr double BLUE_HUE_MAX = 249.0;
 
 inline constexpr double RED_HUE_MIN  = 0.0;
-inline constexpr double RED_HUE_MAX  = 20.0;
+inline constexpr double RED_HUE_MAX  = 30.0;
 inline constexpr double RED_HUE_WRAP = 340.0;  // Red wraps around 360
 
 // Get the current detected hue from the optical sensor

@@ -17,7 +17,7 @@ void auton1() {
     subsystems::hood->extend();
 
     // Drive Backwards
-    chassis.pid_drive_set(-32_in, DRIVE_SPEED, true);
+    chassis.pid_drive_set(-32_in, 90, true);
     chassis.pid_wait();
 
     // Align with middle goal
@@ -63,8 +63,30 @@ void auton1() {
 
     // Score long
     subsystems::intake::score_long();
-    pros::delay(3000);
+    subsystems::color_sort::wait_for_color(subsystems::color_sort::Color::BLUE, 3000);
     subsystems::intake::stop();
+
+    // Drive to long goal
+    chassis.pid_drive_set(12_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+
+    // Align with middle goal
+    chassis.pid_turn_set(45, TURN_SPEED, true);
+    chassis.pid_wait();
+
+    // Drive to long goal
+    chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+
+    // Align with middle goal
+    chassis.pid_turn_set(0, TURN_SPEED, true);
+    chassis.pid_wait();
+
+    subsystems::wing->retract();
+
+    // Score balls with wing
+    chassis.pid_drive_set(-22_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
 
 }
 
