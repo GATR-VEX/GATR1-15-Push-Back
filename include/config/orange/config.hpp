@@ -4,9 +4,11 @@
 
 #include "pros/motors.hpp"
 
-inline constexpr int DRIVE_SPEED = 110;
+inline constexpr int DRIVE_SPEED = 100;
+inline constexpr int MAX_SPEED   = 127;
+inline constexpr int SLOW_SPEED  = 60;
 inline constexpr int TURN_SPEED  = 90;
-inline constexpr int SWING_SPEED = 110;
+inline constexpr int SWING_SPEED = 100;
 
 namespace robot {
 inline constexpr const char* NAME = "orange";
