@@ -1,5 +1,6 @@
 #include "core/config.hpp"
 #include "core/subsystems/drive.hpp"
+#include "core/subsystems/intake.hpp"
 
 #include "pros/llemu.hpp"
 
@@ -7,15 +8,25 @@
 
 namespace blue {
 
+// Auburn Car Auto
 void auton1() {
-    chassis.pid_drive_set(24_in, DRIVE_SPEED, true);
+
+    // Drive Backwards
+    chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
     chassis.pid_wait();
-  
-    chassis.pid_drive_set(-12_in, DRIVE_SPEED);
+
+    // Align with middle goal
+    chassis.pid_turn_set(-45, TURN_SPEED, true);
     chassis.pid_wait();
-  
-    chassis.pid_drive_set(-12_in, DRIVE_SPEED);
+
+    // Drive Backwards into middle goal
+    chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
     chassis.pid_wait();
+
+    subsystems::intake::score_middle();
+
+    // Dance
+
 }
 // Add more auton routines here
 

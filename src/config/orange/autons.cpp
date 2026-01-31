@@ -1,5 +1,6 @@
 #include "core/config.hpp"
 #include "core/subsystems/drive.hpp"
+#include "core/subsystems/intake.hpp"
 
 #include "pros/llemu.hpp"
 
@@ -7,12 +8,26 @@
 
 namespace orange {
 
+// Auburn Car Auto
 void auton1() {
-    // TODO: Replace with orange robot autonomous routine.
-    chassis.pid_drive_set(24_in, DRIVE_SPEED, true);
+
+    // Drive Backwards
+    chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
     chassis.pid_wait();
+
+    // Align with middle goal
+    chassis.pid_turn_set(45, TURN_SPEED, true);
+    chassis.pid_wait();
+
+    // Drive Backwards into middle goal
+    chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+
+    subsystems::intake::reverse();
+
+    // Dance
+
 }
-// Add more auton routines here
 
 }  // namespace orange
 
