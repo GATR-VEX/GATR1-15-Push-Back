@@ -65,6 +65,24 @@ void auton1() {
     pros::delay(3000);
     subsystems::intake::stop();
 
+     // Drive back to matchloader
+    subsystems::intake::score_long();
+    chassis.pid_drive_set(27_in,SLOW_SPEED, true);
+    chassis.pid_wait_until(10_in);
+    subsystems::matchloader->extend();
+    chassis.pid_wait();
+
+    // Intake and outtake all unwanted blocks
+    for(int i = 0; i < 3; i++){
+        chassis.pid_drive_set(3_in, MAX_SPEED);
+        chassis.pid_wait();
+        chassis.pid_drive_set(-3_in, MAX_SPEED);
+        chassis.pid_wait();
+    }
+    chassis.pid_drive_set(3_in, MAX_SPEED);
+    chassis.pid_wait();
+    subsystems::intake::stop();
+
 
 }
 
