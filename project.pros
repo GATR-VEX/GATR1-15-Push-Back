@@ -593,7 +593,8 @@
     },
     "upload_options": {
       "slot": 1,
-      "description": "Go Gators"
+      "description": "Go Gators",
+      "icon": "pizza"
     },
     "use_early_access": false
   }
