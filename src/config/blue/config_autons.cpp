@@ -50,7 +50,8 @@ void add_autons() {
     // Autonomous Selector using LLEMU
     ez::as::auton_selector.autons_add({
         {"Auburn Car Auto", blue::auton1},
-        {"PID Tuning", blue::auton2},     
+        {"PID Tuning", blue::auton2}, 
+        {"skills spin", blue::auton3}
     });
 }
 

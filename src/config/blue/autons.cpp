@@ -42,51 +42,51 @@ void auton1() {
     chassis.pid_turn_set(0_deg, TURN_SPEED, true);
     chassis.pid_wait();
 
-    // Drive into matchloader
-    subsystems::intake::collect();
-    chassis.pid_drive_set(15_in, SLOW_SPEED, true);
-    chassis.pid_wait();
+    // // Drive into matchloader
+    // subsystems::intake::collect();
+    // chassis.pid_drive_set(15_in, SLOW_SPEED, true);
+    // chassis.pid_wait();
 
-    for(int i = 0; i < 3; i++){
-        chassis.pid_drive_set(3_in, MAX_SPEED);
-        chassis.pid_wait();
-        chassis.pid_drive_set(-3_in, MAX_SPEED);
-        chassis.pid_wait();
-    }
-    subsystems::intake::stop();
+    // for(int i = 0; i < 3; i++){
+    //     chassis.pid_drive_set(3_in, MAX_SPEED);
+    //     chassis.pid_wait();
+    //     chassis.pid_drive_set(-3_in, MAX_SPEED);
+    //     chassis.pid_wait();
+    // }
+    // subsystems::intake::stop();
 
-    // Drive to long goal
-    chassis.pid_drive_set(-27_in, DRIVE_SPEED, true);
-    chassis.pid_wait_until(-10_in);
-    subsystems::matchloader->retract();
-    chassis.pid_wait();
+    // // Drive to long goal
+    // chassis.pid_drive_set(-27_in, DRIVE_SPEED, true);
+    // chassis.pid_wait_until(-10_in);
+    // subsystems::matchloader->retract();
+    // chassis.pid_wait();
 
-    // Score long
-    subsystems::intake::score_long();
-    subsystems::color_sort::wait_for_color(subsystems::color_sort::Color::BLUE, 3000);
-    subsystems::intake::stop();
+    // // Score long
+    // subsystems::intake::score_long();
+    // subsystems::color_sort::wait_for_color(subsystems::color_sort::Color::BLUE, 3000);
+    // subsystems::intake::stop();
 
-    // Drive to long goal
-    chassis.pid_drive_set(12_in, DRIVE_SPEED, true);
-    chassis.pid_wait();
+    // // Drive to long goal
+    // chassis.pid_drive_set(12_in, DRIVE_SPEED, true);
+    // chassis.pid_wait();
 
-    // Align with middle goal
-    chassis.pid_turn_set(45, TURN_SPEED, true);
-    chassis.pid_wait();
+    // // Align with middle goal
+    // chassis.pid_turn_set(45, TURN_SPEED, true);
+    // chassis.pid_wait();
 
-    // Drive to long goal
-    chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
-    chassis.pid_wait();
+    // // Drive to long goal
+    // chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
+    // chassis.pid_wait();
 
-    // Align with middle goal
-    chassis.pid_turn_set(0, TURN_SPEED, true);
-    chassis.pid_wait();
+    // // Align with middle goal
+    // chassis.pid_turn_set(0, TURN_SPEED, true);
+    // chassis.pid_wait();
 
-    subsystems::wing->retract();
+    // subsystems::wing->retract();
 
-    // Score balls with wing
-    chassis.pid_drive_set(-22_in, DRIVE_SPEED, true);
-    chassis.pid_wait();
+    // // Score balls with wing
+    // chassis.pid_drive_set(-22_in, DRIVE_SPEED, true);
+    // chassis.pid_wait();
 
 }
 
@@ -111,6 +111,10 @@ void auton2() {
     // Turn 180 degrees
     chassis.pid_turn_set(180_deg, TURN_SPEED, true);
     chassis.pid_wait();
+}
+
+void auton3() {
+    subsystems::intake::score_slow();
 }
 
 }  // namespace blue
