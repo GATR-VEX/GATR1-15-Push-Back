@@ -11,7 +11,7 @@ inline constexpr std::int8_t DRIVE_RIGHT_REAR       = 19;
 inline constexpr std::int8_t DRIVE_RIGHT_AUX        = 20;
 
 inline constexpr std::int8_t DRIVE_LEFT_FRONT       = -13;
-inline constexpr std::int8_t DRIVE_LEFT_MIDDLE      = 14;
+inline constexpr std::int8_t DRIVE_LEFT_MIDDLE      = 15;
 inline constexpr std::int8_t DRIVE_LEFT_REAR        = -12;
 inline constexpr std::int8_t DRIVE_LEFT_AUX         = -11;
 
@@ -28,7 +28,7 @@ inline constexpr std::int8_t PISTON_WING            = 'C';
 inline constexpr std::int8_t PISTON_HOOD            = 'B';
 
 // Sensors
-inline constexpr std::int8_t IMU                    = 0;
+inline constexpr std::int8_t IMU                    = 14;
 inline constexpr std::int8_t VERTICAL_ROTATION      = 0;
 inline constexpr std::int8_t HORIZONTAL_ROTATION    = 0;
 inline constexpr std::int8_t OPTICAL_COLOR_SORT     = 0;
