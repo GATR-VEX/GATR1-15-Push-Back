@@ -10,11 +10,9 @@
 
 namespace orange {
 
-// Auburn Car Auto
-void auton1() {
-   
+void match_auton() {
     // Open Hood
-    subsystems::hood->retract();
+    subsystems::hood->extend();
 
     // Drive Forwards
     chassis.pid_drive_set(55_in, DRIVE_SPEED, true);
@@ -28,7 +26,7 @@ void auton1() {
     chassis.pid_drive_set(4_in, SLOW_SPEED, true);
     chassis.pid_wait();
 
-    // Score middle 
+    // Score middle
     subsystems::intake::reverse();
     pros::delay(1000);
     subsystems::intake::stop();
@@ -51,7 +49,7 @@ void auton1() {
     chassis.pid_drive_set(17_in, 80, true);
     chassis.pid_wait();
 
-    for(int i = 0; i < 4; i++){
+    for (int i = 0; i < 4; i++) {
         chassis.pid_drive_set(7_in, MAX_SPEED);
         chassis.pid_wait();
         chassis.pid_drive_set(-7_in, MAX_SPEED);
@@ -69,14 +67,10 @@ void auton1() {
     subsystems::intake::score_long();
     pros::delay(3000);
     subsystems::intake::stop();
- 
-
 }
 
-void skills(){
-
-    subsystems::intake::reverse();
-
+void skills_auton() {
+    // TODO
 }
 
 }  // namespace orange

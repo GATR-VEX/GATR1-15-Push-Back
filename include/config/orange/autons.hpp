@@ -5,11 +5,8 @@ void add_autons();
 
 namespace orange {
 
-void auton1();
-
-void skills();
-
-// Add more auton routine declarations here
-
+void match_auton();
+void skills_auton();
+    
 }  // namespace orange
 

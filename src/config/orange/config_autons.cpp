@@ -49,10 +49,8 @@ void add_autons() {
 
     // Autonomous Selector using LLEMU
     ez::as::auton_selector.autons_add({
-        {"Auburn Car Auto", orange::auton1},
-        {"Orange Skills", orange::skills},
-        // Add more autons here
-        // {"Orange Auton 2", orange::auton2},
+        {"Match Auto", orange::match_auton},
+        {"Skills Auto", orange::skills_auton}
     });
 }
 
