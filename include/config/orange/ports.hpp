@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <utility>
 
 namespace robot {
 namespace ports {
@@ -21,11 +22,11 @@ inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_2  = 1;
 inline constexpr std::int8_t INTAKE_TOP_STAGE       = 9;
 inline constexpr std::int8_t INTAKE_INDEXER         = 2;
 
-// Pneumatics
-inline constexpr std::int8_t PISTON_MATCHLOADER     = 'D';
-inline constexpr std::int8_t PISTON_INDEXER         = 'A';
-inline constexpr std::int8_t PISTON_WING            = 'C';
-inline constexpr std::int8_t PISTON_HOOD            = 'B';
+// Pneumatics (port, reversed)
+inline constexpr std::pair<std::int8_t, bool> PISTON_MATCHLOADER = {'D', false};
+inline constexpr std::pair<std::int8_t, bool> PISTON_INDEXER     = {'A', false};
+inline constexpr std::pair<std::int8_t, bool> PISTON_WING        = {'C', false};
+inline constexpr std::pair<std::int8_t, bool> PISTON_HOOD        = {'B', true};
 
 // Sensors
 inline constexpr std::int8_t IMU                    = 14;

@@ -12,7 +12,7 @@ namespace orange {
 
 void match_auton() {
     // Open Hood
-    subsystems::hood->extend();
+    subsystems::pistons::safe_extend(subsystems::hood);
 
     // Drive Forwards
     chassis.pid_drive_set(55_in, DRIVE_SPEED, true);
@@ -38,7 +38,7 @@ void match_auton() {
     // Drive to matchloader
     chassis.pid_drive_set(-80_in, DRIVE_SPEED, true);
     chassis.pid_wait_until(-83_in);
-    subsystems::matchloader->extend();
+    subsystems::pistons::safe_extend(subsystems::matchloader);
     chassis.pid_wait();
 
     chassis.pid_turn_set(180_deg, TURN_SPEED, true);
@@ -60,7 +60,7 @@ void match_auton() {
     // Drive to long goal
     chassis.pid_drive_set(-35_in, DRIVE_SPEED, true);
     chassis.pid_wait_until(-10_in);
-    subsystems::matchloader->retract();
+    subsystems::pistons::safe_retract(subsystems::matchloader);
     chassis.pid_wait();
 
     // Score long

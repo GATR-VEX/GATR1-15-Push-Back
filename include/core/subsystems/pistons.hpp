@@ -3,6 +3,7 @@
 #include "pros/adi.hpp"
 #include "pros/misc.hpp"
 
+#include <memory>
 #include <optional>
 
 namespace subsystems {
@@ -40,12 +41,38 @@ private:
 // Initialize all pistons (call from main initialize())
 void initialize();
 
+// Safe helper functions for pistons (check nullptr before calling)
+// Use these for all piston calls to maintain consistent API
+inline void safe_extend(const std::unique_ptr<Piston>& piston) {
+    if (piston != nullptr) {
+        piston->extend();
+    }
+}
+
+inline void safe_retract(const std::unique_ptr<Piston>& piston) {
+    if (piston != nullptr) {
+        piston->retract();
+    }
+}
+
+inline void safe_toggle(const std::unique_ptr<Piston>& piston) {
+    if (piston != nullptr) {
+        piston->toggle();
+    }
+}
+
+inline void safe_update(const std::unique_ptr<Piston>& piston) {
+    if (piston != nullptr) {
+        piston->update();
+    }
+}
+
 }  // namespace pistons
 
 // Global piston instances (initialized after subsystems::pistons::initialize() is called)
-extern pistons::Piston* indexer;
-extern pistons::Piston* matchloader;
-extern pistons::Piston* wing;
-extern pistons::Piston* hood;
+extern std::unique_ptr<pistons::Piston> indexer;
+extern std::unique_ptr<pistons::Piston> matchloader;
+extern std::unique_ptr<pistons::Piston> wing;
+extern std::unique_ptr<pistons::Piston> hood;
 
 }  // namespace subsystems

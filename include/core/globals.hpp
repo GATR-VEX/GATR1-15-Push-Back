@@ -33,6 +33,8 @@ extern pros::Motor intake_indexer;
 extern pros::adi::Pneumatics piston_matchloader;
 extern pros::adi::Pneumatics piston_indexer;
 extern pros::adi::Pneumatics piston_wing;
+#ifdef ROBOT_ORANGE
 extern pros::adi::Pneumatics piston_hood;
+#endif
 
 }  // namespace globals

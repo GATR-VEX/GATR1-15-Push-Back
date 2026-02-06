@@ -78,42 +78,42 @@ void apply_state(IntakeState state) {
             set_bottom_power(0);
             set_top_power(0);
             set_indexer_power(0);
-            indexer->retract();
+            subsystems::pistons::safe_retract(subsystems::indexer);
             break;
 
         case IntakeState::SCORE_LONG:
             set_bottom_power(INTAKE_SPEED);
             set_top_power(INTAKE_SPEED);
             set_indexer_power(INTAKE_SPEED);
-            indexer->retract();
+            subsystems::pistons::safe_retract(subsystems::indexer);
             break;
 
         case IntakeState::SCORE_SLOW:
             set_bottom_power(INTAKE_SPEED_SLOW);
             set_top_power(INTAKE_SPEED_SLOW);
             set_indexer_power(INTAKE_SPEED_SLOW);
-            indexer->retract();
+            subsystems::pistons::safe_retract(subsystems::indexer);
             break;
 
         case IntakeState::SCORE_MIDDLE:
             set_bottom_power(INTAKE_SPEED);
             set_top_power(INTAKE_SPEED);
             set_indexer_power(-INTAKE_SPEED);
-            indexer->extend();
+            subsystems::pistons::safe_extend(subsystems::indexer);
             break;
 
         case IntakeState::COLLECT:
             set_bottom_power(INTAKE_SPEED);
             set_top_power(0);
             set_indexer_power(0);
-            indexer->retract();
+            subsystems::pistons::safe_retract(subsystems::indexer);
             break;
 
         case IntakeState::REVERSE:
             set_bottom_power(-INTAKE_SPEED);
             set_top_power(-INTAKE_SPEED);
             set_indexer_power(-INTAKE_SPEED);
-            indexer->retract();
+            subsystems::pistons::safe_retract(subsystems::indexer);
             break;
     }
 }

@@ -87,20 +87,20 @@ void opcontrol() {
     // Set drive brake mode to coast for opcontrol
     chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
 
-    // Ensure hood is open
-    subsystems::hood->extend();
+    // Ensure hood is open (if present)
+    subsystems::pistons::safe_extend(subsystems::hood);
 
     // Ensure matchloader is closed
-    subsystems::matchloader->retract();
+    subsystems::pistons::safe_retract(subsystems::matchloader);
 
     while (true) {
         // Run the drive mode
         subsystems::drive::chassis_controller(ez::SPLIT);
 
         // Update piston states based on controller input
-        subsystems::matchloader->update();
-        subsystems::wing->update();
-        subsystems::hood->update();
+        subsystems::pistons::safe_update(subsystems::matchloader);
+        subsystems::pistons::safe_update(subsystems::wing);
+        subsystems::pistons::safe_update(subsystems::hood);
         
         // Small delay to prevent task from consuming too much CPU
         pros::delay(core::util::DELAY_TIME);
