@@ -51,9 +51,11 @@ pros::Motor intake_indexer(robot::ports::INTAKE_INDEXER);
 pros::Optical optical_color_sort(robot::ports::OPTICAL_COLOR_SORT);
 
 // Pneumatics
-pros::adi::Pneumatics piston_matchloader(robot::ports::PISTON_MATCHLOADER, false);
-pros::adi::Pneumatics piston_indexer(robot::ports::PISTON_INDEXER, false);
-pros::adi::Pneumatics piston_wing(robot::ports::PISTON_WING, false);
-pros::adi::Pneumatics piston_hood(robot::ports::PISTON_HOOD, false);
+pros::adi::Pneumatics piston_matchloader(robot::ports::PISTON_MATCHLOADER.first, false);
+pros::adi::Pneumatics piston_indexer(robot::ports::PISTON_INDEXER.first, false);
+pros::adi::Pneumatics piston_wing(robot::ports::PISTON_WING.first, false);
+#ifdef ROBOT_ORANGE
+pros::adi::Pneumatics piston_hood(robot::ports::PISTON_HOOD.first, false);
+#endif
 
 }  // namespace globals

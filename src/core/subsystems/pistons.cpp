@@ -55,18 +55,22 @@ bool Piston::is_extended() const {
 }
 
 void initialize() {
-    indexer     = new Piston(globals::piston_indexer); // No button - yielding control to intake subsystem
-    matchloader = new Piston(globals::piston_matchloader, robot::Controls::matchloader, PistonMode::HOLD);
-    wing        = new Piston(globals::piston_wing, robot::Controls::wing, PistonMode::HOLD);
-    hood        = new Piston(globals::piston_hood, robot::Controls::hood, PistonMode::TOGGLE, true);
+    indexer     = std::make_unique<Piston>(globals::piston_indexer, std::nullopt, PistonMode::HOLD, robot::ports::PISTON_INDEXER.second);  // No button - yielding control to intake subsystem
+    matchloader = std::make_unique<Piston>(globals::piston_matchloader, robot::Controls::matchloader, PistonMode::HOLD, robot::ports::PISTON_MATCHLOADER.second);
+    wing        = std::make_unique<Piston>(globals::piston_wing, robot::Controls::wing, PistonMode::HOLD, robot::ports::PISTON_WING.second);
+#ifdef ROBOT_ORANGE
+    hood        = std::make_unique<Piston>(globals::piston_hood, robot::Controls::hood, PistonMode::TOGGLE, robot::ports::PISTON_HOOD.second);
+#else
+    hood        = nullptr;  // Blue robot hood piston is not used
+#endif
 }
 
 }  // namespace pistons
 
 // Global piston pointers (nullptr until subsystems::pistons::initialize() is called)
-pistons::Piston* indexer     = nullptr;
-pistons::Piston* matchloader = nullptr;
-pistons::Piston* wing        = nullptr;
-pistons::Piston* hood        = nullptr;
+std::unique_ptr<pistons::Piston> indexer     = nullptr;
+std::unique_ptr<pistons::Piston> matchloader = nullptr;
+std::unique_ptr<pistons::Piston> wing        = nullptr;
+std::unique_ptr<pistons::Piston> hood        = nullptr;
 
 }  // namespace subsystems

@@ -31,7 +31,7 @@ void match_auton() {
     // Drive to matchloader
     chassis.pid_drive_set(51_in, DRIVE_SPEED, true);
     chassis.pid_wait_until(40_in);
-    subsystems::matchloader->extend();
+    subsystems::pistons::safe_extend(subsystems::matchloader);
     chassis.pid_wait();
 
     chassis.pid_turn_set(0_deg, TURN_SPEED, true);

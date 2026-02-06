@@ -74,7 +74,6 @@ struct Controls {
     static constexpr pros::controller_digital_e_t score_middle_goal = pros::E_CONTROLLER_DIGITAL_R2;
 
     static constexpr pros::controller_digital_e_t wing              = pros::E_CONTROLLER_DIGITAL_RIGHT;
-    static constexpr pros::controller_digital_e_t hood              = (pros::controller_digital_e_t)(-1);
     static constexpr pros::controller_digital_e_t matchloader       = pros::E_CONTROLLER_DIGITAL_Y;
 };
 
