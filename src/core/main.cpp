@@ -1,3 +1,4 @@
+#include "config/utils_pages/pages.hpp"
 #include "core/subsystems/drive.hpp"
 #include "core/subsystems/intake.hpp"
 #include "core/subsystems/pistons.hpp"
@@ -21,6 +22,9 @@ void initialize() {
     // Initialize EZ-Template auton selector
     add_autons();
     ez::as::initialize();
+
+    // Initialize debug screen task (displays color sort etc. on blank pages)
+    utils_pages::initialize();
     
     // Rumble controller to indicate IMU calibration status
     robot::controller.rumble(chassis.drive_imu_calibrated() ? "." : "---");

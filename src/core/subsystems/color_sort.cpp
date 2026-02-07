@@ -38,4 +38,57 @@ bool wait_for_color(Color color, std::uint32_t timeout_ms) {
     return false;  // Timeout
 }
 
+bool is_ball_in_intake() {
+    auto proximity = globals::optical_color_sort.get_proximity();
+    return proximity != PROS_ERR && proximity >= BALL_PROXIMITY_THRESHOLD;
+}
+
+bool wait_for_ball(std::uint32_t timeout_ms) {
+    std::uint32_t start_time = pros::millis();
+
+    while (pros::millis() - start_time < timeout_ms) {
+        if (is_ball_in_intake())
+            return true;
+        pros::delay(core::util::DELAY_TIME);
+    }
+
+    return false;  // Timeout
+}
+
+void wait_until_balls_scored(std::uint32_t long_grace_ms, std::uint32_t short_grace_ms) {
+    std::uint32_t last_ball_time = pros::millis();
+    std::uint32_t first_ball_time = pros::millis();
+    bool has_seen_ball = false;
+
+    while (true) {
+        if (is_ball_in_intake()) {
+            if (!has_seen_ball) {
+                has_seen_ball = true;
+                first_ball_time = pros::millis();
+            }
+            last_ball_time = pros::millis();
+        } else {
+            std::uint32_t now = pros::millis();
+            std::uint32_t time_since_last = now - last_ball_time;
+            std::uint32_t time_since_first = now - first_ball_time;
+            
+            // We only have a short grace period if we've exceeded the long grace period
+            std::uint32_t grace =
+                (time_since_first >= long_grace_ms) ? short_grace_ms : long_grace_ms;
+
+            if (time_since_last >= grace) // If we've exceeded the grace period, we're done
+                return;
+        }
+        pros::delay(core::util::DELAY_TIME);
+    }
+}
+
+const char* get_detected_color_string() {
+    if (is_color(Color::RED))
+        return "RED";
+    if (is_color(Color::BLUE))
+        return "BLUE";
+    return "none";
+}
+
 }  // namespace subsystems::color_sort
