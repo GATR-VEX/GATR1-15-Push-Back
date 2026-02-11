@@ -99,8 +99,7 @@ void skills_auton() {
     chassis.pid_drive_set(-7_in, DRIVE_SPEED, true);
     chassis.pid_wait();
     subsystems::intake::score_long();
-
-    subsystems::color_sort::wait_until_balls_scored(LONG_GRACE_TIMEOUT_MS, SHORT_GRACE_TIMEOUT_MS);
+    pros::delay(5000);
     subsystems::intake::stop();
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <tuple>
 #include <utility>
 
 namespace robot {
@@ -22,11 +23,11 @@ inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_2  = 1;
 inline constexpr std::int8_t INTAKE_TOP_STAGE       = 9;
 inline constexpr std::int8_t INTAKE_INDEXER         = 2;
 
-// Pneumatics (port, reversed)
-inline constexpr std::pair<std::int8_t, bool> PISTON_MATCHLOADER = {'D', false};
-inline constexpr std::pair<std::int8_t, bool> PISTON_INDEXER     = {'A', false};
-inline constexpr std::pair<std::int8_t, bool> PISTON_WING        = {'C', false};
-inline constexpr std::pair<std::int8_t, bool> PISTON_HOOD        = {'B', true};
+// Pneumatics (port, reversed, default_extended — released state in HOLD mode)
+inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_MATCHLOADER = {'D', false, false};
+inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_INDEXER     = {'A', false, false};
+inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_WING        = {'C', false, true};
+inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_HOOD        = {'B', true, false};
 
 // Sensors
 inline constexpr std::int8_t IMU                    = 14;

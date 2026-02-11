@@ -3,10 +3,8 @@
 #include <cstdint>
 
 // Timeouts (ms)
-inline constexpr std::uint32_t DEFAULT_TIMEOUT_MS     = 5000;   // 5 seconds
-inline constexpr std::uint32_t MATCHLOAD_TIMEOUT_MS   = 5000;   // 5 seconds
-inline constexpr std::uint32_t LONG_GRACE_TIMEOUT_MS  = 5000;   // 5 seconds
-inline constexpr std::uint32_t SHORT_GRACE_TIMEOUT_MS = 500;    // 0.5 seconds
+inline constexpr std::uint32_t DEFAULT_TIMEOUT_MS   = 5000;  // 5 seconds
+inline constexpr std::uint32_t MATCHLOAD_TIMEOUT_MS = 5000;  // 5 seconds
 
 namespace subsystems::color_sort {
 
@@ -42,15 +40,6 @@ bool is_ball_in_intake();
 
 // Wait until a ball is detected, or timeout. Returns true if ball detected, false if timeout.
 bool wait_for_ball(std::uint32_t timeout_ms = DEFAULT_TIMEOUT_MS);
-
-// Grace periods for wait_until_balls_scored
-inline constexpr std::uint32_t WAIT_BALLS_LONG_GRACE_MS  = LONG_GRACE_TIMEOUT_MS;
-inline constexpr std::uint32_t WAIT_BALLS_SHORT_GRACE_MS = SHORT_GRACE_TIMEOUT_MS;
-
-// Wait until no balls detected for grace period. Uses long grace initially; after scoring
-// for longer than long_grace, switches to short grace (last ball likely just cleared).
-void wait_until_balls_scored(std::uint32_t long_grace_ms = WAIT_BALLS_LONG_GRACE_MS,
-                             std::uint32_t short_grace_ms = WAIT_BALLS_SHORT_GRACE_MS);
 
 // Returns human-readable string of detected color for debug display
 const char* get_detected_color_string();
