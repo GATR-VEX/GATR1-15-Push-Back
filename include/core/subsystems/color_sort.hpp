@@ -2,10 +2,17 @@
 
 #include <cstdint>
 
+`#pragma` once
+
+`#include` <cstdint>
+
+namespace subsystems::color_sort {
+
 // Timeouts (ms)
 inline constexpr std::uint32_t DEFAULT_TIMEOUT_MS   = 5000;  // 5 seconds
 inline constexpr std::uint32_t MATCHLOAD_TIMEOUT_MS = 5000;  // 5 seconds
 
+enum class Color {
 namespace subsystems::color_sort {
 
 enum class Color {
