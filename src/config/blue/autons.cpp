@@ -61,7 +61,46 @@ void pid_tuning_auton() {
 }
 
 void skills_auton() {
-    // TODO
+    // Drive Backwards
+    chassis.pid_drive_set(-47_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+
+    // Turn to face matchloader 
+    chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
+    chassis.pid_wait();
+
+    // Drive into matchloader 1
+    subsystems::pistons::safe_extend(subsystems::matchloader);
+    subsystems::intake::collect();
+    chassis.pid_drive_set(10_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+
+    subsystems::color_sort::wait_for_ball(MATCHLOAD_TIMEOUT_MS);
+    subsystems::intake::stop();
+
+    // Back out & drive around matchloader
+    chassis.pid_drive_set(-16_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+    subsystems::pistons::safe_retract(subsystems::matchloader);
+
+    chassis.pid_swing_set(ez::RIGHT_SWING, 0_deg, SWING_SPEED, 45); // params: direction, angle, speed, still side speed
+    chassis.pid_wait();
+
+    chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
+    chassis.pid_wait();
+    chassis.pid_drive_set(-70_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+
+    // swing to align with long goal
+    chassis.pid_swing_set(ez::LEFT_SWING, 0_deg, SWING_SPEED, 45); // params: direction, angle, speed, still side speed
+    chassis.pid_wait();
+
+    // drive into long goal
+    chassis.pid_drive_set(-7_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+    subsystems::intake::score_long();
+    pros::delay(5000);
+    subsystems::intake::stop();
 }
 
 }  // namespace blue

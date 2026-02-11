@@ -19,10 +19,12 @@ class Piston {
 public:
     // Button is optional - if not provided, piston is controlled programmatically only
     // reversed: if true, hardware extend/retract is swapped to match semantic meaning
-    Piston(pros::adi::Pneumatics& piston, 
+    // default_extended: in HOLD mode, sets released state — true = extend when released (e.g. wing up), false = retract when released
+    Piston(pros::adi::Pneumatics& piston,
            std::optional<pros::controller_digital_e_t> button = std::nullopt,
            PistonMode mode = PistonMode::HOLD,
-           bool reversed = false);
+           bool reversed = false,
+           bool default_extended = false);
 
     void extend();
     void retract();
@@ -36,6 +38,7 @@ private:
     PistonMode m_mode;
     bool m_extended = false;
     bool m_reversed;
+    bool m_default_extended;  // HOLD mode: released -> extend when true, released -> retract when false
 };
 
 // Initialize all pistons (call from main initialize())

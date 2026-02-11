@@ -10,8 +10,9 @@ namespace pistons {
 Piston::Piston(pros::adi::Pneumatics& piston,
                std::optional<pros::controller_digital_e_t> button,
                PistonMode mode,
-               bool reversed)
-    : m_piston(piston), m_button(button), m_mode(mode), m_reversed(reversed) {}
+               bool reversed,
+               bool default_extended)
+    : m_piston(piston), m_button(button), m_mode(mode), m_reversed(reversed), m_default_extended(default_extended) {}
 
 void Piston::extend() {
     m_reversed ? m_piston.retract() : m_piston.extend();
@@ -36,9 +37,9 @@ void Piston::update() {
     switch (m_mode) {
         case PistonMode::HOLD:
             if (robot::controller.get_digital(m_button.value())) {
-                extend();
+                m_default_extended ? retract() : extend();
             } else {
-                retract();
+                m_default_extended ? extend() : retract();
             }
             break;
 
@@ -55,13 +56,36 @@ bool Piston::is_extended() const {
 }
 
 void initialize() {
-    indexer     = std::make_unique<Piston>(globals::piston_indexer, std::nullopt, PistonMode::HOLD, robot::ports::PISTON_INDEXER.second);  // No button - yielding control to intake subsystem
-    matchloader = std::make_unique<Piston>(globals::piston_matchloader, robot::Controls::matchloader, PistonMode::HOLD, robot::ports::PISTON_MATCHLOADER.second);
-    wing        = std::make_unique<Piston>(globals::piston_wing, robot::Controls::wing, PistonMode::HOLD, robot::ports::PISTON_WING.second);
+    indexer = std::make_unique<Piston>(
+        globals::piston_indexer,
+        std::nullopt,
+        PistonMode::HOLD,
+        std::get<1>(robot::ports::PISTON_INDEXER),
+        std::get<2>(robot::ports::PISTON_INDEXER));
+
+    matchloader = std::make_unique<Piston>(
+        globals::piston_matchloader,
+        robot::Controls::matchloader,
+        PistonMode::HOLD,
+        std::get<1>(robot::ports::PISTON_MATCHLOADER),
+        std::get<2>(robot::ports::PISTON_MATCHLOADER));
+
+    wing = std::make_unique<Piston>(
+        globals::piston_wing,
+        robot::Controls::wing,
+        PistonMode::HOLD,
+        std::get<1>(robot::ports::PISTON_WING),
+        std::get<2>(robot::ports::PISTON_WING));
+
 #ifdef ROBOT_ORANGE
-    hood        = std::make_unique<Piston>(globals::piston_hood, robot::Controls::hood, PistonMode::TOGGLE, robot::ports::PISTON_HOOD.second);
+    hood = std::make_unique<Piston>(
+        globals::piston_hood,
+        robot::Controls::hood,
+        PistonMode::TOGGLE,
+        std::get<1>(robot::ports::PISTON_HOOD),
+        std::get<2>(robot::ports::PISTON_HOOD));
 #else
-    hood        = nullptr;  // Blue robot hood piston is not used
+    hood = nullptr;  // Blue robot hood piston is not used
 #endif
 }
 
