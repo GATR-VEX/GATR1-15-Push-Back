@@ -1,5 +1,6 @@
 #include "core/subsystems/intake.hpp"
 #include "core/subsystems/pistons.hpp"
+#include "core/subsystems/color_sort.hpp"
 #include "core/config.hpp"
 #include "core/globals.hpp"
 #include "core/util.hpp"
@@ -17,6 +18,13 @@ std::unique_ptr<pros::Task> intake_task;
 
 // Target state that can be set globally
 static IntakeState target_state = IntakeState::STOP;
+
+// Last time we ran the "reverse to index" action in SCORE_MIDDLE (for rate limiting)
+static std::uint32_t last_score_middle_reverse_ms = 0;
+inline constexpr std::uint32_t SCORE_MIDDLE_REVERSE_COOLDOWN_MS = 5000;
+
+// Previous state (so we only run "reverse to index" when entering SCORE_MIDDLE, not while holding)
+static IntakeState prev_state = IntakeState::STOP;
 
 void intake_controller_task() {
     while (true) {
@@ -73,6 +81,7 @@ IntakeState get_driver_state() {
 }
 
 void apply_state(IntakeState state) {
+    std::uint32_t now = pros::millis();
     switch (state) {
         case IntakeState::STOP:
             set_bottom_power(0);
@@ -96,9 +105,22 @@ void apply_state(IntakeState state) {
             break;
 
         case IntakeState::SCORE_MIDDLE:
+            // If ball is in the top stage we reverse a little to get ball to indexable position
+            // Only on entering SCORE_MIDDLE (not while holding), rate-limited to once per 5 seconds
+            if (prev_state != IntakeState::SCORE_MIDDLE &&
+                subsystems::color_sort::is_ball_in_intake() &&
+                (now - last_score_middle_reverse_ms >= SCORE_MIDDLE_REVERSE_COOLDOWN_MS)) {
+                last_score_middle_reverse_ms = now;
+                set_bottom_power(-INTAKE_SPEED);
+                set_top_power(-INTAKE_SPEED);
+                set_indexer_power(-INTAKE_SPEED);
+                pros::delay(100);
+            }
+
+            // Score middle
             set_bottom_power(INTAKE_SPEED);
             set_top_power(INTAKE_SPEED);
-            set_indexer_power(-INTAKE_SPEED);
+            set_indexer_power(-80);
             subsystems::pistons::safe_extend(subsystems::indexer);
             break;
 
@@ -116,6 +138,7 @@ void apply_state(IntakeState state) {
             subsystems::pistons::safe_retract(subsystems::indexer);
             break;
     }
+    prev_state = state;
 }
 
 // Convenience functions for autonomous
