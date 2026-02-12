@@ -12,12 +12,12 @@
 
 // EZ-Template Drive Constructor (global namespace)
 ez::Drive chassis(
-    {robot::ports::DRIVE_LEFT_FRONT,
-    robot::ports::DRIVE_LEFT_MIDDLE,
+    {robot::ports::DRIVE_LEFT_MIDDLE,
+    robot::ports::DRIVE_LEFT_FRONT,
     robot::ports::DRIVE_LEFT_REAR,
     robot::ports::DRIVE_LEFT_AUX}, 
-    {robot::ports::DRIVE_RIGHT_FRONT,
-    robot::ports::DRIVE_RIGHT_MIDDLE,
+    {robot::ports::DRIVE_RIGHT_MIDDLE,
+    robot::ports::DRIVE_RIGHT_FRONT,
     robot::ports::DRIVE_RIGHT_REAR,
     robot::ports::DRIVE_RIGHT_AUX},
     robot::sensors::IMU,
