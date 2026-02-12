@@ -15,8 +15,9 @@ void initialize() {
 }
 
 void update() {
-    // Only run in competition mode
-    if (!pros::competition::is_connected()) {
+    // Only run if enabled in config and competition is connected
+    if (!robot::ENABLE_COMP_TIMER &&
+        !pros::competition::is_connected()) {
         return;
     }
 
