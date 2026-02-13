@@ -11,32 +11,109 @@
 namespace blue {
 
 void match_auton() {
-    // Drive Backwards
-    chassis.pid_drive_set(-32_in, 90, true);
+    // --- Phase 1: Middle Goal Engagement ---
+    // Drive backward toward the center of the field
+    chassis.pid_drive_set(-34_in, 90, true);
     chassis.pid_wait();
 
-    // Align with middle goal
-    chassis.pid_turn_set(45, TURN_SPEED, true);
+    // Pivot to align the back of the robot with the middle goal
+    chassis.pid_turn_set(45_deg, TURN_SPEED, true);
     chassis.pid_wait();
 
-    // Drive Backwards into middle goal
-    chassis.pid_drive_set(-7_in, SLOW_SPEED, true);
+    // Controlled backup into the goal for scoring
+    chassis.pid_drive_set(-9_in, SLOW_SPEED, true);
     chassis.pid_wait();
 
-    // Score middle
-    subsystems::intake::score_slow();
+    // Score the middle goal and reset intake
+    subsystems::intake::score_middle();
     pros::delay(1000);
     subsystems::intake::stop();
 
-    // Drive to matchloader
-    chassis.pid_drive_set(51_in, DRIVE_SPEED, true);
+    // --- Phase 2: Matchloading ---
+    // Long drive toward the matchloader; extend piston mid-drive to save time
+    chassis.pid_drive_set(53_in, DRIVE_SPEED, true);
     chassis.pid_wait_until(40_in);
     subsystems::pistons::safe_extend(subsystems::matchloader);
     chassis.pid_wait();
 
+    // Face the matchloader directly
     chassis.pid_turn_set(0_deg, TURN_SPEED, true);
     chassis.pid_wait();
+
+    // Begin intake and move forward to collect rings
+    subsystems::intake::collect();
+    chassis.pid_drive_set(12_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+
+    // "Jiggle" the drivetrain to ensure rings settle properly in the intake
+    for (int i = 0; i < 2; i++) {
+        chassis.pid_drive_set(2_in, DRIVE_SPEED, true);
+        chassis.pid_wait();
+        chassis.pid_drive_set(-2_in, DRIVE_SPEED, true);
+        chassis.pid_wait();
+    }
+    chassis.pid_wait();
+
+    // --- Phase 3: Transition & Color Sorting ---
+    // Reposition and score while checking for the correct alliance color
+    chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+    
+    subsystems::intake::score_long();    
+    subsystems::color_sort::wait_for_color(subsystems::color_sort::Color::RED, 5000);
+    subsystems::intake::stop();
+
+    // Clear the scoring zone
+    chassis.pid_drive_set(20_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+
+    // Reset matchloader for the next cycle
+    subsystems::pistons::safe_retract(subsystems::matchloader);
+    
+    // --- Phase 4: Secondary Goal & Clearing ---
+    chassis.pid_turn_set(45_deg, TURN_SPEED, true);
+    chassis.pid_wait();
+
+    // Pulse intake in reverse to clear any jams
+    subsystems::intake::reverse();
+    pros::delay(1000);
+
+    subsystems::pistons::safe_extend(subsystems::matchloader);
+
+    chassis.pid_turn_set(0_deg, TURN_SPEED, true);
+    chassis.pid_wait();
+    
+    // Collect and drive to final scoring position
+    subsystems::intake::collect();
+    chassis.pid_drive_set(10_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+    pros::delay(2000);
+
+    chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+    
+    // Final long score sequence
+    subsystems::intake::score_long();   
+    pros::delay(1000);
+    subsystems::intake::stop(); 
+
+    // --- Phase 5: Final Position / Descore ---
+    chassis.pid_drive_set(7_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+
+    chassis.pid_turn_set(75_deg, TURN_SPEED, true);
+    chassis.pid_wait();
+
+    // Use a swing turn to tuck the robot's corner into position
+    chassis.pid_swing_set(ez::LEFT_SWING, 0_deg, SWING_SPEED, 20);
+    chassis.pid_wait();
+
+    chassis.pid_drive_set(-10_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
 }
+
+
+
 
 void pid_tuning_auton() {
     // Drive forward 24 in
