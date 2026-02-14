@@ -219,7 +219,7 @@ void elims_auton(subsystems::color_sort::Color color) {
 
 void skills_auton() {
     // Drive Backwards
-    chassis.pid_drive_set(-31_in, DRIVE_SPEED, true);
+    chassis.pid_drive_set(-32_in, DRIVE_SPEED, true);
     chassis.pid_wait();
 
     // Turn to face long goal 
@@ -234,18 +234,43 @@ void skills_auton() {
     subsystems::intake::stop();
 
     // Drive into matchloader 1
+    chassis.pid_drive_set(25_in, DRIVE_SPEED, true);
+    chassis.pid_wait_until(8_in);
     subsystems::pistons::safe_extend(subsystems::matchloader);
-    subsystems::intake::collect();
-    chassis.pid_drive_set(35_in, DRIVE_SPEED, true);
     chassis.pid_wait();
 
-    subsystems::color_sort::wait_for_ball(MATCHLOAD_TIMEOUT_MS);
-    subsystems::intake::stop();
+    // Begin intake and move forward to collect balls slower
+    subsystems::intake::collect();
+    chassis.pid_drive_set(8_in, 65, true);
+    chassis.pid_wait();
+
+    // "Jiggle" the drivetrain to make sure all balls get out and into intake
+    for (int i = 0; i < 3; i++) {
+        chassis.pid_drive_set(3_in, DRIVE_SPEED, true);
+        chassis.pid_wait();
+        chassis.pid_drive_set(-3_in, DRIVE_SPEED, true);
+        chassis.pid_wait();
+    }
+    chassis.pid_wait();
 
     // Back out & drive around matchloader
     chassis.pid_drive_set(-16_in, DRIVE_SPEED, true);
     chassis.pid_wait();
     subsystems::pistons::safe_retract(subsystems::matchloader);
+
+    // Drive down side lane
+    chassis.pid_turn_set(-45_deg, TURN_SPEED, true);
+    chassis.pid_wait();
+    chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+    chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
+    chassis.pid_wait();
+    chassis.pid_drive_set(-60_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+
+
+
+
 
     // chassis.pid_swing_set(ez::RIGHT_SWING, 0_deg, SWING_SPEED, 45); // params: direction, angle, speed, still side speed
     // chassis.pid_wait();
