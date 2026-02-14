@@ -75,7 +75,7 @@ struct Controls {
 
     static constexpr pros::controller_digital_e_t wing              = pros::E_CONTROLLER_DIGITAL_RIGHT;
     static constexpr pros::controller_digital_e_t hood              = pros::E_CONTROLLER_DIGITAL_UP;
-    static constexpr pros::controller_digital_e_t matchloader       = pros::E_CONTROLLER_DIGITAL_B;
+    static constexpr pros::controller_digital_e_t matchloader       = pros::E_CONTROLLER_DIGITAL_Y;
 };
 
 // Competition timer settings
