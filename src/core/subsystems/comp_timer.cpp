@@ -30,7 +30,8 @@ void update() {
     }
 
     std::uint32_t remaining_time = DRIVER_CONTROL_TIME_MS - elapsed_time;
-    std::uint32_t remaining_seconds = remaining_time / 1000;
+    // Use ceiling so we buzz at 20.0s, 10.0s, etc. (not ~0.9s early with truncation)
+    std::uint32_t remaining_seconds = (remaining_time + 999) / 1000;
 
     // Skip if we've already buzzed for this second
     if (last_buzzed_second == remaining_seconds) {
