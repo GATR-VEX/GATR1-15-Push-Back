@@ -68,14 +68,15 @@ inline constexpr Gains ANGULAR{3.0, 0.0, 30.0, 3.0, 1.0, 100, 3.0, 100, 0.0};
 }  // namespace pid
 
 struct Controls {
-    static constexpr pros::controller_digital_e_t intake            = pros::E_CONTROLLER_DIGITAL_L1;
-    static constexpr pros::controller_digital_e_t reverse           = pros::E_CONTROLLER_DIGITAL_L2;
-    static constexpr pros::controller_digital_e_t score_long_goal   = pros::E_CONTROLLER_DIGITAL_R1;
-    static constexpr pros::controller_digital_e_t score_middle_goal = pros::E_CONTROLLER_DIGITAL_R2;
+    static constexpr pros::controller_digital_e_t intake                 = pros::E_CONTROLLER_DIGITAL_L1;
+    static constexpr pros::controller_digital_e_t reverse                = pros::E_CONTROLLER_DIGITAL_L2;
+    static constexpr pros::controller_digital_e_t score_long_goal        = pros::E_CONTROLLER_DIGITAL_R1;
+    static constexpr pros::controller_digital_e_t score_middle_goal      = pros::E_CONTROLLER_DIGITAL_R2;
+    static constexpr pros::controller_digital_e_t score_middle_fast_goal = pros::E_CONTROLLER_DIGITAL_A;
 
-    static constexpr pros::controller_digital_e_t wing              = pros::E_CONTROLLER_DIGITAL_RIGHT;
-    static constexpr pros::controller_digital_e_t hood              = pros::E_CONTROLLER_DIGITAL_UP;
-    static constexpr pros::controller_digital_e_t matchloader       = pros::E_CONTROLLER_DIGITAL_B;
+    static constexpr pros::controller_digital_e_t wing                   = pros::E_CONTROLLER_DIGITAL_RIGHT;
+    static constexpr pros::controller_digital_e_t hood                   = pros::E_CONTROLLER_DIGITAL_UP;
+    static constexpr pros::controller_digital_e_t matchloader            = pros::E_CONTROLLER_DIGITAL_Y;
 };
 
 // Competition timer settings
