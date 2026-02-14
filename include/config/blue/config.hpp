@@ -73,8 +73,8 @@ struct Controls {
     static constexpr pros::controller_digital_e_t score_long_goal   = pros::E_CONTROLLER_DIGITAL_R1;
     static constexpr pros::controller_digital_e_t score_middle_goal = pros::E_CONTROLLER_DIGITAL_R2;
 
-    static constexpr pros::controller_digital_e_t wing              = pros::E_CONTROLLER_DIGITAL_RIGHT;
-    static constexpr pros::controller_digital_e_t matchloader       = pros::E_CONTROLLER_DIGITAL_Y;
+    static constexpr pros::controller_digital_e_t wing              = pros::E_CONTROLLER_DIGITAL_DOWN;
+    static constexpr pros::controller_digital_e_t matchloader       = pros::E_CONTROLLER_DIGITAL_B;
 };
 
 }  // namespace robot

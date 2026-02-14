@@ -120,7 +120,7 @@ void apply_state(IntakeState state) {
             // Score middle
             set_bottom_power(INTAKE_SPEED);
             set_top_power(INTAKE_SPEED);
-            set_indexer_power(-80);
+            set_indexer_power(-45);
             subsystems::pistons::safe_extend(subsystems::indexer);
             break;
 
