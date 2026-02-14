@@ -218,6 +218,8 @@ void elims_auton(subsystems::color_sort::Color color) {
 
 
 void skills_auton() {
+
+    subsystems::pistons::safe_extend(subsystems::wing);
     // Drive Backwards
     chassis.pid_drive_set(-32_in, DRIVE_SPEED, true);
     chassis.pid_wait();
@@ -233,7 +235,7 @@ void skills_auton() {
     pros::delay(500);
     subsystems::intake::stop();
 
-    // Drive into matchloader 1
+    // Drive into matchloader
     chassis.pid_drive_set(25_in, DRIVE_SPEED, true);
     chassis.pid_wait_until(8_in);
     subsystems::pistons::safe_extend(subsystems::matchloader);
@@ -241,11 +243,11 @@ void skills_auton() {
 
     // Begin intake and move forward to collect balls slower
     subsystems::intake::collect();
-    chassis.pid_drive_set(8_in, 65, true);
+    chassis.pid_drive_set(6_in, 65, true);
     chassis.pid_wait();
 
     // "Jiggle" the drivetrain to make sure all balls get out and into intake
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
         chassis.pid_drive_set(3_in, DRIVE_SPEED, true);
         chassis.pid_wait();
         chassis.pid_drive_set(-3_in, DRIVE_SPEED, true);
@@ -256,17 +258,63 @@ void skills_auton() {
     // Back out & drive around matchloader
     chassis.pid_drive_set(-16_in, DRIVE_SPEED, true);
     chassis.pid_wait();
-    subsystems::pistons::safe_retract(subsystems::matchloader);
 
     // Drive down side lane
     chassis.pid_turn_set(-45_deg, TURN_SPEED, true);
     chassis.pid_wait();
-    chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
+    chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
     chassis.pid_wait();
     chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
     chassis.pid_wait();
-    chassis.pid_drive_set(-60_in, DRIVE_SPEED, true);
+    chassis.pid_drive_set(-70_in, DRIVE_SPEED, true);
+    chassis.pid_wait_until(-50_in);
+    subsystems::pistons::safe_retract(subsystems::matchloader);
     chassis.pid_wait();
+
+    // Drive in front of long goal
+    subsystems::intake::stop();
+    chassis.pid_turn_set(-180_deg, TURN_SPEED, true);
+    chassis.pid_wait();
+    chassis.pid_drive_set(-12_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+
+    // Align with long goal and score
+    chassis.pid_turn_set(-270_deg, TURN_SPEED, true);
+    chassis.pid_wait();
+    chassis.pid_drive_set(-15_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+    subsystems::intake::score_long();
+    pros::delay(1500);
+    subsystems::intake::stop();
+
+    // Drive into matchloader
+    chassis.pid_drive_set(25_in, DRIVE_SPEED, true);
+    chassis.pid_wait_until(8_in);
+    subsystems::pistons::safe_extend(subsystems::matchloader);
+    chassis.pid_wait();
+
+    // Begin intake and move forward to collect balls slower
+    subsystems::intake::collect();
+    chassis.pid_drive_set(6_in, 65, true);
+    chassis.pid_wait();
+
+    // "Jiggle" the drivetrain to make sure all balls get out and into intake
+    for (int i = 0; i < 4; i++) {
+        chassis.pid_drive_set(3_in, DRIVE_SPEED, true);
+        chassis.pid_wait();
+        chassis.pid_drive_set(-3_in, DRIVE_SPEED, true);
+        chassis.pid_wait();
+    }
+    chassis.pid_wait();
+
+    // Drive into Long goal and score
+    chassis.pid_drive_set(-27_in, DRIVE_SPEED, true);
+    chassis.pid_wait_until(-8_in);
+    chassis.pid_wait();
+    subsystems::intake::score_long();
+    pros::delay(1500);
+    subsystems::intake::stop();
+
 
 
 
