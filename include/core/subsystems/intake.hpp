@@ -5,7 +5,7 @@ namespace subsystems::intake {
 /// TODO: Tune these values
 // Intake motor speeds
 inline constexpr int INTAKE_SPEED = 127;
-inline constexpr int INTAKE_SPEED_SLOW = INTAKE_SPEED / 2;
+inline constexpr int INTAKE_SPEED_SLOW = INTAKE_SPEED * 0.75;
 
 // Intake running detection
 inline constexpr double INTAKE_VELOCITY_THRESHOLD = 0.0;
