@@ -77,5 +77,8 @@ struct Controls {
     static constexpr pros::controller_digital_e_t matchloader       = pros::E_CONTROLLER_DIGITAL_B;
 };
 
+// Competition timer settings
+inline constexpr bool ENABLE_COMP_TIMER = true;
+
 }  // namespace robot
 

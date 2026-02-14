@@ -2,6 +2,7 @@
 #include "core/subsystems/drive.hpp"
 #include "core/subsystems/intake.hpp"
 #include "core/subsystems/pistons.hpp"
+#include "core/subsystems/comp_timer.hpp"
 #include "core/globals.hpp"
 #include "core/util.hpp"
 #include "core/config.hpp"
@@ -98,6 +99,9 @@ void opcontrol() {
     subsystems::pistons::safe_retract(subsystems::matchloader); // Close matchloader
     subsystems::pistons::safe_extend(subsystems::hood);         // Open hood (if present)
 
+    // Initialize competition timer
+    subsystems::comp_timer::initialize();
+
     while (true) {
         // Run the drive mode
         subsystems::drive::chassis_controller(ez::SPLIT);
@@ -106,6 +110,9 @@ void opcontrol() {
         subsystems::pistons::safe_update(subsystems::matchloader);
         subsystems::pistons::safe_update(subsystems::wing);
         subsystems::pistons::safe_update(subsystems::hood);
+
+        // Update competition timer (buzzes at 20s, 10-1s countdown)
+        subsystems::comp_timer::update();
         
         // Small delay to prevent task from consuming too much CPU
         pros::delay(core::util::DELAY_TIME);
