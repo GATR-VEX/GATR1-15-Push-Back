@@ -15,6 +15,7 @@ enum class IntakeState {
     SCORE_LONG,
     SCORE_SLOW,
     SCORE_MIDDLE,
+    SCORE_MIDDLE_FAST,
     COLLECT,
     REVERSE
 };
@@ -51,7 +52,8 @@ void stop();         // Stop all intake motors
 void collect();      // Start collecting balls
 void score_long();   // Score into long goal
 void score_slow();   // Score at half speed (INTAKE_SPEED / 2)
-void score_middle(); // Score into middle goal
+void score_middle();      // Score into middle goal
+void score_middle_fast(); // Score into middle goal (faster indexer)
 void reverse();      // Reverse all motors (outtake)
 
 }  // namespace subsystems::intake

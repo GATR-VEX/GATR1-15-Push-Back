@@ -69,6 +69,8 @@ IntakeState get_driver_state() {
     // Priority order: score buttons > intake > reverse > stop
     if (robot::controller.get_digital(robot::Controls::score_long_goal)) {
         return IntakeState::SCORE_LONG;
+    } else if (robot::controller.get_digital(robot::Controls::score_middle_fast_goal)) {
+        return IntakeState::SCORE_MIDDLE_FAST;
     } else if (robot::controller.get_digital(robot::Controls::score_middle_goal)) {
         return IntakeState::SCORE_MIDDLE;
     } else if (robot::controller.get_digital(robot::Controls::intake)) {
@@ -78,6 +80,25 @@ IntakeState get_driver_state() {
     } else {
         return IntakeState::STOP;
     }
+}
+
+// If entering a score-middle state with ball in intake, reverse briefly to index; rate-limited.
+// Updates last_score_middle_reverse_ms when it runs.
+static bool is_score_middle_state(IntakeState s) {
+    return s == IntakeState::SCORE_MIDDLE || s == IntakeState::SCORE_MIDDLE_FAST;
+}
+
+static void middle_reverse_automation(IntakeState state, std::uint32_t now, std::uint32_t& last_score_middle_reverse_ms, const IntakeState& prev_state) {
+    if (!is_score_middle_state(state)) return;
+    if (is_score_middle_state(prev_state)) return;
+    if (!subsystems::color_sort::is_ball_in_intake()) return;
+    if (now - last_score_middle_reverse_ms < SCORE_MIDDLE_REVERSE_COOLDOWN_MS) return;
+
+    last_score_middle_reverse_ms = now;
+    set_bottom_power(-INTAKE_SPEED);
+    set_top_power(-INTAKE_SPEED);
+    set_indexer_power(-INTAKE_SPEED);
+    pros::delay(100);
 }
 
 void apply_state(IntakeState state) {
@@ -105,22 +126,18 @@ void apply_state(IntakeState state) {
             break;
 
         case IntakeState::SCORE_MIDDLE:
-            // If ball is in the top stage we reverse a little to get ball to indexable position
-            // Only on entering SCORE_MIDDLE (not while holding), rate-limited to once per 5 seconds
-            if (prev_state != IntakeState::SCORE_MIDDLE &&
-                subsystems::color_sort::is_ball_in_intake() &&
-                (now - last_score_middle_reverse_ms >= SCORE_MIDDLE_REVERSE_COOLDOWN_MS)) {
-                last_score_middle_reverse_ms = now;
-                set_bottom_power(-INTAKE_SPEED);
-                set_top_power(-INTAKE_SPEED);
-                set_indexer_power(-INTAKE_SPEED);
-                pros::delay(100);
-            }
-
-            // Score middle
+            middle_reverse_automation(state, now, last_score_middle_reverse_ms, prev_state);
             set_bottom_power(INTAKE_SPEED);
             set_top_power(INTAKE_SPEED);
             set_indexer_power(-45);
+            subsystems::pistons::safe_extend(subsystems::indexer);
+            break;
+
+        case IntakeState::SCORE_MIDDLE_FAST:
+            middle_reverse_automation(state, now, last_score_middle_reverse_ms, prev_state);
+            set_bottom_power(INTAKE_SPEED);
+            set_top_power(INTAKE_SPEED);
+            set_indexer_power(-INTAKE_SPEED);
             subsystems::pistons::safe_extend(subsystems::indexer);
             break;
 
@@ -151,6 +168,8 @@ void score_long() { target_state = IntakeState::SCORE_LONG; }
 void score_slow() { target_state = IntakeState::SCORE_SLOW; }
 
 void score_middle() { target_state = IntakeState::SCORE_MIDDLE; }
+
+void score_middle_fast() { target_state = IntakeState::SCORE_MIDDLE_FAST; }
 
 void reverse() { target_state = IntakeState::REVERSE; }
 
