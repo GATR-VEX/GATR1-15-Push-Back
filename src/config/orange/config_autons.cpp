@@ -51,7 +51,7 @@ void add_autons() {
     ez::as::auton_selector.autons_add({
         {"Match Auto Blue\nLow Goal Setup", orange::match_auton_blue},
         {"Match Auto Red\nLow Goal Setup", orange::match_auton_red},
-        {"Elims Blue\nnLow Goal Setup", orange::elims_auton_blue},
+        {"Elims Blue\nLow Goal Setup", orange::elims_auton_blue},
         {"Elims Red\nnLow Goal Setup", orange::elims_auton_red},
         {"Skills Auto", orange::skills_auton},
         {"PID Tuning", orange::pid_tuning_auton},

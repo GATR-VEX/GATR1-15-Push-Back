@@ -26,7 +26,7 @@ inline constexpr std::int8_t INTAKE_INDEXER         = 2;
 // Pneumatics (port, reversed, default_extended — released state in HOLD mode)
 inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_MATCHLOADER = {'D', false, false};
 inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_INDEXER     = {'A', false, false};
-inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_WING        = {'C', false, true};
+inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_WING        = {'F', false, true};
 inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_HOOD        = {'B', false, false};
 
 // Sensors
