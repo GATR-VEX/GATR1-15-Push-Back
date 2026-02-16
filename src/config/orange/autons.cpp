@@ -351,70 +351,72 @@ void skills_auton() {
 
 
     // get extra 2 balls and score them
-    chassis.pid_drive_set(20, DRIVE_SPEED, true);
+    chassis.pid_drive_set(20_in, DRIVE_SPEED, true);
     chassis.pid_wait();
     chassis.pid_turn_set(180_deg, TURN_SPEED, true);
     chassis.pid_wait();    
     subsystems::intake::collect();
-    chassis.pid_drive_set(17, DRIVE_SPEED, true);
-    chassis.pid_wait();    
-    chassis.pid_drive_set(-17, DRIVE_SPEED, true);
+    chassis.pid_drive_set(17_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+    
+    // Drive to long goal to score 2 additional balls
+    chassis.pid_drive_set(-17_in, DRIVE_SPEED, true);
     chassis.pid_wait();   
     chassis.pid_turn_set(270_deg, TURN_SPEED, true);
     chassis.pid_wait();   
     chassis.pid_drive_set(-23, DRIVE_SPEED, true);
     chassis.pid_wait();
-
     subsystems::intake::score_long();
     pros::delay(1500);
     subsystems::intake::stop();
 
 
-    // Drive to park zone
+    // Drive down alley towards park zone
     subsystems::pistons::safe_retract(subsystems::matchloader);
-
-    chassis.pid_drive_set(7, DRIVE_SPEED, true);
+    chassis.pid_drive_set(7_in, DRIVE_SPEED, true);
     chassis.pid_wait();
-
     chassis.pid_turn_set(180_deg, TURN_SPEED, true);
     chassis.pid_wait();
-
-    chassis.pid_drive_set(11, DRIVE_SPEED, true);
+    chassis.pid_drive_set(11_in, DRIVE_SPEED, true);
     chassis.pid_wait();
-
     chassis.pid_turn_set(90_deg, TURN_SPEED, true);
     chassis.pid_wait();
-
-    chassis.pid_drive_set(70, DRIVE_SPEED, true);
+    chassis.pid_drive_set(70_in, DRIVE_SPEED, true);
     chassis.pid_wait();
 
+    // Approach park zone from alley
     chassis.pid_turn_set(45_deg, TURN_SPEED, true);
     chassis.pid_wait();
 
-    chassis.pid_drive_set(40, DRIVE_SPEED, true);
+    chassis.pid_drive_set(40_in, DRIVE_SPEED, true);
     chassis.pid_wait();
 
     chassis.pid_swing_set(ez::RIGHT_SWING, 0_deg, SWING_SPEED, 10); // params: direction, angle, speed, still side speed
     chassis.pid_wait();
 
-    chassis.pid_drive_set(6, DRIVE_SPEED, true);
+    // Drive close to park zone to slap matchloader ontop of park zone and not hit balls
+    chassis.pid_drive_set(6_in, DRIVE_SPEED, true);
     chassis.pid_wait();
 
     subsystems::pistons::safe_extend(subsystems::matchloader);
 
-    pros::delay(500);
 
-    chassis.pid_drive_set(50, DRIVE_SPEED, true);
+    // Drive over park zone
+    chassis.pid_drive_set(50_in, DRIVE_SPEED, true);
     chassis.pid_wait();
 
-    chassis.pid_drive_set(-10, 40, true);
+
+    // Drive backwards slowly to be aligned with the park zone
+    chassis.pid_drive_set(-10_in, 40, true);
     subsystems::pistons::safe_retract(subsystems::matchloader);
     chassis.pid_wait();
 
-    chassis.pid_drive_set(6, DRIVE_SPEED, true);
+    // Drive forward for momentum
+    chassis.pid_drive_set(6_in, DRIVE_SPEED, true);
     chassis.pid_wait();
 
-    chassis.pid_drive_set(-25.5, DRIVE_SPEED, true);
+    // Park
+    chassis.pid_drive_set(-25.5_in, DRIVE_SPEED, true);
     subsystems::pistons::safe_retract(subsystems::matchloader);
     chassis.pid_wait();
 }
