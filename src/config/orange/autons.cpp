@@ -240,8 +240,10 @@ void elims_auton(subsystems::color_sort::Color color) {
 
 void skills_auton() {
 
+    // Extend Hood
     subsystems::pistons::safe_extend(subsystems::hood);
 
+    // Extend Wing, unnecessary but implemented just in case hardware is not properly setup
     subsystems::intake::collect();
     pros::delay(200);
     subsystems::intake::stop();
@@ -288,7 +290,7 @@ void skills_auton() {
     }
     chassis.pid_wait();
 
-        // Back out & drive around matchloader
+    // Back out & drive around matchloader
     chassis.pid_drive_set(-16_in, DRIVE_SPEED, true);
     chassis.pid_wait();
 
@@ -349,7 +351,6 @@ void skills_auton() {
     subsystems::intake::stop();
     subsystems::pistons::safe_retract(subsystems::matchloader);
 
-
     // get extra 2 balls and score them
     chassis.pid_drive_set(20_in, DRIVE_SPEED, true);
     chassis.pid_wait();
@@ -369,7 +370,6 @@ void skills_auton() {
     subsystems::intake::score_long();
     pros::delay(1500);
     subsystems::intake::stop();
-
 
     // Drive down alley towards park zone
     subsystems::pistons::safe_retract(subsystems::matchloader);
@@ -400,11 +400,9 @@ void skills_auton() {
 
     subsystems::pistons::safe_extend(subsystems::matchloader);
 
-
     // Drive over park zone
     chassis.pid_drive_set(50_in, DRIVE_SPEED, true);
     chassis.pid_wait();
-
 
     // Drive backwards slowly to be aligned with the park zone
     chassis.pid_drive_set(-10_in, 40, true);
@@ -417,7 +415,6 @@ void skills_auton() {
 
     // Park
     chassis.pid_drive_set(-25.5_in, DRIVE_SPEED, true);
-    subsystems::pistons::safe_retract(subsystems::matchloader);
     chassis.pid_wait();
 }
 
