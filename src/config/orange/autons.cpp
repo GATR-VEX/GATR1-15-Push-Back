@@ -126,11 +126,8 @@ void match_auton(subsystems::color_sort::Color color) {
     
     // Final long score sequence
     subsystems::intake::score_long();   
-    pros::delay(700);
-    subsystems::intake::reverse();
-    pros::delay(300);
-    subsystems::intake::score_long();   
-    pros::delay(600);
+    pros::delay(1500);
+
     subsystems::intake::stop(); 
 
     subsystems::pistons::safe_retract(subsystems::matchloader);
