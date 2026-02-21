@@ -32,7 +32,7 @@ void match_auton(subsystems::color_sort::Color color) {
 
     // Score the middle goal
     subsystems::intake::score_middle();
-    pros::delay(2000);
+    pros::delay(1500);
     subsystems::intake::stop();
 
     // --- Phase 2: Matchloading ---
@@ -68,8 +68,9 @@ void match_auton(subsystems::color_sort::Color color) {
     subsystems::intake::score_long();    
 
     // detect color of ball and wait until red is detected and stop
-    subsystems::color_sort::wait_for_color(color, 3000);
+    subsystems::color_sort::wait_for_color(color, 4000);
     subsystems::intake::stop();
+
 
     // Micro reverse intake in reduce possiblity for red leaving the top
     subsystems::intake::reverse();
@@ -102,7 +103,7 @@ void match_auton(subsystems::color_sort::Color color) {
     chassis.pid_wait();
     
     // "Jiggle" the drivetrain to make sure all balls get out and into intake
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 3; i++) {
         chassis.pid_drive_set(3.5_in, DRIVE_SPEED, true);
         chassis.pid_wait();
         chassis.pid_drive_set(-3.5_in, DRIVE_SPEED, true);
@@ -114,11 +115,10 @@ void match_auton(subsystems::color_sort::Color color) {
     
     // Final long score sequence
     subsystems::intake::score_long();   
-    pros::delay(500);
+    pros::delay(1000);
     subsystems::intake::score_slow();
-    pros::delay(1500);
+    pros::delay(500);
     subsystems::intake::stop(); 
-
     subsystems::pistons::safe_retract(subsystems::matchloader);
 
     // --- Phase 5: Final Position / Descore ---
