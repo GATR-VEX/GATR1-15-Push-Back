@@ -29,6 +29,7 @@ void initialize() {
 
     // Update optical sensor every 15ms instead of every 100ms
     globals::optical_color_sort.set_integration_time(15);
+    globals::optical_color_sort.set_led_pwm(75);
 
     // Rumble controller to indicate IMU calibration status
     robot::controller.rumble(chassis.drive_imu_calibrated() ? "." : "---");

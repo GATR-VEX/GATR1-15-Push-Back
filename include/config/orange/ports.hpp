@@ -30,7 +30,7 @@ inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_WING        = {'F', 
 inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_HOOD        = {'B', false, false};
 
 // Sensors
-inline constexpr std::int8_t IMU                    = 14;
+inline constexpr std::int8_t IMU                    = 21;
 inline constexpr std::int8_t VERTICAL_ROTATION      = 0;
 inline constexpr std::int8_t HORIZONTAL_ROTATION    = 0;
 inline constexpr std::int8_t OPTICAL_COLOR_SORT     = 3;
