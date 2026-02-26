@@ -154,6 +154,13 @@ void apply_state(IntakeState state) {
             set_indexer_power(-INTAKE_SPEED);
             subsystems::pistons::safe_retract(subsystems::indexer);
             break;
+
+        case IntakeState::REVERSE_SLOW:
+            set_bottom_power(-INTAKE_SPEED_SLOW);
+            set_top_power(-INTAKE_SPEED_SLOW);
+            set_indexer_power(-INTAKE_SPEED_SLOW);
+            subsystems::pistons::safe_retract(subsystems::indexer);
+            break;
     }
     prev_state = state;
 }
@@ -172,5 +179,7 @@ void score_middle() { target_state = IntakeState::SCORE_MIDDLE; }
 void score_middle_fast() { target_state = IntakeState::SCORE_MIDDLE_FAST; }
 
 void reverse() { target_state = IntakeState::REVERSE; }
+
+void reverse_slow() { target_state = IntakeState::REVERSE_SLOW; }
 
 }  // namespace subsystems::intake
