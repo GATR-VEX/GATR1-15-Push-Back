@@ -32,7 +32,7 @@ void match_auton(subsystems::color_sort::Color color) {
 
     // Score the middle goal
     subsystems::intake::score_middle();
-    pros::delay(1000);
+    pros::delay(2000);
     subsystems::intake::stop();
 
     // --- Phase 2: Matchloading ---
@@ -48,7 +48,7 @@ void match_auton(subsystems::color_sort::Color color) {
 
     // Begin intake and move forward to collect balls slower
     subsystems::intake::collect();
-    chassis.pid_drive_set(12_in, 65, true);
+    chassis.pid_drive_set(12_in, 45, true);
     chassis.pid_wait();
 
     // "Jiggle" the drivetrain to make sure all balls get out and into intake
@@ -98,18 +98,18 @@ void match_auton(subsystems::color_sort::Color color) {
     
     // Collect and drive to final scoring position
     subsystems::intake::collect();
-    chassis.pid_drive_set(10_in, DRIVE_SPEED, true);
+    chassis.pid_drive_set(10_in, 65, true);
     chassis.pid_wait();
     
     // "Jiggle" the drivetrain to make sure all balls get out and into intake
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 1; i++) {
         chassis.pid_drive_set(3.5_in, DRIVE_SPEED, true);
         chassis.pid_wait();
         chassis.pid_drive_set(-3.5_in, DRIVE_SPEED, true);
         chassis.pid_wait();
     }
     chassis.pid_wait();
-    chassis.pid_drive_set(-30_in, 55, true);
+    chassis.pid_drive_set(-30_in, 60, true);
     chassis.pid_wait();
     
     // Final long score sequence
@@ -247,7 +247,7 @@ void skills_auton() {
     chassis.pid_wait();
 
     // "Jiggle" the drivetrain to make sure all balls get out and into intake
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 3; i++) {
         chassis.pid_drive_set(3_in, DRIVE_SPEED, true);
         chassis.pid_wait();
         chassis.pid_drive_set(-3_in, DRIVE_SPEED, true);
@@ -299,7 +299,7 @@ void skills_auton() {
     chassis.pid_wait();
 
     // "Jiggle" the drivetrain to make sure all balls get out and into intake
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
         chassis.pid_drive_set(3_in, DRIVE_SPEED, true);
         chassis.pid_wait();
         chassis.pid_drive_set(-3_in, DRIVE_SPEED, true);
