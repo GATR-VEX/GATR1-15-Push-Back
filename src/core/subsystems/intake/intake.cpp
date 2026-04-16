@@ -30,6 +30,9 @@ void intake_controller_task() {
             final_state = get_driver_state();
         }
 
+        // Matchloader macro-action, enables intake
+        check_matchloader_override(final_state);
+
 #ifdef ROBOT_BLUE
         // Allow lever to disable intake if in motion
         check_lever_override(final_state);

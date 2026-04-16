@@ -18,6 +18,12 @@ void set_top_power(int power) {
 
 }  // anonymous namespace
 
+void check_matchloader_override(IntakeState& final_state) {
+    if (pistons::matchloader->is_extended()) {
+        final_state = IntakeState::COLLECT;
+    }
+}
+
 IntakeState get_driver_state() {
     // Priority: score buttons > collect > reverse > stop
     if (robot::controller.get_digital(robot::Controls::score)) {
@@ -38,39 +44,45 @@ IntakeState get_driver_state() {
 void apply_state(IntakeState state) {
     switch (state) {
         case IntakeState::STOP:
+            pistons::safe_retract(pistons::gate);
+            pistons::safe_extend(pistons::intake);
             set_bottom_power(0);
             set_top_power(0);
-            pistons::safe_retract(pistons::intake);
             break;
 
         case IntakeState::COLLECT:
+            pistons::safe_retract(pistons::gate);
+            pistons::safe_extend(pistons::intake);
             set_bottom_power(INTAKE_SPEED);
             set_top_power(0);
-            pistons::safe_retract(pistons::intake);
             break;
 
         case IntakeState::SCORE:
+            pistons::safe_extend(pistons::gate);
+            pistons::safe_extend(pistons::intake);
             set_bottom_power(INTAKE_SPEED);
             set_top_power(INTAKE_SPEED);
-            pistons::safe_retract(pistons::intake);
             break;
 
         case IntakeState::SCORE_SLOW:
+            pistons::safe_extend(pistons::gate);
+            pistons::safe_extend(pistons::intake);
             set_bottom_power(INTAKE_SPEED_SLOW);
             set_top_power(INTAKE_SPEED_SLOW);
-            pistons::safe_retract(pistons::intake);
             break;
 
         case IntakeState::REVERSE:
+            pistons::safe_retract(pistons::gate);
+            pistons::safe_retract(pistons::intake);
             set_bottom_power(-INTAKE_SPEED);
             set_top_power(-INTAKE_SPEED);
-            pistons::safe_retract(pistons::intake);
             break;
 
         case IntakeState::REVERSE_SLOW:
+            pistons::safe_extend(pistons::gate);
+            pistons::safe_retract(pistons::intake);
             set_bottom_power(-INTAKE_SPEED_SLOW);
             set_top_power(-INTAKE_SPEED_SLOW);
-            pistons::safe_retract(pistons::intake);
             break;
     }
 }

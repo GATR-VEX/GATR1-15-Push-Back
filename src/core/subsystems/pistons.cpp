@@ -7,7 +7,7 @@ namespace pistons {
 
 Piston::Piston(pros::adi::Pneumatics& piston,
                std::optional<pros::controller_digital_e_t> button,
-               PistonMode mode,
+               std::optional<PistonMode> mode,
                bool reversed)
     : m_piston(piston), m_button(button), m_mode(mode), m_reversed(reversed) {}
 
@@ -31,7 +31,7 @@ void Piston::update() {
         return;
     }
 
-    switch (m_mode) {
+    switch (m_mode.value()) {
         case PistonMode::HOLD:
             if (robot::controller.get_digital(m_button.value())) {
                 extend();
@@ -56,7 +56,7 @@ void initialize() {
     intake = std::make_unique<Piston>(
         globals::piston_intake,
         std::nullopt,
-        PistonMode::HOLD,
+        std::nullopt,
         robot::ports::PISTON_INTAKE_REVERSED);
 
     matchloader = std::make_unique<Piston>(
@@ -74,13 +74,13 @@ void initialize() {
     gate = std::make_unique<Piston>(
         globals::piston_gate,
         std::nullopt,
-        PistonMode::HOLD,
+        std::nullopt,
         robot::ports::PISTON_GATE_REVERSED);
 
     four_bar = std::make_unique<Piston>(
         globals::piston_four_bar,
         robot::Controls::four_bar,
-        PistonMode::HOLD,
+        PistonMode::TOGGLE,
         robot::ports::PISTON_FOUR_BAR_REVERSED);
 
 }

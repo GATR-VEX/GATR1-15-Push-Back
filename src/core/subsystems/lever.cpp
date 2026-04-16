@@ -1,8 +1,5 @@
-#ifdef ROBOT_BLUE
-
 #include "core/subsystems/lever.hpp"
-
-#include "core/config.hpp"
+#include "core/subsystems/pistons.hpp"
 #include "core/globals.hpp"
 #include "core/util.hpp"
 
@@ -10,6 +7,10 @@
 #include <memory>
 
 #include "pros/rtos.hpp"
+
+/// TODO: The lever needs to go up and stay up when wing used
+
+#ifdef ROBOT_BLUE
 
 namespace lever {
 
@@ -45,33 +46,34 @@ static void apply_motor(LeverState s) {
     switch (s) {
         case LeverState::IDLE:
         case LeverState::ZERO:
+            pistons::safe_retract(pistons::gate);
             globals::lever_motor.move(0);
             break;
 
         case LeverState::SCORE:
+            pistons::safe_extend(pistons::gate);
             globals::lever_motor.move(SCORE_POWER);
             break;
 
         case LeverState::SCORE_SLOW:
+            pistons::safe_extend(pistons::gate);
             globals::lever_motor.move(SCORE_SLOW_POWER);
             break;
 
         case LeverState::RETURN:
+            pistons::safe_retract(pistons::gate);
             globals::lever_motor.move(RETURN_POWER);
             break;
     }
 }
 
-static void lever_task_fn() {
+static void lever_controller_task() {
     while (true) {
-        // Only react to driver input in opcontrol.
         bool held = lever_button_held();
         if (pros::competition::is_autonomous() || pros::competition::is_disabled()) {
             held = false;
         }
 
-        // Allow cancel/override:
-        // If a zero is requested, do it ASAP and return to IDLE.
         if (zero_requested && state != LeverState::ZERO) {
             state = LeverState::ZERO;
         }
@@ -125,8 +127,7 @@ static void lever_task_fn() {
 }
 
 void initialize() {
-    // Start the task once. The state machine handles driver inputs internally.
-    lever_task = std::make_unique<pros::Task>(lever_task_fn);
+    lever_task = std::make_unique<pros::Task>(lever_controller_task);
 }
 
 }  // namespace lever

@@ -15,8 +15,7 @@ namespace intake {
 
 namespace {
 
-// After reverse ends, wait this long with no reverse before restoring four-bar snapshot.
-constexpr std::uint32_t kFourBarRestoreDelayMs = 1000;
+constexpr std::uint32_t FOUR_BAR_DELAY_MS = 1000;
 std::optional<bool> four_bar_snapshot;
 std::uint32_t last_time_reverse_seen_ms = 0;
 
@@ -39,7 +38,7 @@ void update_four_bar_reverse(IntakeState state) {
     }
 
     // Timer incomplete: busy-wait
-    if (now - last_time_reverse_seen_ms < kFourBarRestoreDelayMs) {
+    if (now - last_time_reverse_seen_ms < FOUR_BAR_DELAY_MS) {
         return;
     }
 
@@ -60,6 +59,12 @@ void check_lever_override(IntakeState& final_state) {
     }
 }
 
+void check_matchloader_override(IntakeState& final_state) {
+    if (pistons::matchloader->is_extended()) {
+        final_state = IntakeState::FAST;
+    }
+}
+
 void set_intake_power(int power) {
     globals::intake_bottom_stage.move(power);
 }
@@ -77,26 +82,31 @@ IntakeState get_driver_state() {
 void apply_state(IntakeState state) {
     switch (state) {
         case IntakeState::STOP:
+            pistons::safe_extend(pistons::intake);
             set_intake_power(0);
             break;
 
         case IntakeState::FAST:
+            pistons::safe_extend(pistons::intake);
             set_intake_power(INTAKE_SPEED);
             break;
 
         case IntakeState::SLOW:
+            pistons::safe_extend(pistons::intake);
             set_intake_power(INTAKE_SPEED_SLOW);
             break;
 
         case IntakeState::REVERSE:
+            pistons::safe_retract(pistons::intake);
             set_intake_power(-INTAKE_SPEED);
             break;
 
         case IntakeState::REVERSE_SLOW:
+            pistons::safe_retract(pistons::intake);
             set_intake_power(-INTAKE_SPEED_SLOW);
             break;
     }
-    
+
     // Handle four-bar macro-action
     update_four_bar_reverse(state);
 }

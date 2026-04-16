@@ -6,6 +6,8 @@
 
 #include "pros/llemu.hpp"
 
+#include "core/globals.hpp"
+
 #ifdef ROBOT_BLUE
 
 namespace blue {
@@ -26,8 +28,28 @@ void elims_auton(color_sort::Color color) {
 }
 
 
-void skills_auton() {
+void skills_auton() {}
 
+void pid_tuning_auton() {
+    chassis.pid_drive_set(24_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+
+    chassis.pid_drive_set(-24_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+
+    chassis.pid_turn_set(90_deg, TURN_SPEED, true);
+    chassis.pid_wait();
+
+    chassis.pid_turn_set(180_deg, TURN_SPEED, true);
+    chassis.pid_wait();
+
+    chassis.pid_turn_set(0_deg, TURN_SPEED, ez::ccw);
+    chassis.pid_wait();
+
+    while (true) {
+        pros::lcd::print(3, "Yaw: %f", globals::imu.get_yaw());
+        pros::delay(100);
+    }
 }
 
 }  // namespace blue

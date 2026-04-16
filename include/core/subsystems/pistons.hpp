@@ -19,7 +19,7 @@ public:
     // reversed: if true, hardware extend/retract is swapped to match semantic meaning
     Piston(pros::adi::Pneumatics& piston,
            std::optional<pros::controller_digital_e_t> button = std::nullopt,
-           PistonMode mode = PistonMode::HOLD,
+           std::optional<PistonMode> mode = std::nullopt,
            bool reversed = false);
 
     void extend();
@@ -31,7 +31,7 @@ public:
 private:
     pros::adi::Pneumatics& m_piston;
     std::optional<pros::controller_digital_e_t> m_button;
-    PistonMode m_mode;
+    std::optional<PistonMode> m_mode;
     bool m_extended = false;
     bool m_reversed;
 };

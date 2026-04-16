@@ -30,7 +30,7 @@ namespace globals {
 pros::Imu imu(robot::sensors::IMU);
 
 // Limit switch for auton selector
-pros::adi::DigitalIn selectButton(robot::ports::LIMIT_SWITCH_SELECT);
+pros::adi::DigitalIn select_button(robot::ports::LIMIT_SWITCH_SELECT);
 
 // Intake motors
 pros::MotorGroup intake_bottom_stage({robot::ports::INTAKE_BOTTOM_STAGE_1,

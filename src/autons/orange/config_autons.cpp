@@ -45,7 +45,7 @@ void default_constants() {
 
 void add_autons() {
     // Use limit switch to select autons
-    ez::as::limit_switch_lcd_initialize(&globals::selectButton);
+    ez::as::limit_switch_lcd_initialize(&globals::select_button);
 
     // Autonomous Selector using LLEMU
     ez::as::auton_selector.autons_add({

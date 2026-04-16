@@ -18,7 +18,7 @@ extern pros::Imu imu;
 extern pros::Optical optical_color_sort;
 
 // Auton selector
-extern pros::adi::DigitalIn selectButton;
+extern pros::adi::DigitalIn select_button;
 
 // Intake motors
 extern pros::MotorGroup intake_bottom_stage;
