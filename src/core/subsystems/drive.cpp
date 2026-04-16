@@ -8,7 +8,7 @@
 #include "pros/llemu.hpp"
 #include "pros/rtos.hpp"
 
-namespace subsystems::drive {
+namespace drive {
 
 void initialize() {
     ez::ez_template_print();
@@ -43,5 +43,5 @@ void chassis_controller(ez::e_type stick_type, bool flipped) {
     }
 }
 
-}  // namespace subsystems::drive
+}  // namespace drive
 

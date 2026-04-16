@@ -1,8 +1,6 @@
 #pragma once
 
 #include <cstdint>
-#include <tuple>
-#include <utility>
 
 namespace robot {
 namespace ports {
@@ -23,11 +21,15 @@ inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_2  = 1;
 inline constexpr std::int8_t INTAKE_TOP_STAGE       = 9;
 inline constexpr std::int8_t INTAKE_INDEXER         = 2;
 
-// Pneumatics (port, reversed, default_extended — released state in HOLD mode)
-inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_MATCHLOADER = {'D', false, false};
-inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_INDEXER     = {'A', false, false};
-inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_WING        = {'F', false, true};
-inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_HOOD        = {'B', false, false};
+// Pneumatics
+inline constexpr std::int8_t PISTON_MATCHLOADER_PORT   = 'D';
+inline constexpr bool        PISTON_MATCHLOADER_REVERSED = false;
+inline constexpr std::int8_t PISTON_INDEXER_PORT       = 'A';
+inline constexpr bool        PISTON_INDEXER_REVERSED   = false;
+inline constexpr std::int8_t PISTON_WING_PORT          = 'F';
+inline constexpr bool        PISTON_WING_REVERSED      = false;
+inline constexpr std::int8_t PISTON_HOOD_PORT          = 'B';
+inline constexpr bool        PISTON_HOOD_REVERSED      = false;
 
 // Sensors
 inline constexpr std::int8_t IMU                    = 21;

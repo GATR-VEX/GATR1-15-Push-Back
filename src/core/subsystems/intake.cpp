@@ -12,7 +12,7 @@
 #include "pros/misc.hpp"
 #include "pros/rtos.hpp"
 
-namespace subsystems::intake {
+namespace intake {
 
 std::unique_ptr<pros::Task> intake_task;
 
@@ -182,4 +182,4 @@ void reverse() { target_state = IntakeState::REVERSE; }
 
 void reverse_slow() { target_state = IntakeState::REVERSE_SLOW; }
 
-}  // namespace subsystems::intake
+}  // namespace intake

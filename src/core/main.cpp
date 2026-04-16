@@ -11,7 +11,6 @@
 #include "pros/rtos.hpp"
 
 void initialize() {
-
     // Wait for ADI ports to be initialized
     pros::delay(500);
 
@@ -97,20 +96,18 @@ void opcontrol() {
     chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
 
     // Set desired default piston states
-    subsystems::pistons::safe_retract(subsystems::matchloader); // Close matchloader
-    subsystems::pistons::safe_extend(subsystems::hood);         // Open hood (if present)
+    pistons::safe_retract(pistons::matchloader); // Close matchloader
 
     // Initialize competition timer
-    subsystems::comp_timer::initialize();
+    comp_timer::initialize();
 
     while (true) {
         // Run the drive mode
         subsystems::drive::chassis_controller(ez::SPLIT);
 
         // Update piston states based on controller input
-        subsystems::pistons::safe_update(subsystems::matchloader);
-        subsystems::pistons::safe_update(subsystems::wing);
-        subsystems::pistons::safe_update(subsystems::hood);
+        pistons::safe_update(pistons::matchloader);
+        pistons::safe_update(pistons::wing);
 
         // Update competition timer (buzzes at 20s, 10-1s countdown)
         subsystems::comp_timer::update();

@@ -4,7 +4,7 @@
 
 #include "pros/rtos.hpp"
 
-namespace subsystems::comp_timer {
+namespace comp_timer {
 
 static std::uint32_t match_start_time = 0;
 static std::uint32_t last_buzzed_second = UINT32_MAX;
@@ -60,4 +60,4 @@ void update() {
     }
 }
 
-}  // namespace subsystems::comp_timer
+}  // namespace comp_timer
