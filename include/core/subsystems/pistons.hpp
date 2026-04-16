@@ -6,8 +6,6 @@
 #include <memory>
 #include <optional>
 
-namespace subsystems {
-
 namespace pistons {
 
 enum class PistonMode {
@@ -67,12 +65,12 @@ inline void safe_update(const std::unique_ptr<Piston>& piston) {
     }
 }
 
-}  // namespace pistons
-
-// Global piston instances (initialized after subsystems::pistons::initialize() is called)
-extern std::unique_ptr<pistons::Piston> indexer;
+// Global piston instances (initialized after pistons::initialize() is called)
+extern std::unique_ptr<pistons::Piston> intake;
 extern std::unique_ptr<pistons::Piston> matchloader;
 extern std::unique_ptr<pistons::Piston> wing;
-extern std::unique_ptr<pistons::Piston> hood;
+extern std::unique_ptr<pistons::Piston> gate;
+extern std::unique_ptr<pistons::Piston> four_bar;
 
-}  // namespace subsystems
+}  // namespace pistons
+

@@ -6,7 +6,7 @@
 inline constexpr std::uint32_t DEFAULT_TIMEOUT_MS   = 5000;  // 5 seconds
 inline constexpr std::uint32_t MATCHLOAD_TIMEOUT_MS = 5000;  // 5 seconds
 
-namespace subsystems::color_sort {
+namespace color_sort {
 
 enum class Color {
     RED,
@@ -44,4 +44,4 @@ bool wait_for_ball(std::uint32_t timeout_ms = DEFAULT_TIMEOUT_MS);
 // Returns human-readable string of detected color for debug display
 const char* get_detected_color_string();
 
-}  // namespace subsystems::color_sort
+}  // namespace color_sort

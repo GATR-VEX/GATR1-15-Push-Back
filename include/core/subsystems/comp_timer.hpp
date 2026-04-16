@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace subsystems::comp_timer {
+namespace comp_timer {
 
 inline constexpr std::uint32_t DRIVER_CONTROL_TIME_MS  = 90000;  // 90 seconds
 inline constexpr std::uint32_t WARNING_20S_MS          = 20000;  // 20 seconds remaining
@@ -13,4 +13,4 @@ void initialize();
 
 void update();
 
-}  // namespace subsystems::comp_timer
+}  // namespace comp_timer

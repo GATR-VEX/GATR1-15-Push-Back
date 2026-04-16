@@ -11,14 +11,10 @@ inline constexpr int TURN_SPEED  = 85;
 inline constexpr int SWING_SPEED = 80;
 
 namespace robot {
-inline constexpr const char* NAME = "orange";
-
 inline pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 namespace sensors {
 inline constexpr std::int8_t IMU                 = ports::IMU;
-inline constexpr std::int8_t VERTICAL_ROTATION   = ports::VERTICAL_ROTATION;
-inline constexpr std::int8_t HORIZONTAL_ROTATION = ports::HORIZONTAL_ROTATION;
 }  // namespace sensors
 
 namespace drive {
@@ -32,23 +28,13 @@ inline constexpr double CURVE_DEFAULT_LEFT    = 0.25;      // Default curve for 
 inline constexpr double CURVE_DEFAULT_RIGHT   = 4.25;      // Default curve for right stick (arcade only)
 }  // namespace drive
 
-namespace odom {
-inline constexpr float HORIZONTAL_WHEEL       = 2.75F;
-inline constexpr float VERTICAL_WHEEL         = 2.75F;
-inline constexpr float HORIZONTAL_OFFSET      = 0.5F;
-inline constexpr float VERTICAL_OFFSET        = -3.5F;
-}  // namespace odom
-
 struct Controls {
     static constexpr pros::controller_digital_e_t intake                 = pros::E_CONTROLLER_DIGITAL_L1;
     static constexpr pros::controller_digital_e_t reverse                = pros::E_CONTROLLER_DIGITAL_L2;
-    static constexpr pros::controller_digital_e_t score_long_goal        = pros::E_CONTROLLER_DIGITAL_R1;
-    static constexpr pros::controller_digital_e_t score_middle_goal      = pros::E_CONTROLLER_DIGITAL_R2;
-    static constexpr pros::controller_digital_e_t score_middle_fast_goal = pros::E_CONTROLLER_DIGITAL_A;
-
-    static constexpr pros::controller_digital_e_t wing                   = pros::E_CONTROLLER_DIGITAL_RIGHT;
-    static constexpr pros::controller_digital_e_t hood                   = pros::E_CONTROLLER_DIGITAL_UP;
-    static constexpr pros::controller_digital_e_t matchloader            = pros::E_CONTROLLER_DIGITAL_Y;
+    static constexpr pros::controller_digital_e_t score                  = pros::E_CONTROLLER_DIGITAL_R1;
+    static constexpr pros::controller_digital_e_t matchloader            = pros::E_CONTROLLER_DIGITAL_R2;
+    static constexpr pros::controller_digital_e_t four_bar               = pros::E_CONTROLLER_DIGITAL_Y;
+    static constexpr pros::controller_digital_e_t wing                   = pros::E_CONTROLLER_DIGITAL_DOWN;
 };
 
 // Competition timer settings

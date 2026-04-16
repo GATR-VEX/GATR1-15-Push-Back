@@ -53,11 +53,11 @@ bool Piston::is_extended() const {
 }
 
 void initialize() {
-    indexer = std::make_unique<Piston>(
-        globals::piston_indexer,
+    intake = std::make_unique<Piston>(
+        globals::piston_intake,
         std::nullopt,
         PistonMode::HOLD,
-        robot::ports::PISTON_INDEXER_REVERSED);
+        robot::ports::PISTON_INTAKE_REVERSED);
 
     matchloader = std::make_unique<Piston>(
         globals::piston_matchloader,
@@ -71,11 +71,25 @@ void initialize() {
         PistonMode::HOLD,
         robot::ports::PISTON_WING_REVERSED);
 
+    gate = std::make_unique<Piston>(
+        globals::piston_gate,
+        std::nullopt,
+        PistonMode::HOLD,
+        robot::ports::PISTON_GATE_REVERSED);
+
+    four_bar = std::make_unique<Piston>(
+        globals::piston_four_bar,
+        robot::Controls::four_bar,
+        PistonMode::HOLD,
+        robot::ports::PISTON_FOUR_BAR_REVERSED);
+
 }
 
-// Global piston pointers (nullptr until subsystems::pistons::initialize() is called)
-std::unique_ptr<pistons::Piston> indexer     = nullptr;
+// Global piston pointers (nullptr until pistons::initialize() is called)
+std::unique_ptr<pistons::Piston> intake      = nullptr;
 std::unique_ptr<pistons::Piston> matchloader = nullptr;
 std::unique_ptr<pistons::Piston> wing        = nullptr;
+std::unique_ptr<pistons::Piston> gate        = nullptr;
+std::unique_ptr<pistons::Piston> four_bar    = nullptr;
 
 }  // namespace pistons

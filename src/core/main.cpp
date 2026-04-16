@@ -3,6 +3,7 @@
 #include "core/subsystems/intake.hpp"
 #include "core/subsystems/pistons.hpp"
 #include "core/subsystems/comp_timer.hpp"
+#include "core/subsystems/lever.hpp"
 #include "core/globals.hpp"
 #include "core/util.hpp"
 #include "core/config.hpp"
@@ -15,9 +16,12 @@ void initialize() {
     pros::delay(500);
 
     // Initialize Subsystems
-    subsystems::pistons::initialize();
-    subsystems::drive::initialize();
-    subsystems::intake::initialize();
+    pistons::initialize();
+    drive::initialize();
+    intake::initialize();
+#ifdef ROBOT_BLUE
+    lever::initialize();
+#endif
 
     // Initialize EZ-Template auton selector
     add_autons();
@@ -72,7 +76,7 @@ void autonomous() {
     chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
     
     // Ensure global intake state is stopped before auton starts
-    subsystems::intake::stop();
+    intake::stop();
     
     // Run the selected autonomous routine
     ez::as::auton_selector.selected_auton_call();
@@ -103,14 +107,14 @@ void opcontrol() {
 
     while (true) {
         // Run the drive mode
-        subsystems::drive::chassis_controller(ez::SPLIT);
+        drive::chassis_controller(ez::SPLIT);
 
         // Update piston states based on controller input
         pistons::safe_update(pistons::matchloader);
         pistons::safe_update(pistons::wing);
 
         // Update competition timer (buzzes at 20s, 10-1s countdown)
-        subsystems::comp_timer::update();
+        comp_timer::update();
         
         // Small delay to prevent task from consuming too much CPU
         pros::delay(core::util::DELAY_TIME);

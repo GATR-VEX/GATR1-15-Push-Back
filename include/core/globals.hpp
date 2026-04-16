@@ -4,7 +4,6 @@
 #include "pros/imu.hpp"
 #include "pros/motors.hpp"
 #include "pros/optical.hpp"
-#include "pros/rotation.hpp"
 
 #include "EZ-Template/api.hpp"
 #include "api.h"
@@ -17,24 +16,25 @@ namespace globals {
 extern pros::Imu imu;
 extern pros::Optical optical_color_sort;
 
-// Tracking wheels
-extern ez::tracking_wheel vert_tracker;
-extern ez::tracking_wheel horiz_tracker;
-
 // Auton selector
 extern pros::adi::DigitalIn selectButton;
 
-// Intake (4 motors)
+// Intake motors
 extern pros::MotorGroup intake_bottom_stage;
+#ifdef ROBOT_ORANGE
 extern pros::Motor intake_top_stage;
-extern pros::Motor intake_indexer;
+#endif
 
 // Pneumatics
 extern pros::adi::Pneumatics piston_matchloader;
-extern pros::adi::Pneumatics piston_indexer;
+extern pros::adi::Pneumatics piston_intake;
 extern pros::adi::Pneumatics piston_wing;
-#ifdef ROBOT_ORANGE
-extern pros::adi::Pneumatics piston_hood;
+extern pros::adi::Pneumatics piston_gate;
+extern pros::adi::Pneumatics piston_four_bar;
+
+#ifdef ROBOT_BLUE
+// Blue-only lever
+extern pros::Motor lever_motor;
 #endif
 
 }  // namespace globals

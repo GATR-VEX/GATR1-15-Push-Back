@@ -15,24 +15,25 @@ inline constexpr std::int8_t DRIVE_LEFT_MIDDLE      = 0;
 inline constexpr std::int8_t DRIVE_LEFT_REAR        = 0;
 inline constexpr std::int8_t DRIVE_LEFT_AUX         = 0;
 
-// Intake motors (4 total)
+// Intake motors
 inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_1  = 0;
 inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_2  = 0;
 inline constexpr std::int8_t INTAKE_TOP_STAGE       = 0;
-inline constexpr std::int8_t INTAKE_INDEXER         = 0;
 
 // Pneumatics
-inline constexpr std::int8_t PISTON_MATCHLOADER_PORT   = 'A';
+inline constexpr std::int8_t PISTON_MATCHLOADER_PORT     = 0;
 inline constexpr bool        PISTON_MATCHLOADER_REVERSED = false;
-inline constexpr std::int8_t PISTON_INDEXER_PORT       = 'B';
-inline constexpr bool        PISTON_INDEXER_REVERSED   = false;
-inline constexpr std::int8_t PISTON_WING_PORT          = 'C';
-inline constexpr bool        PISTON_WING_REVERSED      = false;
+inline constexpr std::int8_t PISTON_INTAKE_PORT          = 0;
+inline constexpr bool        PISTON_INTAKE_REVERSED      = false;
+inline constexpr std::int8_t PISTON_WING_PORT            = 0;
+inline constexpr bool        PISTON_WING_REVERSED        = false;
+inline constexpr std::int8_t PISTON_GATE_PORT            = 0;
+inline constexpr bool        PISTON_GATE_REVERSED        = false;
+inline constexpr std::int8_t PISTON_FOUR_BAR_PORT        = 0;
+inline constexpr bool        PISTON_FOUR_BAR_REVERSED    = false;
 
 // Sensors
 inline constexpr std::int8_t IMU                    = 0;
-inline constexpr std::int8_t VERTICAL_ROTATION      = 0;
-inline constexpr std::int8_t HORIZONTAL_ROTATION    = 0;
 inline constexpr std::int8_t OPTICAL_COLOR_SORT     = 0;
 
 // Auton selector

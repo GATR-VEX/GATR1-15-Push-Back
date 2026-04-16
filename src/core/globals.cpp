@@ -8,7 +8,6 @@
 #include "pros/imu.hpp"
 #include "pros/motors.hpp"
 #include "pros/optical.hpp"
-#include "pros/rotation.hpp"
 
 // EZ-Template Drive Constructor (global namespace)
 ez::Drive chassis(
@@ -29,30 +28,30 @@ namespace globals {
 // Sensors
 pros::Imu imu(robot::sensors::IMU);
 
-// Tracking wheels for odometry
-// EZ-Template tracking_wheel constructor takes: (port, wheel_diameter, distance_to_center, ratio)
-ez::tracking_wheel vert_tracker(robot::sensors::VERTICAL_ROTATION,
-                                robot::odom::VERTICAL_WHEEL,
-                                robot::odom::VERTICAL_OFFSET);
-ez::tracking_wheel horiz_tracker(robot::sensors::HORIZONTAL_ROTATION,
-                                 robot::odom::HORIZONTAL_WHEEL,
-                                 robot::odom::HORIZONTAL_OFFSET);
-
 // Limit switch for auton selector
 pros::adi::DigitalIn selectButton(robot::ports::LIMIT_SWITCH_SELECT);
 
-// Intake motors (4 total)
+// Intake motors
 pros::MotorGroup intake_bottom_stage({robot::ports::INTAKE_BOTTOM_STAGE_1,
                                       robot::ports::INTAKE_BOTTOM_STAGE_2});
+#ifdef ROBOT_ORANGE
 pros::Motor intake_top_stage(robot::ports::INTAKE_TOP_STAGE);
-pros::Motor intake_indexer(robot::ports::INTAKE_INDEXER);
+#endif
+
+// Blue-only lever motor
+#ifdef ROBOT_BLUE
+pros::Motor lever_motor(robot::ports::LEVER_MOTOR,
+                         robot::ports::LEVER_MOTOR_REVERSED);
+#endif
 
 // Optical sensor
 pros::Optical optical_color_sort(robot::ports::OPTICAL_COLOR_SORT);
 
 // Pneumatics
 pros::adi::Pneumatics piston_matchloader(robot::ports::PISTON_MATCHLOADER_PORT, false);
-pros::adi::Pneumatics piston_indexer(robot::ports::PISTON_INDEXER_PORT, false);
+pros::adi::Pneumatics piston_intake(robot::ports::PISTON_INTAKE_PORT, false);
 pros::adi::Pneumatics piston_wing(robot::ports::PISTON_WING_PORT, false);
+pros::adi::Pneumatics piston_gate(robot::ports::PISTON_GATE_PORT, false);
+pros::adi::Pneumatics piston_four_bar(robot::ports::PISTON_FOUR_BAR_PORT, false);
 
 }  // namespace globals

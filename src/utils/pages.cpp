@@ -13,9 +13,9 @@
  * Color sort debug page - displays hue, detected color, and ball presence
  */
 void screen_print_color_sort_debug() {
-    double hue = subsystems::color_sort::get_hue();
-    const char* color_str = subsystems::color_sort::get_detected_color_string();
-    bool ball_present = subsystems::color_sort::is_ball_in_intake();
+    double hue = color_sort::get_hue();
+    const char* color_str = color_sort::get_detected_color_string();
+    bool ball_present = color_sort::is_ball_in_intake();
 
     std::string line1 = "hue: " + ez::util::to_string_with_precision(hue, 1);
     std::string line2 = "color: " + std::string(color_str);

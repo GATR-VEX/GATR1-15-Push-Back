@@ -13,10 +13,6 @@ namespace drive {
 void initialize() {
     ez::ez_template_print();
 
-    // Set up tracking wheels for odometry
-    chassis.odom_tracker_back_set(&globals::horiz_tracker);
-    chassis.odom_tracker_left_set(&globals::vert_tracker);
-
     // Configure chassis controls
     chassis.opcontrol_curve_buttons_toggle(robot::drive::CURVE_BUTTONS_TOGGLE);
     chassis.opcontrol_drive_activebrake_set(robot::drive::DRIVE_ACTIVEBRAKE);
