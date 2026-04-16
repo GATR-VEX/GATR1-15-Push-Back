@@ -7,6 +7,7 @@
 
 #include <cmath>
 #include <memory>
+#include <type_traits>
 
 #include "pros/motors.hpp"
 #include "pros/misc.hpp"
@@ -21,14 +22,18 @@ static IntakeState target_state = IntakeState::STOP;
 
 void intake_controller_task() {
     while (true) {
-
-        // collect autonomous requested states
+        // Collect autonomous requested states
         IntakeState final_state = target_state;
 
         // Get driver input if in driver control mode
         if (!pros::competition::is_autonomous() && !pros::competition::is_disabled()) {
             final_state = get_driver_state();
         }
+
+#ifdef ROBOT_BLUE
+        // Allow lever to disable intake if in motion
+        check_lever_override(final_state);
+#endif
 
         // send state to motors
         apply_state(final_state);
@@ -48,18 +53,6 @@ void set_target_state(IntakeState state) {
 
 IntakeState get_target_state() {
     return target_state;
-}
-
-void set_bottom_power(int power) {
-    globals::intake_bottom_stage.move(power);
-}
-
-void set_top_power(int power) {
-#ifdef ROBOT_ORANGE
-    globals::intake_top_stage.move(power);
-#else
-    (void)power;
-#endif
 }
 
 bool is_running() {

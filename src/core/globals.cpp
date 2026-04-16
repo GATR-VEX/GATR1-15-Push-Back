@@ -6,6 +6,7 @@
 
 #include "pros/adi.hpp"
 #include "pros/imu.hpp"
+#include "pros/motor_group.hpp"
 #include "pros/motors.hpp"
 #include "pros/optical.hpp"
 
@@ -38,10 +39,9 @@ pros::MotorGroup intake_bottom_stage({robot::ports::INTAKE_BOTTOM_STAGE_1,
 pros::Motor intake_top_stage(robot::ports::INTAKE_TOP_STAGE);
 #endif
 
-// Blue-only lever motor
 #ifdef ROBOT_BLUE
-pros::Motor lever_motor(robot::ports::LEVER_MOTOR,
-                         robot::ports::LEVER_MOTOR_REVERSED);
+pros::MotorGroup lever_motor({robot::ports::LEVER_LEFT, 
+                              robot::ports::LEVER_RIGHT});
 #endif
 
 // Optical sensor

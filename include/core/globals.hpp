@@ -2,6 +2,7 @@
 
 #include "pros/adi.hpp"
 #include "pros/imu.hpp"
+#include "pros/motor_group.hpp"
 #include "pros/motors.hpp"
 #include "pros/optical.hpp"
 
@@ -33,8 +34,8 @@ extern pros::adi::Pneumatics piston_gate;
 extern pros::adi::Pneumatics piston_four_bar;
 
 #ifdef ROBOT_BLUE
-// Blue-only lever
-extern pros::Motor lever_motor;
+// Blue-only lever (two motors; use negative port in ports.hpp to reverse one side)
+extern pros::MotorGroup lever_motor;
 #endif
 
 }  // namespace globals

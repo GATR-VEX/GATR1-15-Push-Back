@@ -26,7 +26,7 @@ inline constexpr bool USE_SCORE_SLOW_BY_POSITION = false;
 inline constexpr double SCORE_SLOW_AT_POSITION = 0.0;
 
 static std::unique_ptr<pros::Task> lever_task;
-static State state = State::IDLE;
+static LeverState state = LeverState::IDLE;
 static bool zero_requested = false;
 
 static bool lever_button_held() {
@@ -37,26 +37,26 @@ void request_zero() {
     zero_requested = true;
 }
 
-State get_state() {
+LeverState get_state() {
     return state;
 }
 
-static void apply_motor(State s) {
+static void apply_motor(LeverState s) {
     switch (s) {
-        case State::IDLE:
-        case State::ZERO:
+        case LeverState::IDLE:
+        case LeverState::ZERO:
             globals::lever_motor.move(0);
             break;
 
-        case State::SCORE:
+        case LeverState::SCORE:
             globals::lever_motor.move(SCORE_POWER);
             break;
 
-        case State::SCORE_SLOW:
+        case LeverState::SCORE_SLOW:
             globals::lever_motor.move(SCORE_SLOW_POWER);
             break;
 
-        case State::RETURN:
+        case LeverState::RETURN:
             globals::lever_motor.move(RETURN_POWER);
             break;
     }
@@ -72,50 +72,50 @@ static void lever_task_fn() {
 
         // Allow cancel/override:
         // If a zero is requested, do it ASAP and return to IDLE.
-        if (zero_requested && state != State::ZERO) {
-            state = State::ZERO;
+        if (zero_requested && state != LeverState::ZERO) {
+            state = LeverState::ZERO;
         }
 
         switch (state) {
-            case State::IDLE:
+            case LeverState::IDLE:
                 if (held) {
-                    state = State::SCORE;
+                    state = LeverState::SCORE;
                 }
                 break;
 
-            case State::SCORE:
+            case LeverState::SCORE:
                 if (!held) {
-                    state = State::RETURN;
+                    state = LeverState::RETURN;
                 } else if (USE_SCORE_SLOW_BY_POSITION &&
                            globals::lever_motor.get_position() >= SCORE_SLOW_AT_POSITION) {
-                    state = State::SCORE_SLOW;
+                    state = LeverState::SCORE_SLOW;
                 }
                 break;
 
-            case State::SCORE_SLOW:
+            case LeverState::SCORE_SLOW:
                 if (!held) {
-                    state = State::RETURN;
+                    state = LeverState::RETURN;
                 }
                 break;
 
-            case State::RETURN:
+            case LeverState::RETURN:
                 // Cancel return -> go back to scoring immediately if button is held again.
                 if (held) {
-                    state = State::SCORE;
+                    state = LeverState::SCORE;
                 } else {
                     // "Eventually" return to IDLE once we're back near the home position.
                     if (std::fabs(globals::lever_motor.get_position()) <= RETURN_IDLE_POSITION_EPS) {
-                        state = State::IDLE;
+                        state = LeverState::IDLE;
                     }
                 }
                 break;
 
-            case State::ZERO:
+            case LeverState::ZERO:
                 // Zero out sensors/encoder by taring the motor position.
                 // If later you use a limit switch, replace this with the proper routine.
                 globals::lever_motor.tare_position();
                 zero_requested = false;
-                state = State::IDLE;
+                state = LeverState::IDLE;
                 break;
         }
 

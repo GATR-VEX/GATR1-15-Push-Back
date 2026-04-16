@@ -77,7 +77,7 @@ void match_auton(color_sort::Color color) {
     chassis.pid_drive_set(-30_in, 55, true);
     chassis.pid_wait();
     
-    intake::score_long();    
+    intake::score();    
 
     // detect color of ball and wait until red is detected and stop
     color_sort::wait_for_color(color, 1500);
@@ -127,11 +127,11 @@ void match_auton(color_sort::Color color) {
     chassis.pid_wait();
     
     // Final long score sequence
-    intake::score_long();   
+    intake::score();   
     pros::delay(700);
     intake::reverse();
     pros::delay(300);
-    intake::score_long();   
+    intake::score();   
     pros::delay(600);
     intake::stop(); 
 
@@ -208,7 +208,7 @@ void elims_auton(color_sort::Color color) {
     chassis.pid_drive_set(-30_in, 55, true);
     chassis.pid_wait();
     
-    intake::score_long();    
+    intake::score();    
 
     // detect color of ball and wait until red is detected and stop
     color_sort::wait_for_color(color, 3000);
@@ -261,7 +261,7 @@ void skills_auton() {
     // Drive into long goal and score
     chassis.pid_drive_set(-25_in, DRIVE_SPEED, true);
     chassis.pid_wait();
-    intake::score_long();
+    intake::score();
     pros::delay(1000);
     intake::stop();
 
@@ -320,7 +320,7 @@ void skills_auton() {
     chassis.pid_wait();
     chassis.pid_drive_set(-13_in, DRIVE_SPEED, true);
     chassis.pid_wait();
-    intake::score_long();
+    intake::score();
     pros::delay(1750);
     intake::stop();
 
@@ -350,7 +350,7 @@ void skills_auton() {
     chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
     chassis.pid_wait_until(-8_in);
     chassis.pid_wait();
-    intake::score_long();
+    intake::score();
     pros::delay(2250);
     intake::stop();
     pistons::safe_retract(pistons::matchloader);
@@ -371,7 +371,7 @@ void skills_auton() {
     chassis.pid_wait();   
     chassis.pid_drive_set(-23, DRIVE_SPEED, true);
     chassis.pid_wait();
-    intake::score_long();
+    intake::score();
     pros::delay(1500);
     intake::stop();
 

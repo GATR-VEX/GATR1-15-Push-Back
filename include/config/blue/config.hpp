@@ -31,8 +31,8 @@ inline constexpr double CURVE_DEFAULT_RIGHT   = 4.25;      // Default curve for 
 struct Controls {
     static constexpr pros::controller_digital_e_t intake                 = pros::E_CONTROLLER_DIGITAL_L1;
     static constexpr pros::controller_digital_e_t reverse                = pros::E_CONTROLLER_DIGITAL_L2;
-    static constexpr pros::controller_digital_e_t lever                  = pros::E_CONTROLLER_DIGITAL_R1;
-    static constexpr pros::controller_digital_e_t matchloader            = pros::E_CONTROLLER_DIGITAL_R2;
+    static constexpr pros::controller_digital_e_t lever                  = pros::E_CONTROLLER_DIGITAL_R2;
+    static constexpr pros::controller_digital_e_t matchloader            = pros::E_CONTROLLER_DIGITAL_R1;
     static constexpr pros::controller_digital_e_t four_bar               = pros::E_CONTROLLER_DIGITAL_Y;
     static constexpr pros::controller_digital_e_t wing                   = pros::E_CONTROLLER_DIGITAL_DOWN;
 };
