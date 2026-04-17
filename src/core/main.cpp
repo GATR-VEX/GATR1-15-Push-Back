@@ -1,4 +1,4 @@
-#include "core/utils/pages.hpp"
+#include "config/utils/pages.hpp"
 #include "core/subsystems/drive.hpp"
 #include "core/subsystems/intake.hpp"
 #include "core/subsystems/pistons.hpp"
@@ -112,7 +112,7 @@ void opcontrol() {
         // Update piston states based on controller input
         pistons::safe_update(pistons::matchloader);
         pistons::safe_update(pistons::wing);
-        pistons::safe_update(pistons::four_bar);
+        pistons::safe_update(pistons::four_bar); /// TODO: The four-bar needs to go up and stay up when wing used
 
         // Update competition timer (buzzes at 20s, 10-1s countdown)
         comp_timer::update();

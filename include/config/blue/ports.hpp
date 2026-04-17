@@ -6,17 +6,17 @@ namespace robot {
 namespace ports {
 // Drive motors (8 total)
 inline constexpr std::int8_t DRIVE_RIGHT_FRONT      = 19;
-inline constexpr std::int8_t DRIVE_RIGHT_MIDDLE     = 16;
+inline constexpr std::int8_t DRIVE_RIGHT_MIDDLE     = -16;
 inline constexpr std::int8_t DRIVE_RIGHT_REAR       = 12;
-inline constexpr std::int8_t DRIVE_RIGHT_AUX        = 13;
+inline constexpr std::int8_t DRIVE_RIGHT_AUX        = 14;
 
-inline constexpr std::int8_t DRIVE_LEFT_FRONT       = 18;
+inline constexpr std::int8_t DRIVE_LEFT_FRONT       = -18;
 inline constexpr std::int8_t DRIVE_LEFT_MIDDLE      = 15;
-inline constexpr std::int8_t DRIVE_LEFT_REAR        = 11;
-inline constexpr std::int8_t DRIVE_LEFT_AUX         = 14;
+inline constexpr std::int8_t DRIVE_LEFT_REAR        = -11;
+inline constexpr std::int8_t DRIVE_LEFT_AUX         = -13;
 
 // Intake motors
-inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_1  = 4;
+inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_1  = -4;
 inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_2  = 3;
 
 // Lever motors

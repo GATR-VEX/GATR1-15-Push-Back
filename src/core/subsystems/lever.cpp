@@ -8,42 +8,24 @@
 
 #include "pros/rtos.hpp"
 
-/// TODO: The lever needs to go up and stay up when wing used
-
 #ifdef ROBOT_BLUE
 
 namespace lever {
 
-// Tune these once the lever mechanics are known.
-inline constexpr int SCORE_POWER = 127;
-inline constexpr int SCORE_SLOW_POWER = 80;
-inline constexpr int RETURN_POWER = -127;
-
-// When returning, consider "home" reached when we're close to 0.
-inline constexpr double RETURN_IDLE_POSITION_EPS = 5.0;
-
-// If you want SCORE->SCORE_SLOW based on position, enable and tune.
-inline constexpr bool USE_SCORE_SLOW_BY_POSITION = false;
-inline constexpr double SCORE_SLOW_AT_POSITION = 0.0;
-
 static std::unique_ptr<pros::Task> lever_task;
-static LeverState state = LeverState::IDLE;
+static LeverState current_state = LeverState::IDLE;
 static bool zero_requested = false;
-
-static bool lever_button_held() {
-    return robot::controller.get_digital(robot::Controls::lever);
-}
 
 void request_zero() {
     zero_requested = true;
 }
 
 LeverState get_state() {
-    return state;
+    return current_state;
 }
 
-static void apply_motor(LeverState s) {
-    switch (s) {
+static void apply_motor(LeverState state) {
+    switch (state) {
         case LeverState::IDLE:
         case LeverState::ZERO:
             pistons::safe_retract(pistons::gate);
@@ -69,59 +51,54 @@ static void apply_motor(LeverState s) {
 
 static void lever_controller_task() {
     while (true) {
-        bool held = lever_button_held();
-        if (pros::competition::is_autonomous() || pros::competition::is_disabled()) {
-            held = false;
-        }
 
-        if (zero_requested && state != LeverState::ZERO) {
-            state = LeverState::ZERO;
-        }
+        // bool held = false;
+        // if (zero_requested && current_state != LeverState::ZERO) {
+        //     current_state = LeverState::ZERO;
+        // }
 
-        switch (state) {
-            case LeverState::IDLE:
-                if (held) {
-                    state = LeverState::SCORE;
-                }
-                break;
+        // switch (current_state) {
+        //     case LeverState::ZERO:
+        //         globals::lever_motor.tare_position();
+        //         zero_requested = false;
+        //         state = LeverState::IDLE;
+        //         break;
 
-            case LeverState::SCORE:
-                if (!held) {
-                    state = LeverState::RETURN;
-                } else if (USE_SCORE_SLOW_BY_POSITION &&
-                           globals::lever_motor.get_position() >= SCORE_SLOW_AT_POSITION) {
-                    state = LeverState::SCORE_SLOW;
-                }
-                break;
+        //     case LeverState::IDLE:
+        //         if (held) {
+        //             state = LeverState::SCORE;
+        //         }
+        //         break;
 
-            case LeverState::SCORE_SLOW:
-                if (!held) {
-                    state = LeverState::RETURN;
-                }
-                break;
+        //     case LeverState::SCORE:
+        //         if (!held) {
+        //             state = LeverState::RETURN;
+        //         } else if (USE_SCORE_SLOW_BY_POSITION &&
+        //                    globals::lever_motor.get_position() >= SCORE_SLOW_AT_POSITION) {
+        //             state = LeverState::SCORE_SLOW;
+        //         }
+        //         break;
 
-            case LeverState::RETURN:
-                // Cancel return -> go back to scoring immediately if button is held again.
-                if (held) {
-                    state = LeverState::SCORE;
-                } else {
-                    // "Eventually" return to IDLE once we're back near the home position.
-                    if (std::fabs(globals::lever_motor.get_position()) <= RETURN_IDLE_POSITION_EPS) {
-                        state = LeverState::IDLE;
-                    }
-                }
-                break;
+        //     case LeverState::SCORE_SLOW:
+        //         if (!held) {
+        //             state = LeverState::RETURN;
+        //         }
+        //         break;
 
-            case LeverState::ZERO:
-                // Zero out sensors/encoder by taring the motor position.
-                // If later you use a limit switch, replace this with the proper routine.
-                globals::lever_motor.tare_position();
-                zero_requested = false;
-                state = LeverState::IDLE;
-                break;
-        }
+        //     case LeverState::RETURN:
+        //         // Cancel return -> go back to scoring immediately if button is held again.
+        //         if (held) {
+        //             state = LeverState::SCORE;
+        //         } else {
+        //             // "Eventually" return to IDLE once we're back near the home position.
+        //             if (std::fabs(globals::lever_motor.get_position()) <= RETURN_IDLE_POSITION_EPS) {
+        //                 state = LeverState::IDLE;
+        //             }
+        //         }
+        //         break;
+        // }
 
-        apply_motor(state);
+        // apply_motor(state);
         pros::delay(core::util::DELAY_TIME);
     }
 }

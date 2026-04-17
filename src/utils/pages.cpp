@@ -1,4 +1,4 @@
-#include "core/utils/pages.hpp"
+#include "config/utils/pages.hpp"
 #include "core/subsystems/color_sort.hpp"
 #include "core/globals.hpp"
 

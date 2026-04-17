@@ -15,9 +15,8 @@ void initialize() {
 }
 
 void update() {
-    // Only run if enabled in config and competition is connected
-    if (!robot::ENABLE_COMP_TIMER &&
-        !pros::competition::is_connected()) {
+    // Only run when enabled and the brain is linked to competition control (FMS / switch).
+    if (!robot::ENABLE_COMP_TIMER || !pros::competition::is_connected()) {
         return;
     }
 
