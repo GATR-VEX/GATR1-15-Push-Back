@@ -1,8 +1,8 @@
 #include "main.h"
 #include "EZ-Template/api.hpp"
 
-#include "core/globals.hpp"
 #include "core/config.hpp"
+#include "core/globals.hpp"
 
 #include "pros/adi.hpp"
 #include "pros/imu.hpp"

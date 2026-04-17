@@ -1,4 +1,4 @@
-#include "config/utils/pages.hpp"
+#include "screen/pages.hpp"
 #include "core/subsystems/drive.hpp"
 #include "core/subsystems/intake.hpp"
 #include "core/subsystems/pistons.hpp"
@@ -7,6 +7,7 @@
 #include "core/globals.hpp"
 #include "core/util.hpp"
 #include "core/config.hpp"
+#include "screen/screen_idle.hpp"
 
 #include "main.h"
 #include "pros/rtos.hpp"
@@ -26,6 +27,7 @@ void initialize() {
     // Initialize EZ-Template auton selector
     add_autons();
     ez::as::initialize();
+    screen_idle::init();
 
     // Initialize debug screen task (displays color sort etc. on blank pages)
     utils_pages::initialize();
@@ -43,7 +45,10 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+    screen_idle::show_idle();
+    screen_idle::resume();
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -54,7 +59,7 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() { screen_idle::pause(); }
 
 /**
  * Runs the user autonomous code. This function will be started in its own task

@@ -52,53 +52,55 @@ static void apply_motor(LeverState state) {
 static void lever_controller_task() {
     while (true) {
 
-        // bool held = false;
-        // if (zero_requested && current_state != LeverState::ZERO) {
-        //     current_state = LeverState::ZERO;
-        // }
+        if (zero_requested && current_state != LeverState::ZERO) {
+            current_state = LeverState::ZERO;
+        }
 
-        // switch (current_state) {
-        //     case LeverState::ZERO:
-        //         globals::lever_motor.tare_position();
-        //         zero_requested = false;
-        //         state = LeverState::IDLE;
-        //         break;
+        switch (current_state) {
+            case LeverState::ZERO:
+                globals::lever_motor.tare_position();
+                zero_requested = false;
+                state = LeverState::IDLE;
+                break;
 
-        //     case LeverState::IDLE:
-        //         if (held) {
-        //             state = LeverState::SCORE;
-        //         }
-        //         break;
+            case LeverState::IDLE:
+                if (held) {
+                    state = LeverState::SCORE;
+                }
+                break;
 
-        //     case LeverState::SCORE:
-        //         if (!held) {
-        //             state = LeverState::RETURN;
-        //         } else if (USE_SCORE_SLOW_BY_POSITION &&
-        //                    globals::lever_motor.get_position() >= SCORE_SLOW_AT_POSITION) {
-        //             state = LeverState::SCORE_SLOW;
-        //         }
-        //         break;
+            case LeverState::SCORE:
+                if (!held) {
+                    state = LeverState::RETURN;
+                } else if (USE_SCORE_SLOW_BY_POSITION &&
+                           globals::lever_motor.get_position() >= SCORE_SLOW_AT_POSITION) {
+                    state = LeverState::SCORE_SLOW;
+                }
+                break;
 
-        //     case LeverState::SCORE_SLOW:
-        //         if (!held) {
-        //             state = LeverState::RETURN;
-        //         }
-        //         break;
+            case LeverState::SCORE_SLOW:
+                if (!held) {
+                    state = LeverState::RETURN;
+                }
+                break;
 
-        //     case LeverState::RETURN:
-        //         // Cancel return -> go back to scoring immediately if button is held again.
-        //         if (held) {
-        //             state = LeverState::SCORE;
-        //         } else {
-        //             // "Eventually" return to IDLE once we're back near the home position.
-        //             if (std::fabs(globals::lever_motor.get_position()) <= RETURN_IDLE_POSITION_EPS) {
-        //                 state = LeverState::IDLE;
-        //             }
-        //         }
-        //         break;
-        // }
+            case LeverState::RETURN:
+                // Cancel return -> go back to scoring immediately if button is held again.
+                if (held) {
+                    state = LeverState::SCORE;
+                } else {
+                    // "Eventually" return to IDLE once we're back near the home position.
+                    if (std::fabs(globals::lever_motor.get_position()) <= RETURN_IDLE_POSITION_EPS) {
+                        state = LeverState::IDLE;
+                    }
+                }
+                break;
+        }
 
-        // apply_motor(state);
+        apply_motor(state);
+
+
+
         pros::delay(core::util::DELAY_TIME);
     }
 }
