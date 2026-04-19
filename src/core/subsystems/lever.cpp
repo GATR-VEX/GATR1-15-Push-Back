@@ -14,73 +14,91 @@
 
 namespace lever {
 
-namespace {
-
-std::unique_ptr<pros::Task> lever_task;
+static LeverState state = LeverState::IDLE;
+static ez::exit_output g_last_pid_exit = ez::RUNNING;
 
 static ez::PID lever_up{0.9, 0.0, 0.16, 0.0, "LeverUp"};
 static ez::PID lever_down{0.9, 0.0, 0.55, 0.0, "LeverDown"};
 
-static bool last_held = false;
-static volatile bool g_bottom_reset_requested = false;
+namespace {
 
-// Homing: down-PID + EZ exit, then tare. Holding the lever cancels (no tare).
-// static void home_and_tare() {
-//     lever_down.variables_reset();
-//     lever_down.timers_reset();
-//     lever_down.target_set(HOMING_TARGET_DEG);
+std::unique_ptr<pros::Task> lever_task;
 
-//     const std::uint32_t t0 = pros::millis();
-//     while (true) {
-//         if (robot::controller.get_digital(robot::Controls::lever)) {
-//             globals::lever_motor.move(0);
-//             lever_down.variables_reset();
-//             lever_up.variables_reset();
-//             lever_up.target_set(SCORE_POSITION_DEG);
-//             return;
-//         }
+void apply_lever_state(LeverState s) {
+    const double pos = globals::lever_motor.get_position();
 
-//         const double pos = globals::lever_motor.get_position();
-//         globals::lever_motor.move(lever_down.compute(pos));
+    switch (s) {
+        case LeverState::IDLE:
+            globals::lever_motor.move(0);
+            pistons::safe_retract(pistons::gate);
+            break;
 
-//         if (lever_down.exit_condition() != ez::RUNNING) {
-//             break;
-//         }
-//         if (pros::millis() - t0 >= 3000) {
-//             break;
-//         }
-//         pros::delay(core::util::DELAY_TIME);
-//     }
+        case LeverState::SCORE:
+            lever_up.target_set(SCORE_POSITION_DEG);
+            pistons::safe_extend(pistons::gate);
+            globals::lever_motor.move(lever_up.compute(pos));
+            break;
 
-//     globals::lever_motor.move(0);
-//     globals::lever_motor.tare_position();
-//     lever_down.variables_reset();
-//     lever_up.variables_reset();
-//     lever_up.target_set(HOME_POSITION_DEG);
-// }
+        case LeverState::RETRACT:
+            lever_down.target_set(HOMING_TARGET_DEG);
+            pistons::safe_retract(pistons::gate);
+            globals::lever_motor.move(lever_down.compute(pos));
+            break;
+
+        case LeverState::ZERO:
+            break;
+    }
+}
+
+static bool retract_complete() {
+    return g_last_pid_exit != ez::RUNNING && g_last_pid_exit != ez::ERROR_NO_CONSTANTS;
+}
 
 static void lever_controller_task() {
-    //last_held = false;
     while (true) {
         const bool held = robot::controller.get_digital(robot::Controls::lever);
 
-        // if (!held && (g_bottom_reset_requested || last_held)) {
-        //     g_bottom_reset_requested = false;
-        //     home_and_tare();
-        // }
+        apply_lever_state(state);
 
-        if (held) {
-            lever_up.target_set(SCORE_POSITION_DEG);
-            pistons::safe_extend(pistons::gate);
-        } else {
-            lever_up.target_set(HOME_POSITION_DEG);
-            pistons::safe_retract(pistons::gate);
+        switch (state) {
+            case LeverState::SCORE:
+                g_last_pid_exit = lever_up.exit_condition();
+                break;
+            case LeverState::RETRACT:
+            case LeverState::ZERO:
+                g_last_pid_exit = lever_down.exit_condition();
+                break;
+            case LeverState::IDLE:
+                g_last_pid_exit = ez::RUNNING;
+                break;
         }
 
-        const double pos = globals::lever_motor.get_position();
-        globals::lever_motor.move(lever_up.compute(pos));
+        switch (state) {
+            case LeverState::IDLE:
+                if (held) {
+                    state = LeverState::SCORE;
+                }
+                break;
 
-        //last_held = held;
+            case LeverState::SCORE:
+                if (!held) {
+                    state = LeverState::RETRACT;
+                }
+                break;
+
+            case LeverState::RETRACT:
+                if (held) {
+                    state = LeverState::SCORE;
+                } else if (retract_complete()) {
+                    state = LeverState::ZERO;
+                }
+                break;
+
+            case LeverState::ZERO:
+                state = LeverState::IDLE;
+                break;
+        }
+
         pros::delay(core::util::DELAY_TIME);
     }
 }
@@ -88,22 +106,18 @@ static void lever_controller_task() {
 }  // namespace
 
 LeverState get_state() {
-    const double pos = globals::lever_motor.get_position();
-    const bool held = robot::controller.get_digital(robot::Controls::lever);
-    if (!held && std::fabs(pos - HOME_POSITION_DEG) < STOW_EPS_DEG) {
-        return LeverState::IDLE;
-    }
-    return LeverState::ACTIVE;
+    return state;
 }
 
-void request_bottom_reset() {
-    g_bottom_reset_requested = true;
+int last_pid_exit_raw() {
+    return static_cast<int>(g_last_pid_exit);
 }
+
+void request_bottom_reset() {}
 
 void initialize() {
-    // lever_down.exit_condition_set(80, 8.0, 0, 0, 80, 200);
-    // lever_up.target_set(HOME_POSITION_DEG);
-    // home_and_tare();
+    lever_up.exit_condition_set(500, 8.0, 0, 0, 80, 800);
+    lever_down.exit_condition_set(500, 8.0, 0, 0, 80, 800);
     lever_task = std::make_unique<pros::Task>(lever_controller_task);
 }
 
