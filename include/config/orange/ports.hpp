@@ -5,15 +5,15 @@
 namespace robot {
 namespace ports {
 // Drive motors (8 total)
-inline constexpr std::int8_t DRIVE_LEFT_MIDDLE      = 1;
-inline constexpr std::int8_t DRIVE_LEFT_AUX         = -2;
-inline constexpr std::int8_t DRIVE_LEFT_REAR        = 3;
-inline constexpr std::int8_t DRIVE_LEFT_FRONT       = 4;
-
-inline constexpr std::int8_t DRIVE_RIGHT_FRONT      = -5;
+inline constexpr std::int8_t DRIVE_RIGHT_FRONT      = 5;
 inline constexpr std::int8_t DRIVE_RIGHT_AUX        = 6;
 inline constexpr std::int8_t DRIVE_RIGHT_MIDDLE     = -9;
-inline constexpr std::int8_t DRIVE_RIGHT_REAR       = -10;
+inline constexpr std::int8_t DRIVE_RIGHT_REAR       = 10;
+
+inline constexpr std::int8_t DRIVE_LEFT_MIDDLE      = 1;
+inline constexpr std::int8_t DRIVE_LEFT_AUX         = -2;
+inline constexpr std::int8_t DRIVE_LEFT_REAR        = -3;
+inline constexpr std::int8_t DRIVE_LEFT_FRONT       = -4;
 
 // Intake motors (negative port = reversed)
 inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_1  = -18;
