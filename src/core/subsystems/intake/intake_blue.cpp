@@ -59,24 +59,19 @@ void check_lever_override(IntakeState& final_state) {
     }
 }
 
-void check_matchloader_override(IntakeState& final_state) {
-    if (pistons::matchloader->is_extended()) {
-        final_state = IntakeState::FAST;
-    }
-}
-
 void set_intake_power(int power) {
     globals::intake_bottom_stage.move(power);
 }
 
-IntakeState get_driver_state() {
-    if (robot::controller.get_digital(robot::Controls::intake)) {
-        return IntakeState::FAST;
+void apply_driver_input(IntakeState& final_state) {
+    if (robot::controller.get_digital(robot::Controls::intake) ||
+        robot::controller.get_digital(robot::Controls::matchloader)) {
+        final_state = IntakeState::FAST;
+    } else if (robot::controller.get_digital(robot::Controls::reverse)) {
+        final_state = IntakeState::REVERSE;
+    } else {
+        final_state = IntakeState::STOP;
     }
-    if (robot::controller.get_digital(robot::Controls::reverse)) {
-        return IntakeState::REVERSE;
-    }
-    return IntakeState::STOP;
 }
 
 void apply_state(IntakeState state) {

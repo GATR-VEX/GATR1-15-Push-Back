@@ -25,9 +25,8 @@ void initialize();
 void set_target_state(IntakeState state);
 IntakeState get_target_state();
 bool is_running();
-IntakeState get_driver_state();
+void apply_driver_input(IntakeState& final_state);
 void apply_state(IntakeState state);
-void check_matchloader_override(IntakeState& final_state);
 
 #if defined(ROBOT_BLUE)
 void check_lever_override(IntakeState& final_state);

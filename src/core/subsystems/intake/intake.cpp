@@ -27,11 +27,8 @@ void intake_controller_task() {
 
         // Get driver input if in driver control mode
         if (!pros::competition::is_autonomous() && !pros::competition::is_disabled()) {
-            final_state = get_driver_state();
+            apply_driver_input(final_state);
         }
-
-        // Matchloader macro-action, enables intake
-        check_matchloader_override(final_state);
 
 #ifdef ROBOT_BLUE
         // Allow lever to disable intake if in motion

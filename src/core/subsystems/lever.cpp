@@ -25,42 +25,42 @@ static bool last_held = false;
 static volatile bool g_bottom_reset_requested = false;
 
 // Homing: down-PID + EZ exit, then tare. Holding the lever cancels (no tare).
-static void home_and_tare() {
-    lever_down.variables_reset();
-    lever_down.timers_reset();
-    lever_down.target_set(HOMING_TARGET_DEG);
+// static void home_and_tare() {
+//     lever_down.variables_reset();
+//     lever_down.timers_reset();
+//     lever_down.target_set(HOMING_TARGET_DEG);
 
-    const std::uint32_t t0 = pros::millis();
-    while (true) {
-        if (robot::controller.get_digital(robot::Controls::lever)) {
-            globals::lever_motor.move(0);
-            lever_down.variables_reset();
-            lever_up.variables_reset();
-            lever_up.target_set(SCORE_POSITION_DEG);
-            return;
-        }
+//     const std::uint32_t t0 = pros::millis();
+//     while (true) {
+//         if (robot::controller.get_digital(robot::Controls::lever)) {
+//             globals::lever_motor.move(0);
+//             lever_down.variables_reset();
+//             lever_up.variables_reset();
+//             lever_up.target_set(SCORE_POSITION_DEG);
+//             return;
+//         }
 
-        const double pos = globals::lever_motor.get_position();
-        globals::lever_motor.move(lever_down.compute(pos));
+//         const double pos = globals::lever_motor.get_position();
+//         globals::lever_motor.move(lever_down.compute(pos));
 
-        if (lever_down.exit_condition() != ez::RUNNING) {
-            break;
-        }
-        if (pros::millis() - t0 >= 3000) {
-            break;
-        }
-        pros::delay(core::util::DELAY_TIME);
-    }
+//         if (lever_down.exit_condition() != ez::RUNNING) {
+//             break;
+//         }
+//         if (pros::millis() - t0 >= 3000) {
+//             break;
+//         }
+//         pros::delay(core::util::DELAY_TIME);
+//     }
 
-    globals::lever_motor.move(0);
-    globals::lever_motor.tare_position();
-    lever_down.variables_reset();
-    lever_up.variables_reset();
-    lever_up.target_set(HOME_POSITION_DEG);
-}
+//     globals::lever_motor.move(0);
+//     globals::lever_motor.tare_position();
+//     lever_down.variables_reset();
+//     lever_up.variables_reset();
+//     lever_up.target_set(HOME_POSITION_DEG);
+// }
 
 static void lever_controller_task() {
-    last_held = false;
+    //last_held = false;
     while (true) {
         const bool held = robot::controller.get_digital(robot::Controls::lever);
 
@@ -80,7 +80,7 @@ static void lever_controller_task() {
         const double pos = globals::lever_motor.get_position();
         globals::lever_motor.move(lever_up.compute(pos));
 
-        last_held = held;
+        //last_held = held;
         pros::delay(core::util::DELAY_TIME);
     }
 }
@@ -101,9 +101,9 @@ void request_bottom_reset() {
 }
 
 void initialize() {
-    lever_down.exit_condition_set(80, 8.0, 0, 0, 80, 200);
-    lever_up.target_set(HOME_POSITION_DEG);
-    home_and_tare();
+    // lever_down.exit_condition_set(80, 8.0, 0, 0, 80, 200);
+    // lever_up.target_set(HOME_POSITION_DEG);
+    // home_and_tare();
     lever_task = std::make_unique<pros::Task>(lever_controller_task);
 }
 

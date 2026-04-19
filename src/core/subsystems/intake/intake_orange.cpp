@@ -18,27 +18,19 @@ void set_top_power(int power) {
 
 }  // anonymous namespace
 
-void check_matchloader_override(IntakeState& final_state) {
-    if (pistons::matchloader->is_extended()) {
-        final_state = IntakeState::COLLECT;
-    }
-}
-
-IntakeState get_driver_state() {
+void apply_driver_input(IntakeState& final_state) {
     // Priority: score buttons > collect > reverse > stop
     if (robot::controller.get_digital(robot::Controls::score)) {
-        return IntakeState::SCORE;
+        final_state = IntakeState::SCORE;
+    } else if (robot::controller.get_digital(robot::Controls::matchloader)) {
+        final_state = IntakeState::COLLECT;
+    } else if (robot::controller.get_digital(robot::Controls::intake)) {
+        final_state = IntakeState::COLLECT;
+    } else if (robot::controller.get_digital(robot::Controls::reverse)) {
+        final_state = IntakeState::REVERSE;
+    } else {
+        final_state = IntakeState::STOP;
     }
-    if (robot::controller.get_digital(robot::Controls::matchloader)) {
-        return IntakeState::SCORE_SLOW;
-    }
-    if (robot::controller.get_digital(robot::Controls::intake)) {
-        return IntakeState::COLLECT;
-    }
-    if (robot::controller.get_digital(robot::Controls::reverse)) {
-        return IntakeState::REVERSE;
-    }
-    return IntakeState::STOP;
 }
 
 void apply_state(IntakeState state) {
