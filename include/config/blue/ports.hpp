@@ -21,7 +21,7 @@ inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_2  = 3;
 
 // Lever motors
 inline constexpr std::int8_t LEVER_LEFT  = 5;
-inline constexpr std::int8_t LEVER_RIGHT = 2;
+inline constexpr std::int8_t LEVER_RIGHT = -2;
 
 // Pneumatics
 inline constexpr std::int8_t PISTON_MATCHLOADER_PORT     = 0;
