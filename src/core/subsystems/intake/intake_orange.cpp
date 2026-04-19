@@ -46,7 +46,7 @@ void apply_state(IntakeState state) {
             pistons::safe_retract(pistons::gate);
             pistons::safe_extend(pistons::intake);
             set_bottom_power(INTAKE_SPEED);
-            set_top_power(0);
+            set_top_power(INTAKE_SPEED_SLOW);
             break;
 
         case IntakeState::SCORE:

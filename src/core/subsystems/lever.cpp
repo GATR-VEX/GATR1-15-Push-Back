@@ -5,7 +5,7 @@
 
 #include "EZ-Template/api.hpp"
 
-#include <cmath>
+#include <algorithm>
 #include <memory>
 
 #include "pros/rtos.hpp"
@@ -15,10 +15,8 @@
 namespace lever {
 
 static LeverState state = LeverState::IDLE;
-static ez::exit_output g_last_pid_exit = ez::RUNNING;
 
-static ez::PID lever_up{0.9, 0.0, 0.16, 0.0, "LeverUp"};
-static ez::PID lever_down{0.9, 0.0, 0.55, 0.0, "LeverDown"};
+static ez::PID lever{0.9, 0.0, 0.16, 0.0, "Lever"};
 
 namespace {
 
@@ -33,25 +31,40 @@ void apply_lever_state(LeverState s) {
             pistons::safe_retract(pistons::gate);
             break;
 
-        case LeverState::SCORE:
-            lever_up.target_set(SCORE_POSITION_DEG);
+        case LeverState::SCORE: {
+            lever.target_set(SCORE_POSITION);
             pistons::safe_extend(pistons::gate);
-            globals::lever_motor.move(lever_up.compute(pos));
-            break;
 
-        case LeverState::RETRACT:
-            lever_down.target_set(HOMING_TARGET_DEG);
-            pistons::safe_retract(pistons::gate);
-            globals::lever_motor.move(lever_down.compute(pos));
+            // when four-bar is down, use the middle goal max
+            int max_out = pistons::four_bar->is_extended() 
+                ? LEVER_OUTPUT_MAX : LEVER_MIDDLE_GOAL_MAX;
+
+            // clamp the output to the max, only positive output
+            int output = std::clamp(lever.compute(pos), 0.0, double(max_out));
+            globals::lever_motor.move(output);
             break;
+        }
+
+        case LeverState::RETRACT: {
+            lever.target_set(HOME_POSITION);
+            pistons::safe_retract(pistons::gate);
+
+            // clamp the output to the max, only negative output
+            int output = std::clamp(lever.compute(pos), -double(LEVER_OUTPUT_MAX), 0.0);
+            globals::lever_motor.move(output);
+            break;
+        }
 
         case LeverState::ZERO:
+            // TODO: some homing func hardcoded
+            // needs to not change zero pos by a lot
             break;
     }
 }
 
 static bool retract_complete() {
-    return g_last_pid_exit != ez::RUNNING && g_last_pid_exit != ez::ERROR_NO_CONSTANTS;
+    const ez::exit_output ex = lever.exit_condition();
+    return ex != ez::RUNNING;
 }
 
 static void lever_controller_task() {
@@ -59,19 +72,6 @@ static void lever_controller_task() {
         const bool held = robot::controller.get_digital(robot::Controls::lever);
 
         apply_lever_state(state);
-
-        switch (state) {
-            case LeverState::SCORE:
-                g_last_pid_exit = lever_up.exit_condition();
-                break;
-            case LeverState::RETRACT:
-            case LeverState::ZERO:
-                g_last_pid_exit = lever_down.exit_condition();
-                break;
-            case LeverState::IDLE:
-                g_last_pid_exit = ez::RUNNING;
-                break;
-        }
 
         switch (state) {
             case LeverState::IDLE:
@@ -109,15 +109,17 @@ LeverState get_state() {
     return state;
 }
 
-int last_pid_exit_raw() {
-    return static_cast<int>(g_last_pid_exit);
+ez::exit_output get_pid_exit() {
+    if (state == LeverState::IDLE) {
+        return ez::RUNNING;
+    }
+    return lever.exit_condition();
 }
 
 void request_bottom_reset() {}
 
 void initialize() {
-    lever_up.exit_condition_set(500, 8.0, 0, 0, 80, 800);
-    lever_down.exit_condition_set(500, 8.0, 0, 0, 80, 800);
+    lever.exit_condition_set(500, 8.0, 0, 0, 80, 800);
     lever_task = std::make_unique<pros::Task>(lever_controller_task);
 }
 

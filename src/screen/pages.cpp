@@ -49,37 +49,32 @@ std::string lever_debug_pid_exit_string() {
     if (lever::get_state() == lever::LeverState::IDLE) {
         return "n/a";
     }
-    return ez::exit_to_string(static_cast<ez::exit_output>(lever::last_pid_exit_raw()));
+    return ez::exit_to_string(lever::get_pid_exit());
 }
 
 bool lever_debug_pid_exit_settled() {
     if (lever::get_state() == lever::LeverState::IDLE) {
         return false;
     }
-    const auto ex = static_cast<ez::exit_output>(lever::last_pid_exit_raw());
+    const ez::exit_output ex = lever::get_pid_exit();
     return ex != ez::RUNNING && ex != ez::ERROR_NO_CONSTANTS;
 }
 
 }  // namespace
 
 /**
- * Lever debug (blank page 2): FSM state, EZ PID exit, motor pos/vel.
- * Navigate past autons to blank pages; use the page after the color-sort blank page.
+ * Lever debug (blank page 2): FSM state, EZ PID exit, motor positions (deg).
  */
 void screen_print_lever_debug() {
     const double p0 = globals::lever_motor.get_position(0);
     const double p1 = globals::lever_motor.get_position(1);
-    const double v0 = globals::lever_motor.get_actual_velocity(0);
-    const double v1 = globals::lever_motor.get_actual_velocity(1);
 
     const std::string line1 = std::string("state ") + lever_fsm_state_cstr(lever::get_state()) +
                               "  exit " + lever_debug_pid_exit_string();
     const std::string line2 =
         std::string("pid settled ") + (lever_debug_pid_exit_settled() ? "yes" : "no");
-    const std::string line3 = "pos L " + ez::util::to_string_with_precision(p0, 1) + " R " +
-                              ez::util::to_string_with_precision(p1, 1) + "  vel L " +
-                              ez::util::to_string_with_precision(v0, 0) + " R " +
-                              ez::util::to_string_with_precision(v1, 0);
+    const std::string line3 = "pos deg L " + ez::util::to_string_with_precision(p0, 1) + "  R " +
+                              ez::util::to_string_with_precision(p1, 1);
 
     ez::screen_print(line1 + "\n" + line2 + "\n" + line3, 1);
 }

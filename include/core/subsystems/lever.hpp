@@ -4,22 +4,22 @@
 
 #ifdef ROBOT_BLUE
 
+#include "EZ-Template/util.hpp"
+
 namespace lever {
 
 enum class LeverState { IDLE, SCORE, RETRACT, ZERO };
 
-inline constexpr double SCORE_POSITION_DEG = 770.0;
-inline constexpr double HOME_POSITION_DEG = 0.0;
-inline constexpr double STOW_EPS_DEG = 20.0;
+inline constexpr double SCORE_POSITION = 770.0;
+inline constexpr double HOME_POSITION = 0.0;
 
-inline constexpr double HOMING_TARGET_DEG = -200.0;
+inline constexpr int LEVER_OUTPUT_MAX = 127;
+inline constexpr int LEVER_MIDDLE_GOAL_MAX = 80;
 
 void initialize();
 LeverState get_state();
 void request_bottom_reset();
-
-/** EZ `exit_output` as int for brain-screen debug (`ez::exit_to_string` in UI code). */
-int last_pid_exit_raw();
+ez::exit_output get_pid_exit();
 
 }  // namespace lever
 
