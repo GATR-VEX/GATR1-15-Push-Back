@@ -19,12 +19,13 @@ void set_top_power(int power) {
 }  // anonymous namespace
 
 void apply_driver_input(IntakeState& final_state) {
-    // Priority: score buttons > collect > reverse > stop
-    if (robot::controller.get_digital(robot::Controls::score)) {
-        final_state = IntakeState::SCORE;
-    } else if (robot::controller.get_digital(robot::Controls::matchloader)) {
-        final_state = IntakeState::COLLECT;
-    } else if (robot::controller.get_digital(robot::Controls::intake)) {
+    // Priority: score (long/middle) > collect > reverse > stop
+    if (robot::controller.get_digital(robot::Controls::score_middle)) {
+        final_state = IntakeState::SCORE_MIDDLE;
+    } else if (robot::controller.get_digital(robot::Controls::score_long)) {
+        final_state = IntakeState::SCORE_LONG;
+    } else if (robot::controller.get_digital(robot::Controls::matchloader) || 
+               robot::controller.get_digital(robot::Controls::intake)) {
         final_state = IntakeState::COLLECT;
     } else if (robot::controller.get_digital(robot::Controls::reverse)) {
         final_state = IntakeState::REVERSE;
@@ -49,14 +50,16 @@ void apply_state(IntakeState state) {
             set_top_power(INTAKE_SPEED_SLOW);
             break;
 
-        case IntakeState::SCORE:
+        case IntakeState::SCORE_LONG:
+            pistons::safe_extend(pistons::four_bar);
             pistons::safe_extend(pistons::gate);
             pistons::safe_extend(pistons::intake);
             set_bottom_power(INTAKE_SPEED);
             set_top_power(INTAKE_SPEED);
             break;
 
-        case IntakeState::SCORE_SLOW:
+        case IntakeState::SCORE_MIDDLE:
+            pistons::safe_retract(pistons::four_bar);
             pistons::safe_extend(pistons::gate);
             pistons::safe_extend(pistons::intake);
             set_bottom_power(INTAKE_SPEED_SLOW);
@@ -83,9 +86,9 @@ void stop() { set_target_state(IntakeState::STOP); }
 
 void collect() { set_target_state(IntakeState::COLLECT); }
 
-void score() { set_target_state(IntakeState::SCORE); }
+void score_long() { set_target_state(IntakeState::SCORE_LONG); }
 
-void score_slow() { set_target_state(IntakeState::SCORE_SLOW); }
+void score_middle() { set_target_state(IntakeState::SCORE_MIDDLE); }
 
 void reverse() { set_target_state(IntakeState::REVERSE); }
 

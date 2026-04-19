@@ -39,9 +39,7 @@ void apply_lever_state(LeverState s) {
             int max_out = pistons::four_bar->is_extended() 
                 ? LEVER_OUTPUT_MAX : LEVER_MIDDLE_GOAL_MAX;
 
-            // clamp the output to the max, only positive output
-            int output = std::clamp(lever.compute(pos), 0.0, double(max_out));
-            globals::lever_motor.move(output);
+            globals::lever_motor.move(lever.compute(pos));
             break;
         }
 
@@ -63,8 +61,7 @@ void apply_lever_state(LeverState s) {
 }
 
 static bool retract_complete() {
-    const ez::exit_output ex = lever.exit_condition();
-    return ex != ez::RUNNING;
+    return lever.exit_condition() != ez::RUNNING;
 }
 
 static void lever_controller_task() {

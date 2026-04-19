@@ -17,7 +17,7 @@ inline constexpr double INTAKE_VELOCITY_THRESHOLD = 0.0;
 #if defined(ROBOT_BLUE)
 enum class IntakeState { STOP, FAST, SLOW, REVERSE, REVERSE_SLOW };
 #elif defined(ROBOT_ORANGE)
-enum class IntakeState { STOP, COLLECT, SCORE, SCORE_SLOW, REVERSE, REVERSE_SLOW };
+enum class IntakeState { STOP, COLLECT, SCORE_LONG, SCORE_MIDDLE, REVERSE, REVERSE_SLOW };
 #endif
 
 void initialize();
@@ -41,8 +41,8 @@ void reverse_slow();
 #elif defined(ROBOT_ORANGE)
 void stop();
 void collect();
-void score();
-void score_slow();
+void score_long();
+void score_middle();
 void reverse();
 void reverse_slow();
 #endif
