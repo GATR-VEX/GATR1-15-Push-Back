@@ -15,10 +15,8 @@
 namespace lever {
 
 static LeverState state = LeverState::IDLE;
-
-static ez::PID lever{0.9, 0.0, 0.16, 0.0, "Lever"};
-
-namespace {
+static ez::exit_output last_exit{ez::RUNNING};
+static ez::PID lever{LEVER_PID_KP, LEVER_PID_KI, LEVER_PID_KD, LEVER_PID_START_I, "Lever"};
 
 std::unique_ptr<pros::Task> lever_task;
 
@@ -39,7 +37,8 @@ void apply_lever_state(LeverState s) {
             int max_out = pistons::four_bar->is_extended() 
                 ? LEVER_OUTPUT_MAX : LEVER_MIDDLE_GOAL_MAX;
 
-            globals::lever_motor.move(lever.compute(pos));
+            int output = std::clamp(lever.compute(pos), 0.0, double(max_out));
+            globals::lever_motor.move(output);
             break;
         }
 
@@ -54,21 +53,29 @@ void apply_lever_state(LeverState s) {
         }
 
         case LeverState::ZERO:
-            // TODO: some homing func hardcoded
-            // needs to not change zero pos by a lot
+            // Some homing function could be added here if desired
             break;
     }
 }
 
-static bool retract_complete() {
-    return lever.exit_condition() != ez::RUNNING;
-}
-
 static void lever_controller_task() {
+    static LeverState prev_fsm_state = LeverState::IDLE;
+
     while (true) {
         const bool held = robot::controller.get_digital(robot::Controls::lever);
 
+        // Reset timers if the state has changed
+        if (state != prev_fsm_state) {
+            lever.timers_reset();
+            prev_fsm_state = state;
+        }
+
         apply_lever_state(state);
+
+        // Skip exit_condition while IDLE
+        if (state != LeverState::IDLE) {
+            last_exit = lever.exit_condition();
+        }
 
         switch (state) {
             case LeverState::IDLE:
@@ -86,7 +93,7 @@ static void lever_controller_task() {
             case LeverState::RETRACT:
                 if (held) {
                     state = LeverState::SCORE;
-                } else if (retract_complete()) {
+                } else if (last_exit != ez::RUNNING) {
                     state = LeverState::ZERO;
                 }
                 break;
@@ -100,8 +107,6 @@ static void lever_controller_task() {
     }
 }
 
-}  // namespace
-
 LeverState get_state() {
     return state;
 }
@@ -110,13 +115,13 @@ ez::exit_output get_pid_exit() {
     if (state == LeverState::IDLE) {
         return ez::RUNNING;
     }
-    return lever.exit_condition();
+    return last_exit;
 }
 
-void request_bottom_reset() {}
-
 void initialize() {
-    lever.exit_condition_set(500, 8.0, 0, 0, 80, 800);
+    lever.exit_condition_set(
+        LEVER_EXIT_SMALL_MS, LEVER_EXIT_SMALL_DEG, LEVER_EXIT_BIG_MS, 
+        LEVER_EXIT_BIG_DEG, LEVER_EXIT_VEL_MS, LEVER_EXIT_MA_MS);
     lever_task = std::make_unique<pros::Task>(lever_controller_task);
 }
 

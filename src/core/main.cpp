@@ -117,7 +117,12 @@ void opcontrol() {
         // Update piston states based on controller input
         pistons::safe_update(pistons::matchloader);
         pistons::safe_update(pistons::wing);
-        pistons::safe_update(pistons::four_bar); /// TODO: The four-bar needs to go up and stay up when wing used
+        pistons::safe_update(pistons::four_bar);
+
+        // If the wing is extended, extend the four-bar
+        if(pistons::wing->is_extended()) {
+            pistons::safe_extend(pistons::four_bar);
+        } 
 
         // Update competition timer (buzzes at 20s, 10-1s countdown)
         comp_timer::update();

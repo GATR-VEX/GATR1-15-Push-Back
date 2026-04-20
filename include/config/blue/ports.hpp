@@ -24,15 +24,15 @@ inline constexpr std::int8_t LEVER_LEFT  = 5;
 inline constexpr std::int8_t LEVER_RIGHT = -2;
 
 // Pneumatics
-inline constexpr std::int8_t PISTON_MATCHLOADER_PORT     = 0;
+inline constexpr std::int8_t PISTON_MATCHLOADER_PORT     = 'F';
 inline constexpr bool        PISTON_MATCHLOADER_REVERSED = false;
-inline constexpr std::int8_t PISTON_INTAKE_PORT          = 0;
-inline constexpr bool        PISTON_INTAKE_REVERSED      = false;
-inline constexpr std::int8_t PISTON_WING_PORT            = 0;
+inline constexpr std::int8_t PISTON_INTAKE_PORT          = 'B';
+inline constexpr bool        PISTON_INTAKE_REVERSED      = true;
+inline constexpr std::int8_t PISTON_WING_PORT            = 'C';
 inline constexpr bool        PISTON_WING_REVERSED        = false;
-inline constexpr std::int8_t PISTON_GATE_PORT            = 0;
+inline constexpr std::int8_t PISTON_GATE_PORT            = 'D';
 inline constexpr bool        PISTON_GATE_REVERSED        = false;
-inline constexpr std::int8_t PISTON_FOUR_BAR_PORT        = 0;
+inline constexpr std::int8_t PISTON_FOUR_BAR_PORT        = 'E';
 inline constexpr bool        PISTON_FOUR_BAR_REVERSED    = false;
 
 // Sensors
@@ -41,6 +41,6 @@ inline constexpr std::int8_t OPTICAL_COLOR_SORT     = 0;
 inline constexpr std::int8_t RADIO                  = 17;
 
 // Auton selector
-inline constexpr std::int8_t LIMIT_SWITCH_SELECT    = 'D';
+inline constexpr std::int8_t LIMIT_SWITCH_SELECT    = 'A';
 }  // namespace ports
 }  // namespace robot

@@ -16,30 +16,22 @@ inline constexpr double HOME_POSITION = 0.0;
 inline constexpr int LEVER_OUTPUT_MAX = 127;
 inline constexpr int LEVER_MIDDLE_GOAL_MAX = 80;
 
-/** EZ settle: within `small_error` deg for `small_exit_time` ms (and velocity gate). Tune on-robot. */
-inline constexpr int LEVER_PID_EXIT_SMALL_TIME_MS = 800;
-inline constexpr double LEVER_PID_EXIT_SMALL_ERROR_DEG = 20.0;
-inline constexpr int LEVER_PID_EXIT_VEL_TIME_MS = 150;
-inline constexpr int LEVER_PID_EXIT_MA_TIMEOUT_MS = 800;
+inline constexpr double LEVER_PID_KP = 0.9;
+inline constexpr double LEVER_PID_KI = 0.0;
+inline constexpr double LEVER_PID_KD = 0.16;
+inline constexpr double LEVER_PID_START_I = 0.0;
 
-/** Snapshot from last lever control tick (safe to read from screen task). */
-struct ExitDebugSnapshot {
-    ez::exit_output exit_kind{ez::RUNNING};
-    double target_deg{0};
-    double error_deg{0};
-    double pid_output{0};
-    int small_exit_ms{0};
-    double small_error_deg{0};
-    int big_exit_ms{0};
-    double big_error_deg{0};
-    int velocity_exit_ms{0};
-};
+inline constexpr int LEVER_EXIT_SMALL_MS = 250;
+inline constexpr double LEVER_EXIT_SMALL_DEG = 12.0;
+inline constexpr int LEVER_EXIT_BIG_MS = 0;
+inline constexpr double LEVER_EXIT_BIG_DEG = 0.0;
+inline constexpr int LEVER_EXIT_VEL_MS = 0;
+inline constexpr int LEVER_EXIT_MA_MS = 0;
 
 void initialize();
 LeverState get_state();
 void request_bottom_reset();
 ez::exit_output get_pid_exit();
-ExitDebugSnapshot get_exit_debug();
 
 }  // namespace lever
 
