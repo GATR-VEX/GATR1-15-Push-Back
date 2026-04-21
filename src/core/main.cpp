@@ -119,10 +119,12 @@ void opcontrol() {
         pistons::safe_update(pistons::wing);
         pistons::safe_update(pistons::four_bar);
 
+#ifdef ROBOT_BLUE
         // If the wing is extended, extend the four-bar
         if(pistons::wing->is_extended()) {
             pistons::safe_extend(pistons::four_bar);
         } 
+#endif
 
         // Update competition timer (buzzes at 20s, 10-1s countdown)
         comp_timer::update();

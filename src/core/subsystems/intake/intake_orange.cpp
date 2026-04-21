@@ -60,7 +60,6 @@ void apply_state(IntakeState state) {
 
         case IntakeState::SCORE_MIDDLE:
             pistons::safe_retract(pistons::four_bar);
-            pistons::safe_extend(pistons::gate);
             pistons::safe_extend(pistons::intake);
             set_bottom_power(INTAKE_SPEED_SLOW);
             set_top_power(INTAKE_SPEED_SLOW);

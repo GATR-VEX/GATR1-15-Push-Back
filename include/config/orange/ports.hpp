@@ -21,16 +21,16 @@ inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_2  = 15;
 inline constexpr std::int8_t INTAKE_TOP_STAGE       = 14;
 
 // Pneumatics
-inline constexpr std::int8_t PISTON_MATCHLOADER_PORT     = 0;
+inline constexpr std::int8_t PISTON_MATCHLOADER_PORT     = 'B';
 inline constexpr bool        PISTON_MATCHLOADER_REVERSED = false;
-inline constexpr std::int8_t PISTON_INTAKE_PORT          = 0;
-inline constexpr bool        PISTON_INTAKE_REVERSED      = false;
-inline constexpr std::int8_t PISTON_WING_PORT            = 0;
+inline constexpr std::int8_t PISTON_INTAKE_PORT          = 'A';
+inline constexpr bool        PISTON_INTAKE_REVERSED      = true;
+inline constexpr std::int8_t PISTON_WING_PORT            = 'C';
 inline constexpr bool        PISTON_WING_REVERSED        = false;
-inline constexpr std::int8_t PISTON_GATE_PORT            = 0;
+inline constexpr std::int8_t PISTON_GATE_PORT            = 'F';
 inline constexpr bool        PISTON_GATE_REVERSED        = false;
-inline constexpr std::int8_t PISTON_FOUR_BAR_PORT        = 0;
-inline constexpr bool        PISTON_FOUR_BAR_REVERSED    = false;
+inline constexpr std::int8_t PISTON_FOUR_BAR_PORT        = 'E';
+inline constexpr bool        PISTON_FOUR_BAR_REVERSED    = true;
 
 // Sensors
 inline constexpr std::int8_t IMU                    = 8;
