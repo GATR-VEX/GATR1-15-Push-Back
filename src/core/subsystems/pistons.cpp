@@ -9,15 +9,15 @@ Piston::Piston(pros::adi::Pneumatics& piston,
                std::optional<pros::controller_digital_e_t> button,
                std::optional<PistonMode> mode,
                bool reversed)
-    : m_piston(piston), m_button(button), m_mode(mode), m_reversed(reversed) {}
+    : m_piston(piston), m_button(button), m_mode(mode), reversed(reversed) {}
 
 void Piston::extend() {
-    m_reversed ? m_piston.retract() : m_piston.extend();
+    reversed ? m_piston.retract() : m_piston.extend();
     m_extended = true;
 }
 
 void Piston::retract() {
-    m_reversed ? m_piston.extend() : m_piston.retract();
+    reversed ? m_piston.extend() : m_piston.retract();
     m_extended = false;
 }
 

@@ -124,6 +124,13 @@ void opcontrol() {
         if(pistons::wing->is_extended()) {
             pistons::safe_extend(pistons::four_bar);
         } 
+
+        // Let the wing default up when the four-bar is extended
+        if(pistons::four_bar->is_extended()) {
+            pistons::wing->reversed = true;
+        } else {
+            pistons::wing->reversed = false;
+        }
 #endif
 
         // Update competition timer (buzzes at 20s, 10-1s countdown)

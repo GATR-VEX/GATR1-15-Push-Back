@@ -27,13 +27,13 @@ public:
     void toggle();
     void update();  // Check controller and update state (no-op if no button assigned)
     bool is_extended() const;
+    bool reversed;
 
 private:
     pros::adi::Pneumatics& m_piston;
     std::optional<pros::controller_digital_e_t> m_button;
     std::optional<PistonMode> m_mode;
     bool m_extended = false;
-    bool m_reversed;
 };
 
 // Initialize all pistons (call from main initialize())
