@@ -10,7 +10,7 @@ namespace lever {
 
 enum class LeverState { IDLE, SCORE, RETRACT, ZERO };
 
-inline constexpr double SCORE_POSITION = 770.0;
+inline constexpr double SCORE_POSITION = 800.0;
 inline constexpr double HOME_POSITION = 0.0;
 
 inline constexpr int LEVER_OUTPUT_MAX = 127;
