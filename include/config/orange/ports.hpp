@@ -34,7 +34,7 @@ inline constexpr bool        PISTON_FOUR_BAR_REVERSED    = true;
 
 // Sensors
 inline constexpr std::int8_t IMU                    = 8;
-inline constexpr std::int8_t OPTICAL_COLOR_SORT     = 0;
+inline constexpr std::int8_t OPTICAL_COLOR_SORT     = 12;
 
 // Auton selector
 inline constexpr std::int8_t LIMIT_SWITCH_SELECT    = 'D';

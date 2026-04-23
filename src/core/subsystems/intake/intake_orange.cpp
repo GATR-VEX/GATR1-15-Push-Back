@@ -72,7 +72,7 @@ void apply_state(IntakeState state) {
             pistons::safe_retract(pistons::gate);
             pistons::safe_retract(pistons::intake);
             set_bottom_power(-INTAKE_SPEED);
-            set_top_power(-INTAKE_SPEED);
+            set_top_power(-INTAKE_SPEED_SLOW);
             break;
 
         case IntakeState::REVERSE_SLOW:

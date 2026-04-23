@@ -10,7 +10,7 @@
 
 void default_constants() {
   // P, I, D, and Start I
-  chassis.pid_drive_constants_set(17.4, 0.0, 170.00);        // Fwd/rev constants, used for odom and non odom motions
+  chassis.pid_drive_constants_set(16.0, 0.0, 170.00);        // Fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(8.0, 0.0, 20.0);         // Holds the robot straight while going forward without odom
   chassis.pid_turn_constants_set(3.5, 0.05, 25.0, 15.0);     // Turn in place constants
   chassis.pid_swing_constants_set(6.0, 0.0, 65.0);           // Swing constants
@@ -49,12 +49,12 @@ void add_autons() {
 
     // Autonomous Selector using LLEMU
     ez::as::auton_selector.autons_add({
-        {"Match Auto Blue\nLow Goal Setup", orange::match_auton_blue},
-        {"Match Auto Red\nLow Goal Setup", orange::match_auton_red},
-        {"Elims Blue\nLow Goal Setup", orange::elims_auton_blue},
-        {"Elims Red\nnLow Goal Setup", orange::elims_auton_red},
-        {"Skills Auto", orange::skills_auton},
-        {"PID Tuning", orange::pid_tuning_auton},
+      {"PID Tuning", orange::pid_tuning_auton},
+      {"Match Auto Blue", orange::match_auton_blue},
+      {"Match Auto Red", orange::match_auton_red},
+      {"Elims Blue", orange::elims_auton_blue},
+      {"Elims Red", orange::elims_auton_red},
+      {"Skills Auto", orange::skills_auton},
     });
 }
 

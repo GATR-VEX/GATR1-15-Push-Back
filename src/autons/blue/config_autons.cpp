@@ -49,12 +49,12 @@ void add_autons() {
 
     // Autonomous Selector using LLEMU
     ez::as::auton_selector.autons_add({
-        {"Match Auto Blue\nMiddle Goal Setup", blue::match_auton_blue},
-        {"Match Auto Red\nMiddle Goal Setup", blue::match_auton_red},
-        {"Elims Blue\nMiddle Goal Setup", blue::elims_auton_blue},
-        {"Elims Red\nMiddle Goal Setup", blue::elims_auton_red},
-        {"Skills Auto", blue::skills_auton},
         {"PID Tuning", blue::pid_tuning_auton},
+        {"Match Auto Blue", blue::match_auton_blue},
+        {"Match Auto Red", blue::match_auton_red},
+        {"Elims Blue", blue::elims_auton_blue},
+        {"Elims Red", blue::elims_auton_red},
+        {"Skills Auto", blue::skills_auton},
     });
 }
 

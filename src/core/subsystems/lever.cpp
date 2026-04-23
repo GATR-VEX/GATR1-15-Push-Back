@@ -17,6 +17,7 @@ namespace lever {
 static LeverState state = LeverState::IDLE;
 static ez::exit_output last_exit{ez::RUNNING};
 static ez::PID lever{LEVER_PID_KP, LEVER_PID_KI, LEVER_PID_KD, LEVER_PID_START_I, "Lever"};
+static bool req_async = false;
 
 std::unique_ptr<pros::Task> lever_task;
 
@@ -62,7 +63,7 @@ static void lever_controller_task() {
     static LeverState prev_fsm_state = LeverState::IDLE;
 
     while (true) {
-        const bool held = robot::controller.get_digital(robot::Controls::lever);
+        const bool requested = robot::controller.get_digital(robot::Controls::lever) || req_async;
 
         // Reset timers if the state has changed
         if (state != prev_fsm_state) {
@@ -79,21 +80,28 @@ static void lever_controller_task() {
 
         switch (state) {
             case LeverState::IDLE:
-                if (held) {
+                if (requested) {
                     state = LeverState::SCORE;
                 }
                 break;
 
             case LeverState::SCORE:
-                if (!held) {
+                if (!requested) {
+                    state = LeverState::RETRACT;
+                } 
+                
+                // We allow the PID to exit in autonomous
+                else if (pros::competition::is_autonomous() &&
+                           last_exit != ez::RUNNING) {
                     state = LeverState::RETRACT;
                 }
                 break;
 
             case LeverState::RETRACT:
-                if (held) {
+                req_async = false;
+                if (requested) {
                     state = LeverState::SCORE;
-                } else if (last_exit != ez::RUNNING) {
+                } else if (last_exit != ez::RUNNING){
                     state = LeverState::ZERO;
                 }
                 break;
@@ -116,6 +124,31 @@ ez::exit_output get_pid_exit() {
         return ez::RUNNING;
     }
     return last_exit;
+}
+
+void score_async() {
+    req_async = true;
+    state = LeverState::SCORE;
+}
+
+void retract_async() {
+    req_async = false;
+    state = LeverState::RETRACT;
+}
+
+bool score(std::uint32_t timeout_ms) {
+    score_async();
+    const std::uint32_t start = pros::millis();
+    
+    while (pros::millis() - start < timeout_ms) {
+        if (get_state() != LeverState::SCORE) {
+            return true;
+        }
+        pros::delay(core::util::DELAY_TIME);
+    }
+
+    retract_async(); // Jammed, reset
+    return false;
 }
 
 void initialize() {
