@@ -1,6 +1,7 @@
 #include "core/config.hpp"
 #include "core/subsystems/drive.hpp"
 #include "core/subsystems/intake.hpp"
+#include "core/subsystems/lever.hpp"
 #include "core/subsystems/pistons.hpp"
 #include "core/subsystems/color_sort.hpp"
 
@@ -19,6 +20,36 @@ void elims_auton_blue() { elims_auton(color_sort::Color::RED); }
 void elims_auton_red() { elims_auton(color_sort::Color::BLUE); }
 
 void match_auton(color_sort::Color color) {
+   // --- Phase 1: Matchloading first set of balls ---
+   pistons::safe_extend(pistons::matchloader);
+
+   chassis.pid_drive_set(-32_in, DRIVE_SPEED, true);
+   chassis.pid_wait();
+
+   chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
+   chassis.pid_wait();
+
+   intake::fast();
+   pistons::safe_extend(pistons::four_bar);
+   chassis.pid_drive_set(8_in, DRIVE_SPEED, true);
+   chassis.pid_wait();
+   pros::delay(750);
+
+   // Phase 2: score in long goal
+   chassis.pid_drive_set(-29_in, DRIVE_SPEED, true);
+   chassis.pid_wait();
+
+   // Attempt to score with lever, retry if necessary
+   for (int i = 0; i < 2; i++) {
+    if (lever::score(2000)) {
+        break;
+    }
+    pros::delay(500);
+   }
+   intake::stop();
+
+   // --- Phase 3: Wing long goal ---
+   // TODO
 
 }
 
