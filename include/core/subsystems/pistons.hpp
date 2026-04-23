@@ -6,8 +6,6 @@
 #include <memory>
 #include <optional>
 
-namespace subsystems {
-
 namespace pistons {
 
 enum class PistonMode {
@@ -19,26 +17,23 @@ class Piston {
 public:
     // Button is optional - if not provided, piston is controlled programmatically only
     // reversed: if true, hardware extend/retract is swapped to match semantic meaning
-    // default_extended: in HOLD mode, sets released state — true = extend when released (e.g. wing up), false = retract when released
     Piston(pros::adi::Pneumatics& piston,
            std::optional<pros::controller_digital_e_t> button = std::nullopt,
-           PistonMode mode = PistonMode::HOLD,
-           bool reversed = false,
-           bool default_extended = false);
+           std::optional<PistonMode> mode = std::nullopt,
+           bool reversed = false);
 
     void extend();
     void retract();
     void toggle();
     void update();  // Check controller and update state (no-op if no button assigned)
     bool is_extended() const;
+    bool reversed;
 
 private:
     pros::adi::Pneumatics& m_piston;
     std::optional<pros::controller_digital_e_t> m_button;
-    PistonMode m_mode;
+    std::optional<PistonMode> m_mode;
     bool m_extended = false;
-    bool m_reversed;
-    bool m_default_extended;  // HOLD mode: released -> extend when true, released -> retract when false
 };
 
 // Initialize all pistons (call from main initialize())
@@ -70,12 +65,12 @@ inline void safe_update(const std::unique_ptr<Piston>& piston) {
     }
 }
 
-}  // namespace pistons
-
-// Global piston instances (initialized after subsystems::pistons::initialize() is called)
-extern std::unique_ptr<pistons::Piston> indexer;
+// Global piston instances (initialized after pistons::initialize() is called)
+extern std::unique_ptr<pistons::Piston> intake;
 extern std::unique_ptr<pistons::Piston> matchloader;
 extern std::unique_ptr<pistons::Piston> wing;
-extern std::unique_ptr<pistons::Piston> hood;
+extern std::unique_ptr<pistons::Piston> gate;
+extern std::unique_ptr<pistons::Piston> four_bar;
 
-}  // namespace subsystems
+}  // namespace pistons
+

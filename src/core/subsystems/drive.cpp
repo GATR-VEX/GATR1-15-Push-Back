@@ -8,14 +8,10 @@
 #include "pros/llemu.hpp"
 #include "pros/rtos.hpp"
 
-namespace subsystems::drive {
+namespace drive {
 
 void initialize() {
     ez::ez_template_print();
-
-    // Set up tracking wheels for odometry
-    chassis.odom_tracker_back_set(&globals::horiz_tracker);
-    chassis.odom_tracker_left_set(&globals::vert_tracker);
 
     // Configure chassis controls
     chassis.opcontrol_curve_buttons_toggle(robot::drive::CURVE_BUTTONS_TOGGLE);
@@ -43,5 +39,5 @@ void chassis_controller(ez::e_type stick_type, bool flipped) {
     }
 }
 
-}  // namespace subsystems::drive
+}  // namespace drive
 

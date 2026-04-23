@@ -1,28 +1,33 @@
-#include "config/utils_pages/pages.hpp"
+#include "screen/pages.hpp"
 #include "core/subsystems/drive.hpp"
 #include "core/subsystems/intake.hpp"
 #include "core/subsystems/pistons.hpp"
 #include "core/subsystems/comp_timer.hpp"
+#include "core/subsystems/lever.hpp"
 #include "core/globals.hpp"
 #include "core/util.hpp"
 #include "core/config.hpp"
+#include "screen/screen_idle.hpp"
 
 #include "main.h"
 #include "pros/rtos.hpp"
 
 void initialize() {
-
     // Wait for ADI ports to be initialized
     pros::delay(500);
 
     // Initialize Subsystems
-    subsystems::pistons::initialize();
-    subsystems::drive::initialize();
-    subsystems::intake::initialize();
+    pistons::initialize();
+    drive::initialize();
+    intake::initialize();
+#ifdef ROBOT_BLUE
+    lever::initialize();
+#endif
 
     // Initialize EZ-Template auton selector
     add_autons();
     ez::as::initialize();
+    screen_idle::init();
 
     // Initialize debug screen task (displays color sort etc. on blank pages)
     utils_pages::initialize();
@@ -40,7 +45,10 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+    screen_idle::show_idle();
+    screen_idle::resume();
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -51,7 +59,7 @@ void disabled() {}
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() { screen_idle::pause(); }
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -73,7 +81,7 @@ void autonomous() {
     chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
     
     // Ensure global intake state is stopped before auton starts
-    subsystems::intake::stop();
+    intake::stop();
     
     // Run the selected autonomous routine
     ez::as::auton_selector.selected_auton_call();
@@ -97,23 +105,41 @@ void opcontrol() {
     chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
 
     // Set desired default piston states
-    subsystems::pistons::safe_retract(subsystems::matchloader); // Close matchloader
-    subsystems::pistons::safe_extend(subsystems::hood);         // Open hood (if present)
+    pistons::safe_retract(pistons::matchloader); // Close matchloader
 
     // Initialize competition timer
-    subsystems::comp_timer::initialize();
+    comp_timer::initialize();
 
     while (true) {
         // Run the drive mode
-        subsystems::drive::chassis_controller(ez::SPLIT);
+        drive::chassis_controller(ez::SPLIT);
 
         // Update piston states based on controller input
-        subsystems::pistons::safe_update(subsystems::matchloader);
-        subsystems::pistons::safe_update(subsystems::wing);
-        subsystems::pistons::safe_update(subsystems::hood);
+        pistons::safe_update(pistons::matchloader);
+        pistons::safe_update(pistons::wing);
+        pistons::safe_update(pistons::four_bar);
+
+#ifdef ROBOT_BLUE
+        // If the wing is extended, extend the four-bar
+        if(pistons::wing->is_extended()) {
+            pistons::safe_extend(pistons::four_bar);
+        } 
+
+        // Let the wing default up when the four-bar is extended
+        if(pistons::four_bar->is_extended()) {
+            pistons::wing->reversed = true;
+        } else {
+            pistons::wing->reversed = false;
+        }
+
+        // If the intake is reversing, extend the four-bar
+        if (intake::get_state() == intake::IntakeState::REVERSE) {
+            pistons::safe_extend(pistons::four_bar);
+        }
+#endif
 
         // Update competition timer (buzzes at 20s, 10-1s countdown)
-        subsystems::comp_timer::update();
+        comp_timer::update();
         
         // Small delay to prevent task from consuming too much CPU
         pros::delay(core::util::DELAY_TIME);

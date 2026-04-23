@@ -1,40 +1,46 @@
 #pragma once
 
 #include <cstdint>
-#include <tuple>
-#include <utility>
 
 namespace robot {
 namespace ports {
 // Drive motors (8 total)
-inline constexpr std::int8_t DRIVE_RIGHT_FRONT      = 7;
-inline constexpr std::int8_t DRIVE_RIGHT_MIDDLE     = -8;
-inline constexpr std::int8_t DRIVE_RIGHT_REAR       = 9;
-inline constexpr std::int8_t DRIVE_RIGHT_AUX        = 20;
+inline constexpr std::int8_t DRIVE_RIGHT_FRONT      = 19;
+inline constexpr std::int8_t DRIVE_RIGHT_MIDDLE     = -16;
+inline constexpr std::int8_t DRIVE_RIGHT_REAR       = 12;
+inline constexpr std::int8_t DRIVE_RIGHT_AUX        = 14;
 
-inline constexpr std::int8_t DRIVE_LEFT_FRONT       = -2;
-inline constexpr std::int8_t DRIVE_LEFT_MIDDLE      = 5;
-inline constexpr std::int8_t DRIVE_LEFT_REAR        = -3;
-inline constexpr std::int8_t DRIVE_LEFT_AUX         = -11;
+inline constexpr std::int8_t DRIVE_LEFT_FRONT       = -18;
+inline constexpr std::int8_t DRIVE_LEFT_MIDDLE      = 15;
+inline constexpr std::int8_t DRIVE_LEFT_REAR        = -11;
+inline constexpr std::int8_t DRIVE_LEFT_AUX         = -13;
 
-// Intake motors (4 total)
-inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_1  = 1;
-inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_2  = -10;
-inline constexpr std::int8_t INTAKE_TOP_STAGE       = 19;
-inline constexpr std::int8_t INTAKE_INDEXER         = 12;
+// Intake motors
+inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_1  = -4;
+inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_2  = 3;
 
-// Pneumatics (port, reversed, default_extended — released state in HOLD mode)
-inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_MATCHLOADER = {'A', false, false};
-inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_INDEXER     = {'B', false, false};
-inline constexpr std::tuple<std::int8_t, bool, bool> PISTON_WING        = {'C', false, true};
+// Lever motors
+inline constexpr std::int8_t LEVER_LEFT  = 5;
+inline constexpr std::int8_t LEVER_RIGHT = -2;
+
+// Pneumatics
+inline constexpr std::int8_t PISTON_MATCHLOADER_PORT     = 'F';
+inline constexpr bool        PISTON_MATCHLOADER_REVERSED = false;
+inline constexpr std::int8_t PISTON_INTAKE_PORT          = 'B';
+inline constexpr bool        PISTON_INTAKE_REVERSED      = true;
+inline constexpr std::int8_t PISTON_WING_PORT            = 'C';
+inline constexpr bool        PISTON_WING_REVERSED        = false;
+inline constexpr std::int8_t PISTON_GATE_PORT            = 'D';
+inline constexpr bool        PISTON_GATE_REVERSED        = false;
+inline constexpr std::int8_t PISTON_FOUR_BAR_PORT        = 'E';
+inline constexpr bool        PISTON_FOUR_BAR_REVERSED    = false;
 
 // Sensors
-inline constexpr std::int8_t IMU                    = 18;
-inline constexpr std::int8_t VERTICAL_ROTATION      = 0;
-inline constexpr std::int8_t HORIZONTAL_ROTATION    = 0;
-inline constexpr std::int8_t OPTICAL_COLOR_SORT     = 14;
+inline constexpr std::int8_t IMU                    = 1;
+inline constexpr std::int8_t OPTICAL_COLOR_SORT     = 0;
+inline constexpr std::int8_t RADIO                  = 17;
 
 // Auton selector
-inline constexpr std::int8_t LIMIT_SWITCH_SELECT    = 'E';
+inline constexpr std::int8_t LIMIT_SWITCH_SELECT    = 'A';
 }  // namespace ports
 }  // namespace robot

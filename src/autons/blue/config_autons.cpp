@@ -11,7 +11,7 @@
 void default_constants() {
   // P, I, D, and Start I
   chassis.pid_drive_constants_set(17.4, 0.0, 170.00);        // Fwd/rev constants, used for odom and non odom motions
-  chassis.pid_heading_constants_set(8.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
+  chassis.pid_heading_constants_set(8.0, 0.0, 20.0);         // Holds the robot straight while going forward without odom
   chassis.pid_turn_constants_set(3.5, 0.05, 25.0, 15.0);     // Turn in place constants
   chassis.pid_swing_constants_set(6.0, 0.0, 65.0);           // Swing constants
   chassis.pid_odom_angular_constants_set(6.5, 0.0, 52.5);    // Angular control for odom motions
@@ -45,14 +45,14 @@ void default_constants() {
 
 void add_autons() {
     // Use limit switch to select autons
-    ez::as::limit_switch_lcd_initialize(&globals::selectButton);
+    ez::as::limit_switch_lcd_initialize(&globals::select_button);
 
     // Autonomous Selector using LLEMU
     ez::as::auton_selector.autons_add({
-        {"Match Auto Blue\nMiddle Goal Setup", blue::match_auton_blue},
-        {"Match Auto Red\nMiddle Goal Setup", blue::match_auton_red},
-        {"Elims Blue\nMiddle Goal Setup", blue::elims_auton_blue},
-        {"Elims Red\nMiddle Goal Setup", blue::elims_auton_red},
+        {"Match Auto Blue", blue::match_auton_blue},
+        {"Match Auto Red", blue::match_auton_red},
+        {"Elims Blue", blue::elims_auton_blue},
+        {"Elims Red", blue::elims_auton_red},
         {"Skills Auto", blue::skills_auton},
         {"PID Tuning", blue::pid_tuning_auton},
     });

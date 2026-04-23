@@ -4,7 +4,7 @@
 
 #include "pros/rtos.hpp"
 
-namespace subsystems::color_sort {
+namespace color_sort {
 
 double get_hue() {
     return globals::optical_color_sort.get_hue();
@@ -63,4 +63,4 @@ const char* get_detected_color_string() {
     return "none";
 }
 
-}  // namespace subsystems::color_sort
+}  // namespace color_sort

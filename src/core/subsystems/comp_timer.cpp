@@ -4,7 +4,7 @@
 
 #include "pros/rtos.hpp"
 
-namespace subsystems::comp_timer {
+namespace comp_timer {
 
 static std::uint32_t match_start_time = 0;
 static std::uint32_t last_buzzed_second = UINT32_MAX;
@@ -15,9 +15,8 @@ void initialize() {
 }
 
 void update() {
-    // Only run if enabled in config and competition is connected
-    if (!robot::ENABLE_COMP_TIMER &&
-        !pros::competition::is_connected()) {
+    // Only run when enabled and the brain is linked to competition control (FMS / switch).
+    if (!robot::ENABLE_COMP_TIMER || !pros::competition::is_connected()) {
         return;
     }
 
@@ -60,4 +59,4 @@ void update() {
     }
 }
 
-}  // namespace subsystems::comp_timer
+}  // namespace comp_timer
