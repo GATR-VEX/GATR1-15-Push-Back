@@ -131,6 +131,11 @@ void opcontrol() {
         } else {
             pistons::wing->reversed = false;
         }
+
+        // If the intake is reversing, extend the four-bar
+        if (intake::get_state() == intake::IntakeState::REVERSE) {
+            pistons::safe_extend(pistons::four_bar);
+        }
 #endif
 
         // Update competition timer (buzzes at 20s, 10-1s countdown)

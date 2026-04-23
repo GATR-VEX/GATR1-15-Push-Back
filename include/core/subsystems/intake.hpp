@@ -24,6 +24,7 @@ void initialize();
 
 void set_target_state(IntakeState state);
 IntakeState get_target_state();
+IntakeState get_state();
 bool is_running();
 void apply_driver_input(IntakeState& final_state);
 void apply_state(IntakeState state);

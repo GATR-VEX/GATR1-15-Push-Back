@@ -19,6 +19,7 @@ std::unique_ptr<pros::Task> intake_task;
 
 // Target state that can be set globally
 static IntakeState target_state = IntakeState::STOP;
+static IntakeState current_state = IntakeState::STOP;
 
 void intake_controller_task() {
     while (true) {
@@ -36,6 +37,7 @@ void intake_controller_task() {
 #endif
 
         // send state to motors
+        current_state = final_state;
         apply_state(final_state);
 
         // Small delay to prevent the task from consuming too much CPU
@@ -53,6 +55,10 @@ void set_target_state(IntakeState state) {
 
 IntakeState get_target_state() {
     return target_state;
+}
+
+IntakeState get_state() {
+    return current_state;
 }
 
 bool is_running() {
