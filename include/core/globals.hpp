@@ -23,7 +23,7 @@ extern pros::adi::DigitalIn select_button;
 // Intake motors
 extern pros::MotorGroup intake_bottom_stage;
 #ifdef ROBOT_ORANGE
-extern pros::Motor intake_top_stage;
+extern pros::MotorGroup intake_top_stage;
 #endif
 
 // Pneumatics

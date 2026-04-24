@@ -34,7 +34,7 @@ void match_auton(color_sort::Color color) {
     pistons::safe_extend(pistons::four_bar);
     chassis.pid_drive_set(8_in, DRIVE_SPEED, true);
     chassis.pid_wait_quick();
-    pros::delay(100);
+    pros::delay(200);
 
     // Phase 2: score in long goal
     chassis.pid_drive_set(-29_in, DRIVE_SPEED, true);
@@ -59,8 +59,8 @@ void match_auton(color_sort::Color color) {
     chassis.pid_drive_set(-34_in, DRIVE_SPEED, true);
     chassis.pid_wait_until(-10_in);
     pistons::safe_retract(pistons::wing);
-    chassis.pid_wait_until(-25_in);
-    chassis.pid_speed_max_set(40);
+    chassis.pid_wait_until(-20_in);
+    chassis.pid_speed_max_set(35);
     chassis.pid_wait();
 }
 

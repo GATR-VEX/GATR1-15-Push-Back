@@ -36,12 +36,13 @@ pros::adi::DigitalIn select_button(robot::ports::LIMIT_SWITCH_SELECT);
 pros::MotorGroup intake_bottom_stage({robot::ports::INTAKE_BOTTOM_STAGE_1,
                                       robot::ports::INTAKE_BOTTOM_STAGE_2});
 #ifdef ROBOT_ORANGE
-pros::Motor intake_top_stage(robot::ports::INTAKE_TOP_STAGE);
+pros::MotorGroup intake_top_stage({robot::ports::INTAKE_TOP_STAGE_1,
+                                   robot::ports::INTAKE_TOP_STAGE_2});
 #endif
 
 #ifdef ROBOT_BLUE
-pros::MotorGroup lever_motor({robot::ports::LEVER_LEFT, 
-                              robot::ports::LEVER_RIGHT});
+pros::MotorGroup lever_motor({robot::ports::LEVER_RIGHT, 
+                              robot::ports::LEVER_LEFT});
 #endif
 
 // Optical sensor
