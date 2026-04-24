@@ -14,7 +14,7 @@ enum class LeverState { IDLE, SCORE, RETRACT, ZERO };
 inline constexpr double SCORE_POSITION = 800.0;
 inline constexpr double HOME_POSITION = 0.0;
 
-inline constexpr int LEVER_OUTPUT_MAX = 127;
+inline constexpr int LEVER_OUTPUT_MAX = 110;
 inline constexpr int LEVER_MIDDLE_GOAL_MAX = 70;
 
 inline constexpr double LEVER_PID_KP = 1.9;
