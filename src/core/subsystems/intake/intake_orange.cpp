@@ -16,6 +16,12 @@ void set_top_power(int power) {
     globals::intake_top_stage.move(power);
 }
 
+void reverse_macro() {
+    set_top_power(-INTAKE_SPEED);
+    pros::delay(100);
+    set_top_power(0);
+}
+
 }  // anonymous namespace
 
 void apply_driver_input(IntakeState& final_state) {
@@ -56,6 +62,7 @@ void apply_state(IntakeState state) {
             pistons::safe_extend(pistons::four_bar);
             pistons::safe_extend(pistons::gate);
             pistons::safe_extend(pistons::intake);
+            reverse_macro();
             set_bottom_power(INTAKE_SPEED);
             set_top_power(INTAKE_SPEED);
             break;
@@ -63,6 +70,7 @@ void apply_state(IntakeState state) {
         case IntakeState::SCORE_MIDDLE:
             pistons::safe_retract(pistons::four_bar);
             pistons::safe_extend(pistons::intake);
+            reverse_macro();
             set_bottom_power(INTAKE_SPEED_SLOW);
             set_top_power(INTAKE_SPEED_SLOW);
             break;
