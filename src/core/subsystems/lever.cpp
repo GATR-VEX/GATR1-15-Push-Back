@@ -126,6 +126,14 @@ ez::exit_output get_pid_exit() {
     return last_exit;
 }
 
+void set_pid_default_constants() {
+    lever.constants_set(LEVER_PID_KP, LEVER_PID_KI, LEVER_PID_KD, LEVER_PID_START_I);
+}
+
+void set_pid_slow_constants() {
+    lever.constants_set(LEVER_PID_SLOW_KP, LEVER_PID_KI, LEVER_PID_KD, LEVER_PID_START_I);
+}
+
 void score_async() {
     req_async = true;
     state = LeverState::SCORE;

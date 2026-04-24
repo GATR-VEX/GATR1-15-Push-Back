@@ -34,14 +34,25 @@ void match_auton(color_sort::Color color) {
     pistons::safe_extend(pistons::four_bar);
     chassis.pid_drive_set(8_in, DRIVE_SPEED, true);
     chassis.pid_wait_quick();
-    pros::delay(200);
+    pros::delay(55);
 
     // Phase 2: score in long goal
     chassis.pid_drive_set(-29_in, DRIVE_SPEED, true);
-    chassis.pid_wait();
-
+    chassis.pid_wait_until(-5_in);
     pistons::safe_retract(pistons::matchloader);
-    lever::score(2000);
+    chassis.pid_wait();
+    
+    // Attempt to score with lever, retry if necessary
+    lever::set_pid_slow_constants();
+    for(int i = 0; i < 3; i++) {
+        if(!lever::score(2000)) {
+            lever::set_pid_default_constants();
+            intake::stop();
+            pros::delay(500);
+            intake::fast();
+            pros::delay(500);
+        }
+    }
     pros::delay(750);
     intake::stop();
 
@@ -50,16 +61,15 @@ void match_auton(color_sort::Color color) {
     chassis.pid_swing_set(ez::RIGHT_SWING, -135_deg, 80, 15);
     chassis.pid_wait_quick_chain();
 
-    chassis.pid_drive_set(6_in, DRIVE_SPEED, true);
+    chassis.pid_drive_set(6.5_in, DRIVE_SPEED, true);
     chassis.pid_wait_quick_chain();
 
     chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
     chassis.pid_wait_quick_chain();
 
     chassis.pid_drive_set(-34_in, DRIVE_SPEED, true);
-    chassis.pid_wait_until(-10_in);
+    chassis.pid_wait_until(-14_in);
     pistons::safe_retract(pistons::wing);
-    chassis.pid_wait_until(-20_in);
     chassis.pid_speed_max_set(35);
     chassis.pid_wait();
 }

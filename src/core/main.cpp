@@ -105,7 +105,11 @@ void opcontrol() {
     chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
 
     // Set desired default piston states
-    pistons::safe_retract(pistons::matchloader); // Close matchloader
+    pistons::safe_retract(pistons::matchloader);
+
+    #ifdef ROBOT_BLUE
+    lever::set_pid_default_constants();
+    #endif
 
     // Initialize competition timer
     comp_timer::initialize();
