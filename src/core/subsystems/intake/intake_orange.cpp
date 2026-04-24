@@ -41,6 +41,8 @@ void apply_driver_input(IntakeState& final_state) {
 }
 
 void apply_state(IntakeState state) {
+    static IntakeState prev_state = IntakeState::STOP;
+
     switch (state) {
         case IntakeState::STOP:
             pistons::safe_extend(pistons::four_bar);
@@ -62,7 +64,9 @@ void apply_state(IntakeState state) {
             pistons::safe_extend(pistons::four_bar);
             pistons::safe_extend(pistons::gate);
             pistons::safe_extend(pistons::intake);
-            reverse_macro();
+            if (state != prev_state) {
+                reverse_macro();
+            }
             set_bottom_power(INTAKE_SPEED);
             set_top_power(INTAKE_SPEED);
             break;
@@ -70,7 +74,9 @@ void apply_state(IntakeState state) {
         case IntakeState::SCORE_MIDDLE:
             pistons::safe_retract(pistons::four_bar);
             pistons::safe_extend(pistons::intake);
-            reverse_macro();
+            if (state != prev_state) {
+                reverse_macro();
+            }
             set_bottom_power(INTAKE_SPEED_SLOW);
             set_top_power(INTAKE_SPEED_SLOW);
             break;
@@ -91,6 +97,8 @@ void apply_state(IntakeState state) {
             set_top_power(-INTAKE_SPEED_SLOW);
             break;
     }
+
+    prev_state = state;
 }
 
 void stop() { set_target_state(IntakeState::STOP); }
