@@ -8,7 +8,7 @@ inline constexpr int DRIVE_SPEED = 90;
 inline constexpr int MAX_SPEED   = 127;
 inline constexpr int SLOW_SPEED  = 60;
 inline constexpr int TURN_SPEED  = 85;
-inline constexpr int SWING_SPEED = 80;
+inline constexpr int SWING_SPEED = 110;
 
 namespace robot {
 inline pros::Controller controller(pros::E_CONTROLLER_MASTER);

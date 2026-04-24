@@ -48,7 +48,7 @@ void apply_lever_state(LeverState s) {
             pistons::safe_retract(pistons::gate);
 
             // clamp the output to the max, only negative output
-            int output = std::clamp(lever.compute(pos), -double(LEVER_OUTPUT_MAX), 0.0);
+            int output = std::clamp(lever.compute(pos), -double(MAX_SPEED), 0.0);
             globals::lever_motor.move(output);
             break;
         }

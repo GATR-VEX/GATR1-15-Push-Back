@@ -20,37 +20,48 @@ void elims_auton_blue() { elims_auton(color_sort::Color::RED); }
 void elims_auton_red() { elims_auton(color_sort::Color::BLUE); }
 
 void match_auton(color_sort::Color color) {
-   // --- Phase 1: Matchloading first set of balls ---
-   pistons::safe_extend(pistons::matchloader);
+    // --- Phase 1: Matchloading first set of balls ---
 
-   chassis.pid_drive_set(-32_in, DRIVE_SPEED, true);
-   chassis.pid_wait();
+    chassis.pid_drive_set(-30.5_in, DRIVE_SPEED, true);
+    chassis.pid_wait_until(-15_in);
+    pistons::safe_extend(pistons::matchloader);
+    chassis.pid_wait();
 
-   chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
-   chassis.pid_wait();
+    chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
+    chassis.pid_wait();
 
-   intake::fast();
-   pistons::safe_extend(pistons::four_bar);
-   chassis.pid_drive_set(8_in, DRIVE_SPEED, true);
-   chassis.pid_wait();
-   pros::delay(750);
+    intake::fast();
+    pistons::safe_extend(pistons::four_bar);
+    chassis.pid_drive_set(8_in, DRIVE_SPEED, true);
+    chassis.pid_wait_quick();
+    pros::delay(100);
 
-   // Phase 2: score in long goal
-   chassis.pid_drive_set(-29_in, DRIVE_SPEED, true);
-   chassis.pid_wait();
+    // Phase 2: score in long goal
+    chassis.pid_drive_set(-29_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
 
-   // Attempt to score with lever, retry if necessary
-   for (int i = 0; i < 2; i++) {
-    if (lever::score(2000)) {
-        break;
-    }
-    pros::delay(500);
-   }
-   intake::stop();
+    pistons::safe_retract(pistons::matchloader);
+    lever::score(2000);
+    pros::delay(750);
+    intake::stop();
 
-   // --- Phase 3: Wing long goal ---
-   // TODO
+    // --- Phase 3: Wing long goal ---
+    pistons::safe_extend(pistons::wing);
+    chassis.pid_swing_set(ez::RIGHT_SWING, -135_deg, 80, 15);
+    chassis.pid_wait_quick_chain();
 
+    chassis.pid_drive_set(6_in, DRIVE_SPEED, true);
+    chassis.pid_wait_quick_chain();
+
+    chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
+    chassis.pid_wait_quick_chain();
+
+    chassis.pid_drive_set(-34_in, DRIVE_SPEED, true);
+    chassis.pid_wait_until(-10_in);
+    pistons::safe_retract(pistons::wing);
+    chassis.pid_wait_until(-25_in);
+    chassis.pid_speed_max_set(40);
+    chassis.pid_wait();
 }
 
 
