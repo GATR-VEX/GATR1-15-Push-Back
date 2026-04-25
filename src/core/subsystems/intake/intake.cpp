@@ -33,7 +33,7 @@ void intake_controller_task() {
 
 #ifdef ROBOT_BLUE
         // Allow lever to disable intake if in motion
-        check_lever_override(final_state);
+        //check_lever_override(final_state); // slightly unreliable
 #endif
 
         // send state to motors

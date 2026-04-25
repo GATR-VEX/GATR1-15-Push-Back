@@ -21,7 +21,6 @@ void elims_auton_red() { elims_auton(color_sort::Color::BLUE); }
 
 void match_auton(color_sort::Color color) {
     // --- Phase 1: Matchloading first set of balls ---
-
     chassis.pid_drive_set(-30.5_in, DRIVE_SPEED, true);
     chassis.pid_wait_until(-15_in);
     pistons::safe_extend(pistons::matchloader);
@@ -36,7 +35,7 @@ void match_auton(color_sort::Color color) {
     chassis.pid_wait_quick();
     pros::delay(55);
 
-    // Phase 2: score in long goal
+    // --- Phase 2: score in long goal ---
     chassis.pid_drive_set(-29_in, DRIVE_SPEED, true);
     chassis.pid_wait_until(-5_in);
     pistons::safe_retract(pistons::matchloader);

@@ -19,7 +19,7 @@ inline constexpr std::int8_t DRIVE_LEFT_FRONT       = -4;
 inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_1  = -18;
 inline constexpr std::int8_t INTAKE_BOTTOM_STAGE_2  = 15;
 inline constexpr std::int8_t INTAKE_TOP_STAGE_1     = 14;
-inline constexpr std::int8_t INTAKE_TOP_STAGE_2     = 0;
+inline constexpr std::int8_t INTAKE_TOP_STAGE_2     = -11;
 
 // Pneumatics
 inline constexpr std::int8_t PISTON_MATCHLOADER_PORT     = 'B';
