@@ -21,7 +21,7 @@ void elims_auton_red() { elims_auton(color_sort::Color::BLUE); }
 
 void match_auton(color_sort::Color color) {
     // --- Phase 1: Matchloading first set of balls ---
-    chassis.pid_drive_set(-30.5_in, DRIVE_SPEED, true);
+    chassis.pid_drive_set(-31_in, DRIVE_SPEED, true);
     chassis.pid_wait_until(-15_in);
     pistons::safe_extend(pistons::matchloader);
     chassis.pid_wait();
@@ -31,12 +31,12 @@ void match_auton(color_sort::Color color) {
 
     intake::fast();
     pistons::safe_extend(pistons::four_bar);
-    chassis.pid_drive_set(8_in, DRIVE_SPEED, true);
+    chassis.pid_drive_set(9_in, 30, true);
     chassis.pid_wait_quick();
-    pros::delay(55);
+    pros::delay(150);
 
     // --- Phase 2: score in long goal ---
-    chassis.pid_drive_set(-29_in, DRIVE_SPEED, true);
+    chassis.pid_drive_set(-31_in, DRIVE_SPEED, true);
     chassis.pid_wait_until(-5_in);
     pistons::safe_retract(pistons::matchloader);
     chassis.pid_wait();
@@ -44,10 +44,9 @@ void match_auton(color_sort::Color color) {
     // Attempt to score with lever, retry if necessary
     lever::set_pid_slow_constants();
     for(int i = 0; i < 3; i++) {
+        intake::stop();
         if(!lever::score(2000)) {
             lever::set_pid_default_constants();
-            intake::stop();
-            pros::delay(500);
             intake::fast();
             pros::delay(500);
         }
@@ -71,6 +70,33 @@ void match_auton(color_sort::Color color) {
     pistons::safe_retract(pistons::wing);
     chassis.pid_speed_max_set(35);
     chassis.pid_wait();
+
+    // --- Phase 3: Collect from matchloader refill #1 ---
+    // chassis.pid_drive_set(29_in, DRIVE_SPEED, true);
+    // chassis.pid_wait_until(10_in);
+    // chassis.pid_speed_max_set(SLOW_SPEED);
+    // intake::fast();
+    // chassis.pid_wait();
+
+    // // nuke the wrong color balls
+    // pros::delay(500);
+    // lever::score(1000);
+
+    // // collect 5 balls
+    // pros::delay(1500);
+    // intake::stop();
+
+    // // --- Phase 4: Score low goal ---
+    // chassis.pid_swing_set(ez::LEFT_SWING, -135_deg, 15, 80);
+    // chassis.pid_wait_quick_chain();
+
+    // pistons::safe_retract(pistons::matchloader);
+    // chassis.pid_turn_set(45_deg, TURN_SPEED, true);
+    // chassis.pid_wait();
+
+    // chassis.pid_drive_set(25_in, DRIVE_SPEED, true);
+    // chassis.pid_wait();
+
 }
 
 

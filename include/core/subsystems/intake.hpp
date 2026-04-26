@@ -4,11 +4,13 @@
 
 namespace intake {
 #if defined(ROBOT_BLUE)
-inline constexpr int INTAKE_SPEED = 127;
-inline constexpr int INTAKE_SPEED_SLOW = static_cast<int>(INTAKE_SPEED * 0.65);
+inline constexpr int INTAKE_SPEED         = 127;
+inline constexpr int INTAKE_SPEED_SLOW    = 80;
+inline constexpr int INTAKE_REVERSE_SPEED = 50;
 #elif defined(ROBOT_ORANGE)
-inline constexpr int INTAKE_SPEED = 127;
-inline constexpr int INTAKE_SPEED_SLOW = static_cast<int>(INTAKE_SPEED * 0.65);
+inline constexpr int INTAKE_SPEED         = 127;
+inline constexpr int INTAKE_SPEED_SLOW    = 80;
+inline constexpr int INTAKE_REVERSE_SPEED = 50;
 #endif
 
 // Intake running detection

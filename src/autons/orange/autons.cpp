@@ -18,7 +18,7 @@ void elims_auton_red() { elims_auton(color_sort::Color::BLUE); }
 
 void match_auton(color_sort::Color color) {
     // --- Phase 1: Matchloading first set of balls ---
-    chassis.pid_drive_set(30.5_in, DRIVE_SPEED, true);
+    chassis.pid_drive_set(31_in, DRIVE_SPEED, true);
     chassis.pid_wait_until(15_in);
     pistons::safe_extend(pistons::matchloader);
     chassis.pid_wait();
@@ -27,56 +27,108 @@ void match_auton(color_sort::Color color) {
     chassis.pid_wait();
 
     intake::collect();
-    chassis.pid_drive_set(8_in, DRIVE_SPEED, true);
+    chassis.pid_drive_set(8.5_in, DRIVE_SPEED, true);
     chassis.pid_wait();
     pros::delay(2000);
 
     // --- Phase 2: score in long goal ---
     chassis.pid_drive_set(-29_in, DRIVE_SPEED, true);
+    chassis.pid_wait_until(-1_in);
+    intake::reverse(); // unjam macro
+    pros::delay(150);
+    intake::stop(); // end unjam macro
     chassis.pid_wait();
 
     // Score in long goal, stop on opposite color
+    // If color not found AND ball in intake, try again
     intake::score_long();
-    color_sort::wait_for_color(color, 3500);
+    if(!color_sort::wait_for_color(color, 2000) && 
+       color_sort::is_ball_in_intake()){
+        intake::stop();
+        pros::delay(100);
+        intake::score_long();
+        color_sort::wait_for_color(color, 2000); // try again if jammed
+    }
+    pros::delay(200); // delay time for last ball to score
     intake::stop();
 
-    // // --- Phase 3: Matchloader refill #1 ---
-    // chassis.pid_drive_set(10_in, DRIVE_SPEED, true);
-    // chassis.pid_wait_until(5_in);
-    // intake::score_long(); // ditch the 3 opposite color balls at the top of the intake
-    // chassis.pid_wait();
+    // --- Phase 3: Matchloader refill #1 ---
+    chassis.pid_drive_set(10_in, SLOW_SPEED, true);
+    chassis.pid_wait();
+    intake::score_long(); // ditch the 3 opposite color balls at the top of the intake
 
-    // chassis.pid_drive_set(19_in, DRIVE_SPEED, true);
-    // chassis.pid_wait();
-    // intake::collect();
-    // pros::delay(2000);
+    chassis.pid_drive_set(19_in, SLOW_SPEED, true);
+    chassis.pid_wait();
+    intake::collect();
+    pros::delay(2100);
+    intake::stop();
 
-    // // --- Phase 4: Score middle goal ---
-    // chassis.pid_swing_set(ez::RIGHT_SWING, -45_deg, 80, 15);
-    // chassis.pid_wait_quick_chain();
+    // --- Phase 4: Score middle goal ---
+    chassis.pid_swing_set(ez::RIGHT_SWING, -45_deg, 81, 15);
+    chassis.pid_wait_quick_chain();
 
-    // chassis.pid_drive_set(-35_in, DRIVE_SPEED, true);
-    // chassis.pid_wait();
+    chassis.pid_drive_set(-50_in, DRIVE_SPEED, true);
+    chassis.pid_wait_until(-1_in); // unjam macro
+    intake::reverse();
+    pros::delay(100);
+    intake::stop(); // end unjam macro
+    chassis.pid_wait();
 
-    // intake::score_middle();
-    // pros::delay(3500);
-    // intake::stop();
+    intake::score_middle();
+    pros::delay(3500);
+    intake::stop();
 
-    // // --- Phase 5: Back to matchloader refill #2 ---
-    // chassis.pid_drive_set(35_in, DRIVE_SPEED, true);
-    // chassis.pid_wait();
-    // chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
-    // chassis.pid_wait();
+    // --- Phase 5: Back to matchloader refill #2 ---
+    chassis.pid_drive_set(53_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+    chassis.pid_turn_set(-90_deg, TURN_SPEED, true);
+    chassis.pid_wait();
 
-    // intake::collect();
-    // chassis.pid_drive_set(8_in, DRIVE_SPEED, true);
-    // chassis.pid_wait();
-    // pros::delay(1500);
-    // intake::stop();
+    intake::collect();
+    chassis.pid_drive_set(8_in, DRIVE_SPEED, true);
+    chassis.pid_wait();
+    pros::delay(2100);
+    intake::stop();
 
     // --- Phase 6: Score bottom goal---
-    // TODO
+    chassis.pid_swing_set(ez::RIGHT_SWING, -22_deg, 80, 15);
+    chassis.pid_wait_quick_chain();
+    pistons::safe_retract(pistons::matchloader);
 
+    chassis.pid_drive_set(-67_in, DRIVE_SPEED, true);
+    chassis.pid_wait_until(-1_in); // unjam macro
+    intake::reverse();
+    pros::delay(100);
+    intake::stop(); // end unjam macro
+    chassis.pid_wait();
+
+    chassis.pid_turn_set(45_deg, TURN_SPEED, true);
+    chassis.pid_wait();
+
+    chassis.pid_drive_set(9_in, SLOW_SPEED, true);
+    chassis.pid_wait_until(6_in);
+    intake::reverse_slow();
+    chassis.pid_wait();
+    intake::stop();         // unjam macro
+    pros::wait(100);
+    intake::reverse_slow(); // end upjam macro
+    pros::delay(3000);
+    intake::stop();
+
+    // --- Phase 7: rush back to long goal for wing --
+    // chassis.pid_swing_set(ez::RIGHT_SWING, 0_deg, 80, 15);
+    // chassis.pid_wait_quick_chain();
+
+    // chassis.pid_drive_set(55_in, DRIVE_SPEED, true);
+    // chassis.pid_wait();
+    // pistons::safe_retract(pistons::wing);
+
+    // chassis.pid_turn_set(90_deg, TURN_SPEED, true);
+    // chassis.pid_wait();
+    
+    // pistons::safe_extend(pistons::wing);
+    // chassis.pid_drive_set(20_in, DRIVE_SPEED, true);
+    // chassis.pid_wait();
 }
 
 void elims_auton(color_sort::Color color) {}

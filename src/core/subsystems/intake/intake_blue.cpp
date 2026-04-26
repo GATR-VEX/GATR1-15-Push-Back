@@ -25,7 +25,7 @@ void apply_driver_input(IntakeState& final_state) {
         robot::controller.get_digital(robot::Controls::matchloader)) {
         final_state = IntakeState::FAST;
     } else if (robot::controller.get_digital(robot::Controls::reverse)) {
-        final_state = IntakeState::REVERSE;
+        final_state = IntakeState::REVERSE_SLOW;
     } else {
         final_state = IntakeState::STOP;
     }
@@ -55,7 +55,7 @@ void apply_state(IntakeState state) {
 
         case IntakeState::REVERSE_SLOW:
             pistons::safe_retract(pistons::intake);
-            set_intake_power(-INTAKE_SPEED_SLOW);
+            set_intake_power(-INTAKE_REVERSE_SPEED);
             break;
     }
 

@@ -34,7 +34,7 @@ void apply_driver_input(IntakeState& final_state) {
                robot::controller.get_digital(robot::Controls::intake)) {
         final_state = IntakeState::COLLECT;
     } else if (robot::controller.get_digital(robot::Controls::reverse)) {
-        final_state = IntakeState::REVERSE;
+        final_state = IntakeState::REVERSE_SLOW;
     } else {
         final_state = IntakeState::STOP;
     }
@@ -93,9 +93,9 @@ void apply_state(IntakeState state) {
             pistons::safe_extend(pistons::four_bar);
             pistons::safe_extend(pistons::gate);
             pistons::safe_retract(pistons::intake);
-            set_bottom_power(-INTAKE_SPEED_SLOW);
-            set_top_power(-INTAKE_SPEED_SLOW);
-            break;
+            set_bottom_power(-INTAKE_REVERSE_SPEED);
+            set_top_power(-INTAKE_REVERSE_SPEED);
+        break;
     }
 
     prev_state = state;
