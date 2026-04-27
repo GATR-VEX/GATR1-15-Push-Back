@@ -21,7 +21,7 @@ void elims_auton_red() { elims_auton(color_sort::Color::BLUE); }
 
 void match_auton(color_sort::Color color) {
     // --- Phase 1: Matchloading first set of balls ---
-    chassis.pid_drive_set(-29.5_in, DRIVE_SPEED, true);
+    chassis.pid_drive_set(-30.5_in, DRIVE_SPEED, true);
     chassis.pid_wait_until(-15_in);
     pistons::safe_extend(pistons::matchloader);
     chassis.pid_wait();
@@ -31,22 +31,22 @@ void match_auton(color_sort::Color color) {
 
     intake::fast();
     pistons::safe_extend(pistons::four_bar);
-    chassis.pid_drive_set(8_in, 36, true);
+    chassis.pid_drive_set(8_in, 32, true);
     chassis.pid_wait_quick();
     //pros::delay(55);
 
     // --- Phase 2: score in long goal ---
-    chassis.drive_angle_set(-89_deg);
+    intake::stop();
+    chassis.pid_turn_set(-86_deg, TURN_SPEED, true);
+    chassis.pid_wait_quick_chain();    
     chassis.pid_drive_set(-31_in, DRIVE_SPEED, true);
     chassis.pid_wait_until(-5_in);
     pistons::safe_retract(pistons::matchloader);
-    chassis.pid_wait_until(-25_in);
-    chassis.drive_angle_set(-90_deg);
+    intake::fast();
     chassis.pid_wait();
     
     // Attempt to score with lever, retry if necessary
     lever::set_pid_slow_constants();
-    intake::stop();
     lever::score(2000);
     // for(int i = 0; i < 3; i++) {
     //     intake::stop();
@@ -71,7 +71,7 @@ void match_auton(color_sort::Color color) {
     chassis.pid_wait_quick_chain();
 
     chassis.pid_drive_set(-34_in, DRIVE_SPEED, true);
-    chassis.pid_wait_until(-16.5_in);
+    chassis.pid_wait_until(-18.5_in);
     pistons::safe_retract(pistons::wing);
     chassis.pid_speed_max_set(35);
     chassis.pid_wait();
