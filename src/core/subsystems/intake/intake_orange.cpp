@@ -85,7 +85,7 @@ void apply_state(IntakeState state) {
             pistons::safe_extend(pistons::four_bar);
             pistons::safe_retract(pistons::gate);
             pistons::safe_retract(pistons::intake);
-            set_bottom_power(-INTAKE_SPEED);
+            set_bottom_power(-INTAKE_SPEED_SLOW);
             set_top_power(-INTAKE_SPEED_SLOW);
             break;
 

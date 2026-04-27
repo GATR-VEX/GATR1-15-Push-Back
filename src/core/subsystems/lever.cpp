@@ -37,6 +37,10 @@ void apply_lever_state(LeverState s) {
             // when four-bar is down, use the middle goal max
             int max_out = pistons::four_bar->is_extended() 
                 ? LEVER_OUTPUT_MAX : LEVER_MIDDLE_GOAL_MAX;
+            
+            if(pros::competition::is_autonomous()) {
+                max_out = LEVER_OUTPUT_AUTON;
+            }
 
             int output = std::clamp(lever.compute(pos), 0.0, double(max_out));
             globals::lever_motor.move(output);

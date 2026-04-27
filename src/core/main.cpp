@@ -114,6 +114,8 @@ void opcontrol() {
     // Initialize competition timer
     comp_timer::initialize();
 
+    //pistons::safe_extend(pistons::four_bar); // SKILLS
+
     while (true) {
         // Run the drive mode
         drive::chassis_controller(ez::SPLIT);
@@ -137,7 +139,8 @@ void opcontrol() {
         }
 
         // If the intake is reversing, extend the four-bar
-        if (intake::get_state() == intake::IntakeState::REVERSE) {
+        if (intake::get_state() == intake::IntakeState::REVERSE ||
+            intake::get_state() == intake::IntakeState::REVERSE_SLOW) {
             pistons::safe_extend(pistons::four_bar);
         }
 #endif
