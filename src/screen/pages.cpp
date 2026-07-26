@@ -1,3 +1,8 @@
+/**
+ * @file pages.cpp
+ * @brief Brain LCD debug output on blank auton selector pages.
+ */
+
 #include "screen/pages.hpp"
 #include "core/subsystems/color_sort.hpp"
 

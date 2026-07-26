@@ -1,3 +1,8 @@
+/**
+ * @file color_sort.cpp
+ * @brief Optical hue classification and ball proximity polling.
+ */
+
 #include "core/subsystems/color_sort.hpp"
 #include "core/globals.hpp"
 #include "core/util.hpp"

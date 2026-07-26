@@ -1,3 +1,24 @@
+/**
+ * @file main.cpp
+ * @brief PROS competition entry points for GATR1 Push Back.
+ *
+ * Lifecycle: initialize -> [competition_initialize] -> autonomous | opcontrol,
+ * with disabled() between enabled periods. Subsystems start in initialize();
+ * opcontrol runs drive, pistons, intake task, and comp timer in a single loop.
+ */
+
+/*  _________  __________     _    _________  __
+  / ____/   |/_  __/ __ \   | |  / / ____/ |/ /
+ / / __/ /| | / / / /_/ /   | | / / __/  |   / 
+/ /_/ / ___ |/ / / _, _/    | |/ / /___ /   |  
+\____/_/  |_/_/ /_/ |_|     |___/_____//_/|_|  
+    ____  __  _______ __  __   ____  ___   ________ __
+   / __ \/ / / / ___// / / /  / __ )/   | / ____/ //_/
+  / /_/ / / / /\__ \/ /_/ /  / __  / /| |/ /   / ,<   
+ / ____/ /_/ /___/ / __  /  / /_/ / ___ / /___/ /| |  
+/_/    \____//____/_/ /_/  /_____/_/  |_\____/_/ |_|  
+*/
+
 #include "screen/pages.hpp"
 #include "core/subsystems/drive.hpp"
 #include "core/subsystems/intake.hpp"
@@ -107,9 +128,9 @@ void opcontrol() {
     // Set desired default piston states
     pistons::safe_retract(pistons::matchloader);
 
-    #ifdef ROBOT_BLUE
+#ifdef ROBOT_BLUE
     lever::set_pid_default_constants();
-    #endif
+#endif
 
     // Initialize competition timer
     comp_timer::initialize();

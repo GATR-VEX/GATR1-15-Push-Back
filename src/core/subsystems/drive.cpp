@@ -1,3 +1,8 @@
+/**
+ * @file drive.cpp
+ * @brief EZ-Template chassis setup and opcontrol drive modes.
+ */
+
 #include "core/subsystems/drive.hpp"
 #include "core/globals.hpp"
 #include "core/config.hpp"

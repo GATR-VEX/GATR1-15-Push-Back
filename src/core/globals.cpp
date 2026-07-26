@@ -1,3 +1,8 @@
+/**
+ * @file globals.cpp
+ * @brief Constructs chassis, sensors, motors, and pneumatics from ports.hpp.
+ */
+
 #include "main.h"
 #include "EZ-Template/api.hpp"
 

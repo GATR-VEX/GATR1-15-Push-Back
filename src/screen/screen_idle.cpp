@@ -1,3 +1,8 @@
+/**
+ * @file screen_idle.cpp
+ * @brief Team logo splash after idle timeout on the auton selector LCD.
+ */
+
 #include "screen/screen_idle.hpp"
 
 // Same robot selection as core/config.hpp; this TU does not include config.hpp, so pull in the macro here.

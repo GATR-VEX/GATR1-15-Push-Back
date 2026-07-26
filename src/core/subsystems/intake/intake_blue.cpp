@@ -1,3 +1,8 @@
+/**
+ * @file intake_blue.cpp
+ * @brief Blue robot intake: single-stage rollers and intake piston indexing.
+ */
+
 #include "core/subsystems/intake.hpp"
 #include "core/subsystems/lever.hpp"
 #include "core/subsystems/pistons.hpp"

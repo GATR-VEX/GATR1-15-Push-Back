@@ -1,3 +1,8 @@
+/**
+ * @file config_autons.cpp
+ * @brief Orange robot: EZ-Template PID constants and auton selector registration.
+ */
+
 #include "main.h"
 #include "config/orange/autons.hpp"
 

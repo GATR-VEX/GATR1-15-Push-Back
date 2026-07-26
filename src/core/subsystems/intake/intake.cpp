@@ -1,3 +1,8 @@
+/**
+ * @file intake.cpp
+ * @brief Intake background task: merges auton target with driver input.
+ */
+
 #include "core/subsystems/intake.hpp"
 #include "core/subsystems/pistons.hpp"
 #include "core/subsystems/color_sort.hpp"
@@ -33,7 +38,7 @@ void intake_controller_task() {
 
 #ifdef ROBOT_BLUE
         // Allow lever to disable intake if in motion
-        //check_lever_override(final_state); // slightly unreliable
+        check_lever_override(final_state);
 #endif
 
         // send state to motors

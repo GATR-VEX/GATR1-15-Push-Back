@@ -1,3 +1,8 @@
+/**
+ * @file comp_timer.cpp
+ * @brief Driver-period rumble countdown (20 s warning, 10–1 s ticks, final 3 s double).
+ */
+
 #include "core/subsystems/comp_timer.hpp"
 #include "core/config.hpp"
 #include "core/util.hpp"

@@ -1,3 +1,8 @@
+/**
+ * @file lever.cpp
+ * @brief Lever FSM and position PID.
+ */
+
 #include "core/subsystems/lever.hpp"
 #include "core/subsystems/pistons.hpp"
 #include "core/globals.hpp"

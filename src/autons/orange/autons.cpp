@@ -1,3 +1,8 @@
+/**
+ * @file autons.cpp
+ * @brief Orange robot autonomous routines.
+ */
+
 #include "core/config.hpp"
 #include "core/subsystems/drive.hpp"
 #include "core/subsystems/intake.hpp"
@@ -72,10 +77,6 @@ void match_auton(color_sort::Color color) {
     chassis.pid_wait();
 
     chassis.pid_drive_set(-50_in, DRIVE_SPEED + 5, true);
-    chassis.pid_wait_until(-1_in); // unjam macro
-    intake::reverse();
-    pros::delay(100);
-    intake::stop(); // end unjam macro
     chassis.pid_wait();
     intake::score_middle();
     pros::delay(3000);
@@ -99,10 +100,6 @@ void match_auton(color_sort::Color color) {
     pistons::safe_retract(pistons::matchloader);
 
     chassis.pid_drive_set(-68_in, DRIVE_SPEED + 5, true);
-    // chassis.pid_wait_until(-1_in); // unjam macro
-    // intake::reverse();
-    // pros::delay(100);
-    // intake::stop(); // end unjam macro
     chassis.pid_wait();
 
     chassis.pid_turn_set(45_deg, TURN_SPEED, true);
@@ -112,8 +109,6 @@ void match_auton(color_sort::Color color) {
     chassis.pid_wait_until(5_in);
     intake::reverse();
     chassis.pid_wait();
-    //pros::delay(3000);
-    //intake::stop();
 }
 
 void elims_auton(color_sort::Color color) {}

@@ -1,3 +1,8 @@
+/**
+ * @file intake_orange.cpp
+ * @brief Orange robot intake: two-stage collect/score modes and gate/four-bar logic.
+ */
+
 #include "core/subsystems/intake.hpp"
 #include "core/subsystems/pistons.hpp"
 #include "core/config.hpp"
