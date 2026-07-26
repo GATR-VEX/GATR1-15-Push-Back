@@ -1,3 +1,8 @@
+/**
+ * @file autons.cpp
+ * @brief Blue robot autonomous routines.
+ */
+
 #include "core/config.hpp"
 #include "core/subsystems/drive.hpp"
 #include "core/subsystems/intake.hpp"
@@ -45,17 +50,9 @@ void match_auton(color_sort::Color color) {
     intake::fast();
     chassis.pid_wait();
     
-    // Attempt to score with lever, retry if necessary
+    // Score with lever
     lever::set_pid_slow_constants();
     lever::score(2000);
-    // for(int i = 0; i < 3; i++) {
-    //     intake::stop();
-    //     if(!lever::score(2000)) {
-    //         lever::set_pid_default_constants();
-    //         intake::fast();
-    //         pros::delay(500);
-    //     }
-    // }
     pros::delay(500);
     intake::stop();
 
@@ -75,33 +72,6 @@ void match_auton(color_sort::Color color) {
     pistons::safe_retract(pistons::wing);
     chassis.pid_speed_max_set(35);
     chassis.pid_wait();
-
-    // --- Phase 3: Collect from matchloader refill #1 ---
-    // chassis.pid_drive_set(29_in, DRIVE_SPEED, true);
-    // chassis.pid_wait_until(10_in);
-    // chassis.pid_speed_max_set(SLOW_SPEED);
-    // intake::fast();
-    // chassis.pid_wait();
-
-    // // nuke the wrong color balls
-    // pros::delay(500);
-    // lever::score(1000);
-
-    // // collect 5 balls
-    // pros::delay(1500);
-    // intake::stop();
-
-    // // --- Phase 4: Score low goal ---
-    // chassis.pid_swing_set(ez::LEFT_SWING, -135_deg, 15, 80);
-    // chassis.pid_wait_quick_chain();
-
-    // pistons::safe_retract(pistons::matchloader);
-    // chassis.pid_turn_set(45_deg, TURN_SPEED, true);
-    // chassis.pid_wait();
-
-    // chassis.pid_drive_set(25_in, DRIVE_SPEED, true);
-    // chassis.pid_wait();
-
 }
 
 
