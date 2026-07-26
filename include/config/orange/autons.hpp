@@ -1,3 +1,8 @@
+/**
+ * @file autons.hpp
+ * @brief Orange robot autonomous routine declarations.
+ */
+
 #pragma once
 
 #include "core/subsystems/color_sort.hpp"

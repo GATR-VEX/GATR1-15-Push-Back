@@ -1,3 +1,8 @@
+/**
+ * @file config.hpp
+ * @brief Orange robot: drive tuning, controller bindings, and feature flags.
+ */
+
 #pragma once
 
 #include "config/orange/ports.hpp"
@@ -21,13 +26,13 @@ namespace drive {
 inline constexpr float WHEEL_MODEL            = 3.25F;
 inline constexpr float WHEEL_RPM              = 450.0F;
 
-// Opcontrol constants
-inline constexpr bool CURVE_BUTTONS_TOGGLE    = false;     // Enables modifying the controller curve with buttons on the joysticks
-inline constexpr double DRIVE_ACTIVEBRAKE     = 0.0;       // Sets the active brake kP. We recommend ~2.  0 will disable.
-inline constexpr double CURVE_DEFAULT_LEFT    = 0.25;      // Default curve for left stick (or single stick). If using tank, only this is used.
-inline constexpr double CURVE_DEFAULT_RIGHT   = 4.25;      // Default curve for right stick (arcade only)
+inline constexpr bool CURVE_BUTTONS_TOGGLE    = false;
+inline constexpr double DRIVE_ACTIVEBRAKE     = 0.0;
+inline constexpr double CURVE_DEFAULT_LEFT    = 0.25;
+inline constexpr double CURVE_DEFAULT_RIGHT   = 4.25;
 }  // namespace drive
 
+/** Master controller button assignments for Orange robot. */
 struct Controls {
     static constexpr pros::controller_digital_e_t intake                 = pros::E_CONTROLLER_DIGITAL_L1;
     static constexpr pros::controller_digital_e_t reverse                = pros::E_CONTROLLER_DIGITAL_Y;
@@ -38,8 +43,6 @@ struct Controls {
     static constexpr pros::controller_digital_e_t wing                   = pros::E_CONTROLLER_DIGITAL_L2;
 };
 
-// Competition timer settings
 inline constexpr bool ENABLE_COMP_TIMER = true;
 
 }  // namespace robot
-

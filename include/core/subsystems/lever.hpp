@@ -1,3 +1,8 @@
+/**
+ * @file lever.hpp
+ * @brief Blue-robot scoring lever: PID position control and FSM.
+ */
+
 #pragma once
 
 #include "core/config.hpp"
@@ -35,8 +40,16 @@ void initialize();
 LeverState get_state();
 void request_bottom_reset();
 ez::exit_output get_pid_exit();
+
+/** Trigger SCORE from auton without holding the driver button. */
 void score_async();
+
+/**
+ * Block until lever leaves SCORE or timeout. On timeout, retracts and returns false.
+ * @param timeout_ms Maximum wait in milliseconds (default 1200)
+ */
 bool score(std::uint32_t timeout_ms = 1200);
+
 void set_pid_default_constants();
 void set_pid_slow_constants();
 

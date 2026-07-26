@@ -1,10 +1,14 @@
-#pragma once
+/**
+ * @file robot_select.hpp.example
+ * @brief Template for local robot selection (copy to robot_select.hpp).
+ *
+ * robot_select.hpp is gitignored so each developer picks Blue or Orange without
+ * committing the choice. Uncomment exactly one #define before building.
+ */
 
-// Copy this file to robot_select.hpp (kept out of version control)
-// and choose the robot you want to compile for locally.
+#pragma once
 
 // #define ROBOT_BLUE
 // #define ROBOT_ORANGE
 
 #error "Select exactly one robot by uncommenting the corresponding define."
-

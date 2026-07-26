@@ -1,3 +1,8 @@
+/**
+ * @file globals.hpp
+ * @brief Global hardware instances shared across subsystems.
+ */
+
 #pragma once
 
 #include "pros/adi.hpp"
@@ -9,6 +14,7 @@
 #include "EZ-Template/api.hpp"
 #include "api.h"
 
+/** EZ-Template 8-motor drive with IMU odometry. */
 extern ez::Drive chassis;
 
 namespace globals {
@@ -17,7 +23,7 @@ namespace globals {
 extern pros::Imu imu;
 extern pros::Optical optical_color_sort;
 
-// Auton selector
+/** Limit switch on the brain LCD auton selector (EZ-Template). */
 extern pros::adi::DigitalIn select_button;
 
 // Intake motors
@@ -34,7 +40,6 @@ extern pros::adi::Pneumatics piston_gate;
 extern pros::adi::Pneumatics piston_four_bar;
 
 #ifdef ROBOT_BLUE
-// Blue-only lever (two motors; use negative port in ports.hpp to reverse one side)
 extern pros::MotorGroup lever_motor;
 #endif
 

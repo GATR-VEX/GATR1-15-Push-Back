@@ -1,9 +1,13 @@
+/**
+ * @file ports.hpp
+ * @brief Blue robot V5 smart port and ADI assignments.
+ */
+
 #pragma once
 
 #include <cstdint>
 
-namespace robot {
-namespace ports {
+namespace robot::ports {    
 // Drive motors (8 total)
 inline constexpr std::int8_t DRIVE_RIGHT_FRONT      = 19;
 inline constexpr std::int8_t DRIVE_RIGHT_MIDDLE     = -16;
@@ -42,5 +46,4 @@ inline constexpr std::int8_t RADIO                  = 17;
 
 // Auton selector
 inline constexpr std::int8_t LIMIT_SWITCH_SELECT    = 'A';
-}  // namespace ports
-}  // namespace robot
+}  // namespace robot::ports

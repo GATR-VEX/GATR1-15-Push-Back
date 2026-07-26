@@ -1,3 +1,8 @@
+/**
+ * @file selector.hpp
+ * @brief Legacy brain LCD page selector (unused).
+ */
+
 #pragma once
 
 #include <functional>
@@ -45,7 +50,6 @@ public:
         util_page_task = nullptr;
     }
 
-    // Member functions
     void selected_auton_call();
     void selected_page_print();
 
@@ -61,22 +65,17 @@ public:
 };
 
 
-// Definitions of utility functions
 void print_telemetry_data();
 
-// Global selector instance
 extern PageSelector selector;
 
 void print_task(void* param);
 
-// Forward declaration - defined in config files
 void add_autons();
 void add_utils();
 
-// UI functions
 void page_up();
 void page_down();
 void initialize();
 
 }  // namespace page_selector
-

@@ -1,3 +1,8 @@
+/**
+ * @file autons.hpp
+ * @brief Blue robot autonomous routine declarations.
+ */
+ 
 #pragma once
 
 #include "core/subsystems/color_sort.hpp"
@@ -19,4 +24,3 @@ void pid_tuning_auton();
 void skills_auton();
 
 }  // namespace blue
-

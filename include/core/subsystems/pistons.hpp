@@ -1,3 +1,8 @@
+/**
+ * @file pistons.hpp
+ * @brief Pneumatic subsystem wrapper with driver HOLD/TOGGLE modes.
+ */
+
 #pragma once
 
 #include "pros/adi.hpp"
@@ -15,8 +20,12 @@ enum class PistonMode {
 
 class Piston {
 public:
-    // Button is optional - if not provided, piston is controlled programmatically only
-    // reversed: if true, hardware extend/retract is swapped to match semantic meaning
+    /**
+     * @param piston ADI pneumatics device
+     * @param button Optional controller button; omit for programmatic-only control
+     * @param mode HOLD or TOGGLE; required when button is set
+     * @param reversed If true, swap hardware extend/retract vs semantic state
+     */
     Piston(pros::adi::Pneumatics& piston,
            std::optional<pros::controller_digital_e_t> button = std::nullopt,
            std::optional<PistonMode> mode = std::nullopt,
@@ -25,7 +34,7 @@ public:
     void extend();
     void retract();
     void toggle();
-    void update();  // Check controller and update state (no-op if no button assigned)
+    void update();
     bool is_extended() const;
     bool reversed;
 
@@ -36,11 +45,8 @@ private:
     bool m_extended = false;
 };
 
-// Initialize all pistons (call from main initialize())
 void initialize();
 
-// Safe helper functions for pistons (check nullptr before calling)
-// Use these for all piston calls to maintain consistent API
 inline void safe_extend(const std::unique_ptr<Piston>& piston) {
     if (piston != nullptr) {
         piston->extend();
@@ -65,7 +71,6 @@ inline void safe_update(const std::unique_ptr<Piston>& piston) {
     }
 }
 
-// Global piston instances (initialized after pistons::initialize() is called)
 extern std::unique_ptr<pistons::Piston> intake;
 extern std::unique_ptr<pistons::Piston> matchloader;
 extern std::unique_ptr<pistons::Piston> wing;
@@ -73,4 +78,3 @@ extern std::unique_ptr<pistons::Piston> gate;
 extern std::unique_ptr<pistons::Piston> four_bar;
 
 }  // namespace pistons
-

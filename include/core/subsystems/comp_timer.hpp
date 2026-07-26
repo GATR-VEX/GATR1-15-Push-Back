@@ -1,3 +1,8 @@
+/**
+ * @file comp_timer.hpp
+ * @brief Driver-period countdown with controller rumble feedback.
+ */
+
 #pragma once
 
 #include <cstdint>
@@ -10,7 +15,6 @@ inline constexpr std::uint32_t COUNTDOWN_START_MS      = 10000;  // 10 seconds r
 inline constexpr std::uint32_t FINAL_COUNTDOWN_MS      = 3000;   // Last 3 seconds
 
 void initialize();
-
 void update();
 
 }  // namespace comp_timer

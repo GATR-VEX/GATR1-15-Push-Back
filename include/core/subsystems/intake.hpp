@@ -1,3 +1,12 @@
+/**
+ * @file intake.hpp
+ * @brief Intake state machine API (robot-specific states and helpers).
+ *
+ * A background task in intake.cpp merges autonomous set_target_state() calls
+ * with driver input during opcontrol. Robot-specific apply_state() and button
+ * mappings live in intake_blue.cpp and intake_orange.cpp.
+ */
+
 #pragma once
 
 #include "core/config.hpp"
@@ -13,7 +22,6 @@ inline constexpr int INTAKE_SPEED_SLOW    = 80;
 inline constexpr int INTAKE_REVERSE_SPEED = 50;
 #endif
 
-// Intake running detection
 inline constexpr double INTAKE_VELOCITY_THRESHOLD = 0.0;
 
 #if defined(ROBOT_BLUE)
@@ -23,15 +31,19 @@ enum class IntakeState { STOP, COLLECT, SCORE_LONG, SCORE_MIDDLE, REVERSE, REVER
 #endif
 
 void initialize();
-
 void set_target_state(IntakeState state);
 IntakeState get_target_state();
 IntakeState get_state();
 bool is_running();
+
+/** Override final_state from controller buttons. */
 void apply_driver_input(IntakeState& final_state);
+
+/** Drive motors and related pistons for the given state. */
 void apply_state(IntakeState state);
 
 #if defined(ROBOT_BLUE)
+/** Force STOP while the lever FSM is active. */
 void check_lever_override(IntakeState& final_state);
 #endif
 
