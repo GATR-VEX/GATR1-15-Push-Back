@@ -84,7 +84,65 @@ flowchart TD
   op --> timer
 ```
 
+---
 
+## PID Control
+> *Chassis PID wrappers are configured in [`default_constants()`](src/autons/blue/config_autons.cpp) (Blue) and [`default_constants()`](src/autons/orange/config_autons.cpp) (Orange).*  
+> The robot uses **independent, decoupled PID loops** for linear motion, heading hold, swing turns, and odom / boomerang angular correction.
+
+### Control-Loop Model
+```mermaid
+flowchart LR
+  ref["Reference<br/>(target pose)"]
+  err["Error<br/>(target - actual pose)"]
+  yawPID["PID<br/>(Heading/Yaw)"]
+  leftPID["PID<br/>(Left Chassis)"]
+  rightPID["PID<br/>(Right Chassis)"]
+  combine["Combine<br/>PID Outputs"]
+  volt["Motor<br/>Voltage"]
+  drivetrain["Drivetrain<br/>Model"]
+  meas["Actual<br/>Pose"]
+
+  ref --> err
+  meas -.-> err
+
+  err --> yawPID
+  err --> leftPID
+  err --> rightPID
+
+  yawPID --> combine
+  leftPID --> combine
+  rightPID --> combine
+
+  combine --> volt
+  volt --> drivetrain
+  drivetrain --> meas
+```
+
+### Continuous-Time Law
+
+$$
+u(t) = K_p\,e(t) + K_i\!\!\int_{0}^{t}\! e(\tau)\,d\tau + K_d\,\frac{de(t)}{dt}
+$$
+
+### Discrete Implementation (100 Hz)
+
+$$
+u[k] = K_p\,e[k] + K_i\,\sum_{i=0}^{k} e[i]\,\Delta t + K_d\,\frac{e[k]-e[k-1]}{\Delta t}
+$$
+
+Integral term is clamped to $\pm I_{\max}$ for anti-windup.
+
+**Blue (lever bot)** — Orange is separately tuned (drive $K_p$ 16.0, turn $K_p$ 3.5):
+
+| Loop          |    $K_p$ | $K_i$ | $K_d$ | Notes                    |
+| ------------- | -------: | ----: | ----: | ------------------------ |
+| Drive dist.   | **17.4** |     0 |   170 | Slew-limited ±70 V/s     |
+| Heading hold  |      8.0 |     0 |    20 | Cascaded with Drive      |
+| Turn-in-place |     3.25 |  0.05 |  25.5 | Raw IMU                  |
+| Swing         |      6.0 |     0 |    65 | Outer wheel only         |
+| Odom θ        |      6.5 |     0 |  52.5 | Pure-pursuit / boomerang |
+| Lever (Blue)  |      1.9 |     0 |  0.16 | Position to 800° score   |
 
 ---
 
